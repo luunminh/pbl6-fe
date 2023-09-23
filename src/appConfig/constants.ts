@@ -1,3 +1,36 @@
-export enum COLOR_CODE {}
+export enum COLOR_CODE {
+  PRIMARY = '#0984E8',
+  SECONDARY = '#E3BC56',
+  WHITE = '#fff',
+  SUCCESS = '#1EA431',
+  WARNING = '#D67813',
+  DANGER = '#DB221A',
+  INFO = '#0492DE',
+  SUCCESS_BG = '#DAFAD0',
+  WARNING_BG = '#FEF2CB',
+  DANGER_BG = '#FDE0D0',
+  INFO_BG = '#D6ECFF',
+  PRIMARY_700 = '#0F3F7F',
+  PRIMARY_600 = '#0061B0',
+  PRIMARY_500 = '#0984E8',
+  PRIMARY_400 = '#74B8F0',
+  PRIMARY_300 = '#D6ECFF',
+  PRIMARY_200 = '#E9F5FF',
+  PRIMARY_100 = '#E9E9E9',
+  GREY_50 = '#F8F8F9',
+  GREY_100 = '#EDEFF1',
+  GREY_200 = '#D3D7DC',
+  GREY_300 = '#C4CAD1',
+  GREY_400 = '#B5BDC5',
+  GREY_500 = '#91979E',
+  GREY_600 = '#6D7176',
+  GREY_700 = '#484C4F',
+  GREY_800 = '#2D2F31',
+  GREY_900 = '#1B1C1E',
+}
 
 export const ONE_HOUR = 60 * 60 * 1000;
+export const SIDE_BAR_WIDTH = 264;
+export const MINI_SIDE_BAR_WIDTH = 80;
+
+export const NAVBAR_HEIGHT = 64;

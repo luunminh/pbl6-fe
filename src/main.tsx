@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
 import { ONE_HOUR } from './appConfig/constants';
@@ -7,6 +7,8 @@ import { ThemeProvider } from '@emotion/react';
 import { theme } from './components/config';
 import Container from './containers';
 import { BrowserRouter } from 'react-router-dom';
+import { ProSidebarProvider } from 'react-pro-sidebar';
+import LoadingContainer from './containers/StartupContainers/LoadingContainer';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,9 +45,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <Container />
-        </BrowserRouter>
+        <ProSidebarProvider>
+          <BrowserRouter>
+            <Suspense fallback={<LoadingContainer />}>
+              <Container />
+            </Suspense>
+          </BrowserRouter>
+        </ProSidebarProvider>
       </QueryClientProvider>
     </ThemeProvider>
   </React.StrictMode>,

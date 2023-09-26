@@ -22,7 +22,7 @@ import {
 } from 'react-icons/io5';
 import { Menu, MenuItem, Sidebar, SubMenu, useProSidebar } from 'react-pro-sidebar';
 import { Link, useLocation } from 'react-router-dom';
-import { COLOR_CODE } from 'src/appConfig/constants';
+import { COLOR_CODE } from 'src/modules/components/configs/theme';
 import { PATHS } from 'src/appConfig/paths';
 import './styles.scss';
 

@@ -1,5 +1,6 @@
 import { Backdrop, Box, CircularProgress } from '@mui/material';
-import { COLOR_CODE } from 'src/modules';
+import { COLOR_CODE } from 'src/appConfig/constants';
+
 const LoadingContainer: React.FC<Props> = () => (
   <>
     <Backdrop sx={{ color: COLOR_CODE.WHITE, zIndex: 9999 }} open onClick={() => {}}>

@@ -4,7 +4,7 @@ import './index.scss';
 import { ONE_HOUR } from './appConfig/constants';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@emotion/react';
-import { theme } from 'src/modules/components/configs';
+import { theme } from './components/config';
 import Container from './containers';
 import { BrowserRouter } from 'react-router-dom';
 import { ProSidebarProvider } from 'react-pro-sidebar';

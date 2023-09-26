@@ -1,3 +1,4 @@
+/* eslint-disable react/self-closing-comp */
 import { Stack } from '@mui/material';
 import React, { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
@@ -12,7 +13,6 @@ const NotFound = React.lazy(() => import('./StartupContainers/NotFound'));
 const ToastContainer = React.lazy(() => import('./StartupContainers/ToastContainer'));
 const Sidebar = React.lazy(() => import('./StartupContainers/SideBar'));
 const Navbar = React.lazy(() => import('./StartupContainers/NavBar'));
-const Dashboard = React.lazy(() => import('./Admin/Dashboard'));
 
 type ContainerProps = {};
 

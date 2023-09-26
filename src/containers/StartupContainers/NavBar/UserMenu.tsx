@@ -3,7 +3,7 @@ import { blue } from '@mui/material/colors';
 import * as React from 'react';
 import { AiFillCaretDown } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
-import { COLOR_CODE } from 'src/appConfig/constants';
+import { COLOR_CODE } from 'src/modules/components/configs/theme';
 import { PATHS } from 'src/appConfig/paths';
 import { CustomDropdown } from 'src/modules';
 // import { useLogout } from 'src/queries';

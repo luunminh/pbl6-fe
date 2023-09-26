@@ -1,4 +1,4 @@
-@use '../../modules/components/scss/vars' as *;
+@use '../../../modules/components/scss/vars' as *;
 
 .cmp-sidebar {
   padding-top: $navbar-height;
@@ -193,12 +193,14 @@
     object-fit: contain;
     cursor: pointer;
   }
+
   .icon-logout {
     background-color: $color-grey-100;
     padding: 8px;
     border-radius: 8px;
     line-height: 100% !important;
     height: auto;
+
     .cmp-button__label {
       line-height: 100%;
     }

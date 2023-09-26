@@ -4,15 +4,14 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { MINI_SIDE_BAR_WIDTH, NAVBAR_HEIGHT } from 'src/appConfig/constants';
 import { PATHS } from 'src/appConfig/paths';
 import { CustomErrorBoundary } from 'src/modules';
-import Dev from './Dev';
 // import SplashScreen from './StartupContainers/SplashScreen';
 const OnDevelop = React.lazy(() => import('./StartupContainers/OnDevelop'));
 const LoadingContainer = React.lazy(() => import('./StartupContainers/LoadingContainer'));
 const NotFound = React.lazy(() => import('./StartupContainers/NotFound'));
 const ToastContainer = React.lazy(() => import('./StartupContainers/ToastContainer'));
-const Sidebar = React.lazy(() => import('./StartupContainers/SideBar'));
-const Navbar = React.lazy(() => import('./StartupContainers/NavBar'));
-const Dashboard = React.lazy(() => import('./Admin/Dashboard'));
+const Sidebar = React.lazy(() => import('./SideBar'));
+const Navbar = React.lazy(() => import('./NavBar'));
+const Dashboard = React.lazy(() => import('./Dashboard'));
 
 type ContainerProps = {};
 
@@ -37,7 +36,7 @@ const Container: React.FC<ContainerProps> = () => {
           <Route path={PATHS.profile} element={<OnDevelop />} />
           <Route path={PATHS.staff} element={<OnDevelop />} />
           <Route path={PATHS.store} element={<OnDevelop />} />
-          <Route path={PATHS.dev} element={<Dev />} />
+          <Route path={PATHS.dev} element={<OnDevelop />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

@@ -3,10 +3,8 @@ import {
   Chip,
   Container,
   IconButton,
-  MenuItem,
   Radio,
   RadioGroup,
-  Select,
   Stack,
   Tooltip,
   Typography,
@@ -15,6 +13,8 @@ import { LuAlignCenter } from 'react-icons/lu';
 import { DialogContext, DialogType, Input } from '@components';
 import { Toastify } from '@shared';
 import { useContext } from 'react';
+import { Select } from '@components';
+
 const Dev: React.FC<Props> = () => {
   const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
 
@@ -43,6 +43,21 @@ const Dev: React.FC<Props> = () => {
 
     openModal();
   };
+
+  const pblMembersOption = [
+    {
+      label: 'Hoai Anh',
+      value: '1',
+    },
+    {
+      label: 'Nhat Minh',
+      value: '2',
+    },
+    {
+      label: 'Ngoc Linh',
+      value: '3',
+    },
+  ];
 
   return (
     <Container>
@@ -128,11 +143,12 @@ const Dev: React.FC<Props> = () => {
           <h2>Input</h2>
           <Stack gap={10} alignItems={'center'} flexDirection={'row'}>
             <Input />
-            <Select label="Select something">
-              <MenuItem value="1">1</MenuItem>
-              <MenuItem value="1">2</MenuItem>
-              <MenuItem value="1">3</MenuItem>
-            </Select>
+            <Select
+              onChange={() => {}}
+              value={'1'}
+              placeholder="Pick one"
+              options={pblMembersOption}
+            />
             <RadioGroup>
               <Radio checked={false} />
               <Radio checked={true} />

@@ -9,12 +9,11 @@ import {
   Select,
   Stack,
   Tooltip,
-  Typography
+  Typography,
 } from '@mui/material';
 import { LuAlignCenter } from 'react-icons/lu';
-import Input from 'src/modules/components/common/Input';
-import Toastify from 'src/modules/shared/services/Toastify';
-
+import { Input } from '@components';
+import { Toastify } from '@shared';
 const Dev: React.FC<Props> = () => {
   return (
     <Container>
@@ -106,10 +105,14 @@ const Dev: React.FC<Props> = () => {
               <MenuItem value="1">3</MenuItem>
             </Select>
             <RadioGroup>
-              <Radio checked={false}></Radio>
-              <Radio checked={true}></Radio>
+              <Radio checked={false} />
+              <Radio checked={true} />
             </RadioGroup>
           </Stack>
+        </Stack>
+
+        <Stack className="mb-32">
+          <Button variant="contained">Open Yes/No dialog</Button>
         </Stack>
       </Stack>
     </Container>

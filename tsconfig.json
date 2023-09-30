@@ -17,6 +17,16 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@shared": ["src/modules/shared"],
+      "@shared/*": ["src/modules/shared/*"],
+      "@components": ["src/modules/components"],
+      "@components/*": ["src/modules/components/*"],
+      "@modules": ["src/modules"],
+      "@modules/*": ["src/modules/*"],
+      "@appConfig": ["src/appConfig"],
+      "@appConfig/*": ["src/appConfig/*"]
+    },
     "typeRoots": ["./node_modules/@types/", "src/global.d.ts"]
   },
   "include": ["src"],

@@ -17,6 +17,10 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
+      '@components': pathResolve('src/modules/components'),
+      '@shared': pathResolve('src/modules/shared'),
+      '@appConfig': pathResolve('src/appConfig'),
+      '@modules': pathResolve('src/modules'),
       src: pathResolve('src'),
       './runtimeConfig': './runtimeConfig.browser',
     },

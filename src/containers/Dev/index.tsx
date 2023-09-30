@@ -12,9 +12,38 @@ import {
   Typography,
 } from '@mui/material';
 import { LuAlignCenter } from 'react-icons/lu';
-import { Input } from '@components';
+import { DialogContext, DialogType, Input } from '@components';
 import { Toastify } from '@shared';
+import { useContext } from 'react';
 const Dev: React.FC<Props> = () => {
+  const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
+
+  const handleOpenDialog = () => {
+    setDialogContent({
+      type: DialogType.CONTENT_DIALOG,
+      title: 'Content Dialog',
+      data: <Typography>This is content dialog</Typography>,
+      maxWidth: 'md',
+    });
+
+    openModal();
+  };
+
+  const handleOpenYesNoDialog = () => {
+    setDialogContent({
+      type: DialogType.YESNO_DIALOG,
+      title: 'Yes/No Dialog',
+      data: <Typography>This is content dialog</Typography>,
+      okText: 'Save',
+      cancelText: 'Cancel',
+      onOk: closeModal,
+      onCancel: closeModal,
+      maxWidth: 'md',
+    });
+
+    openModal();
+  };
+
   return (
     <Container>
       <Stack gap={1} justifyContent={'center'} alignItems={'center'}>
@@ -111,8 +140,14 @@ const Dev: React.FC<Props> = () => {
           </Stack>
         </Stack>
 
-        <Stack className="mb-32">
-          <Button variant="contained">Open Yes/No dialog</Button>
+        <Stack className="mb-32" gap={12} flexDirection={'row'}>
+          <Button variant="contained" onClick={handleOpenDialog}>
+            Content dialog
+          </Button>
+
+          <Button variant="outlined" onClick={handleOpenYesNoDialog}>
+            Yes/No dialog
+          </Button>
         </Stack>
       </Stack>
     </Container>

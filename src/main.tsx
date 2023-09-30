@@ -9,6 +9,7 @@ import Container from './containers';
 import { BrowserRouter } from 'react-router-dom';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import LoadingContainer from './containers/StartupContainers/LoadingContainer';
+import { DialogProvider } from '@components';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,15 +45,17 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-        <ProSidebarProvider>
-          <BrowserRouter>
-            <Suspense fallback={<LoadingContainer />}>
-              <Container />
-            </Suspense>
-          </BrowserRouter>
-        </ProSidebarProvider>
-      </QueryClientProvider>
+      <DialogProvider>
+        <QueryClientProvider client={queryClient}>
+          <ProSidebarProvider>
+            <BrowserRouter>
+              <Suspense fallback={<LoadingContainer />}>
+                <Container />
+              </Suspense>
+            </BrowserRouter>
+          </ProSidebarProvider>
+        </QueryClientProvider>
+      </DialogProvider>
     </ThemeProvider>
   </React.StrictMode>,
 );

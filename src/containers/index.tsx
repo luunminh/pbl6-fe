@@ -13,6 +13,7 @@ const NotFound = React.lazy(() => import('./StartupContainers/NotFound'));
 const ToastContainer = React.lazy(() => import('./StartupContainers/ToastContainer'));
 const Sidebar = React.lazy(() => import('./StartupContainers/SideBar'));
 const Navbar = React.lazy(() => import('./StartupContainers/NavBar'));
+const Staff = React.lazy(() => import('./Staff'));
 
 type ContainerProps = {};
 
@@ -35,7 +36,7 @@ const Container: React.FC<ContainerProps> = () => {
           <Route path={PATHS.order} element={<OnDevelop />} />
           <Route path={PATHS.product} element={<OnDevelop />} />
           <Route path={PATHS.profile} element={<OnDevelop />} />
-          <Route path={PATHS.staff} element={<OnDevelop />} />
+          <Route path={PATHS.staff} element={<Staff />} />
           <Route path={PATHS.store} element={<OnDevelop />} />
           <Route path={PATHS.dev} element={<Dev />} />
           <Route path="*" element={<NotFound />} />

@@ -15,8 +15,8 @@ import {
   IoLogOutOutline,
   IoPeople,
   IoPeopleOutline,
-  IoSettings,
-  IoSettingsOutline,
+  IoPerson,
+  IoPersonOutline,
   IoStorefront,
   IoStorefrontOutline,
 } from 'react-icons/io5';
@@ -132,12 +132,12 @@ const MenuItems: MenuItemType[] = [
     activePath: PATHS.staff,
     icon: (
       <div className="title-icon" aria-details="Staff">
-        <IoSettingsOutline size={20} />
+        <IoPersonOutline size={20} />
       </div>
     ),
     activeIcon: (
       <div className="title-icon" aria-details="Staff">
-        <IoSettings size={20} />
+        <IoPerson size={20} />
       </div>
     ),
   },

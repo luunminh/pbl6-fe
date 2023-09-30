@@ -1,0 +1,52 @@
+@use '../../../modules/components/scss/vars' as *;
+
+.dialog {
+  &__staff {
+    .dialog {
+      &__title {
+        color: $color-grey-800;
+        padding: 25px 25px 10px;
+      }
+      &__actions {
+        padding: 10px 25px 25px;
+        .btn {
+          text-transform: capitalize;
+          font-size: $font-size-button;
+          font-weight: $font-weight-medium;
+          border-radius: $border-radius-button;
+          &.btn-cancel {
+            border: 1.5px solid $color-grey-300;
+            color: $color-grey-800;
+            &:hover {
+              background-color: $color-grey-100;
+            }
+          }
+          &.btn-add, &.btn-save {
+            background-color: $color-primary-500;
+            color: $color-white;
+            box-shadow: none;
+            &:hover {
+              background-color: $color-primary-400;
+            }
+          }
+          &.btn-del {
+            background-color: $color-red-500;
+            color: $color-white;
+            box-shadow: none;
+            &:hover {
+              background-color: $color-red-400;
+            }
+          }
+        }
+      }
+    }
+    .form {
+      &__label {
+        font-size: $font-size-label;
+        color: $color-grey-700;
+        font-weight: $font-weight-medium;
+      }
+    }
+  }
+  
+}

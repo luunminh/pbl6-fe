@@ -5,7 +5,7 @@ import { AiFillCaretDown } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { COLOR_CODE } from 'src/modules/components/configs/theme';
 import { PATHS } from 'src/appConfig/paths';
-import { CustomDropdown } from 'src/modules';
+import { CustomDropdown } from '@modules/components';
 // import { useLogout } from 'src/queries';
 
 const UserMenu: React.FC<Props> = ({ avatarUrl, fullName, name }) => {

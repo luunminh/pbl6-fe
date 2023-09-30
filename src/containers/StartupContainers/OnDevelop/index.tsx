@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
-import { IMAGES } from 'src/appConfig/images';
+import { IMAGES } from '@appConfig/images';
 import { Stack, Typography } from '@mui/material';
-import { Image } from 'src/modules';
+import { Image } from '@modules/components';
 
 const OnDevelop: React.FC<Props> = ({
   children = (

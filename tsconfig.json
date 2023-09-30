@@ -18,12 +18,12 @@
     "baseUrl": ".",
     "noFallthroughCasesInSwitch": true,
     "paths": {
+      "@modules": ["src/modules"],
+      "@modules/*": ["src/modules/*"],
       "@shared": ["src/modules/shared"],
       "@shared/*": ["src/modules/shared/*"],
       "@components": ["src/modules/components"],
       "@components/*": ["src/modules/components/*"],
-      "@modules": ["src/modules"],
-      "@modules/*": ["src/modules/*"],
       "@appConfig": ["src/appConfig"],
       "@appConfig/*": ["src/appConfig/*"]
     },

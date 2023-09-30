@@ -5,8 +5,7 @@ import { IMAGES } from 'src/appConfig/images';
 import { PATHS } from 'src/appConfig/paths';
 // import { useProfile } from 'src/queries';
 import UserMenu from './UserMenu';
-import { Image } from 'src/modules';
-
+import { Image } from '@modules/components';
 const profile = {
   firstName: 'Minh',
   lastName: 'Luu',

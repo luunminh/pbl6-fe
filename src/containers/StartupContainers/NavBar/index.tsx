@@ -1,25 +1,24 @@
 import { AppBar, Stack, Toolbar, Typography } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { IMAGES } from 'src/appConfig/images';
-import { PATHS } from 'src/appConfig/paths';
+import { IMAGES } from '@appConfig/images';
+import { PATHS } from '@appConfig/paths';
 // import { useProfile } from 'src/queries';
 import UserMenu from './UserMenu';
-import { Image } from '@modules/components';
-const profile = {
+import { Image, UserRole, UserProfileType, COLOR_CODE } from '@components';
+const profile: UserProfileType = {
+  id: '1',
   firstName: 'Minh',
   lastName: 'Luu',
   avatarUrl: null,
-  role: 'Admin',
+  role: UserRole.ADMIN,
   email: 'minh_luu@datahouse.com',
+  address: '1123',
+  phoneNumber: '09123124123',
 };
 
 const Navbar: React.FC<Props> = () => {
   //   const { profile } = useProfile();
-
-  const fullName = React.useMemo(() => {
-    return profile ? `${profile.firstName} ${profile.lastName}` : '';
-  }, [profile]);
 
   return (
     <>
@@ -35,19 +34,12 @@ const Navbar: React.FC<Props> = () => {
               <Link to={PATHS.root} className="is-flex">
                 <Image src={IMAGES.logo} sx={{ height: '34px' }} />
               </Link>
-              <Typography fontSize={24}>MALT</Typography>
+              <Typography fontSize={24} color={COLOR_CODE.GREY_900}>
+                MALT
+              </Typography>
             </Stack>
 
-            <UserMenu
-              fullName={fullName}
-              currentRole={profile?.role}
-              avatarUrl={profile?.avatarUrl}
-              name={{
-                firstName: profile?.firstName,
-                lastName: profile?.lastName,
-                email: profile?.email,
-              }}
-            />
+            <UserMenu profile={profile} />
           </Stack>
         </Toolbar>
       </AppBar>

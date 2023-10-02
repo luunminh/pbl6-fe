@@ -4,7 +4,7 @@ import React, { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { MINI_SIDE_BAR_WIDTH, NAVBAR_HEIGHT } from '@appConfig/constants';
 import { PATHS } from 'src/appConfig/paths';
-import { CustomErrorBoundary, CustomDialog } from '@components';
+import { CustomErrorBoundary, CustomDialog, UserProfile } from '@components';
 import Dev from './Dev';
 
 const OnDevelop = React.lazy(() => import('./StartupContainers/OnDevelop'));
@@ -35,10 +35,10 @@ const Container: React.FC<ContainerProps> = () => {
           <Route path={PATHS.customer} element={<OnDevelop />} />
           <Route path={PATHS.order} element={<OnDevelop />} />
           <Route path={PATHS.product} element={<OnDevelop />} />
-          <Route path={PATHS.profile} element={<OnDevelop />} />
           <Route path={PATHS.staff} element={<OnDevelop />} />
           <Route path={PATHS.store} element={<OnDevelop />} />
           <Route path={PATHS.dev} element={<Dev />} />
+          <Route path={PATHS.profile} element={<UserProfile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

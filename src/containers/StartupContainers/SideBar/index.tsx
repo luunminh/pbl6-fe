@@ -158,9 +158,6 @@ const DevItem: MenuItemType = {
   ),
 };
 
-export const getShortCutName = (firstName: string, lastName: string) =>
-  `${firstName[0]}${lastName[0]}`;
-
 const CustomSidebar: React.FC<Props> = () => {
   //   const { logout } = useLogout();
   const location = useLocation();
@@ -259,11 +256,6 @@ const CustomSidebar: React.FC<Props> = () => {
             );
           })}
         </Menu>
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <Button>
-            <IoLogOutOutline size={20} />
-          </Button>
-        </Stack>
       </Stack>
     </Sidebar>
   );

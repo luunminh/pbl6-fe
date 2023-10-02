@@ -12,7 +12,7 @@ const Dashboard: React.FC<Props> = ({
   ),
 }) => (
   <Stack className="ctn-od">
-    <img src={IMAGES.OnDevelopImg} />
+    <img src={IMAGES.OnDevelopImg} alt="" />
     <Typography fontSize={52}>Oops!...</Typography>
     <Typography>{children}</Typography>
   </Stack>

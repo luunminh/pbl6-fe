@@ -1,11 +1,11 @@
+import { IMAGES } from '@appConfig/images';
+import { PATHS } from '@appConfig/paths';
 import { AppBar, Stack, Toolbar, Typography } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { IMAGES } from '@appConfig/images';
-import { PATHS } from '@appConfig/paths';
 // import { useProfile } from 'src/queries';
+import { COLOR_CODE, Image, UserProfileType } from '@components';
 import UserMenu from './UserMenu';
-import { Image, UserRole, UserProfileType, COLOR_CODE } from '@components';
 const profile: UserProfileType = {
   id: '1',
   firstName: 'Minh',
@@ -23,7 +23,12 @@ const Navbar: React.FC<Props> = () => {
 
   return (
     <>
-      <AppBar variant="elevation" elevation={0} position="fixed">
+      <AppBar
+        variant="elevation"
+        elevation={0}
+        position="fixed"
+        style={{ background: COLOR_CODE.WHITE }}
+      >
         <Toolbar variant="regular">
           <Stack
             width="100%"

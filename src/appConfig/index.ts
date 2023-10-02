@@ -3,8 +3,7 @@ const configs = {
 };
 
 const table = {
-  ROWS_PER_PAGE_OPTIONS: [15, 25, 50],
-  ROWS_PER_PAGE: 15,
+  ROWS_PER_PAGE: 10,
 };
 
 const common = {

@@ -20,11 +20,19 @@ const create = (baseURL = `${appConfig.API_URL}`) => {
     timeout: appConfig.CONNECTION_TIMEOUT,
   });
 
+  api.axiosInstance.interceptors.request.use((config) => {
+    config.headers.Authorization =
+      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTExZDc2Yy0yYWZmLTQwODctYjM0NC1kMDM0YWI4MGZkZDciLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjk2OTMwMjM0LCJleHAiOjE2OTcwMTY2MzR9.P4lak75HyBNmDvcgRGb91hfofZD6Fz-Ew8mnvZlTK-Y';
+    return Promise.resolve(config);
+  });
+
   //TODO update jwt token
 
   const getStaffList = (params: StaffListParams) => {
     const { ...tableParams } = params;
-    return api.get(`/pets?${stringify(tableParams)}`, {});
+    const queryString = stringify(tableParams);
+    console.log('queryString', queryString);
+    return api.get(`/admin/users?${queryString}`, {});
   };
 
   return {

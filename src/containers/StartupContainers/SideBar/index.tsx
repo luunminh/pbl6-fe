@@ -1,4 +1,4 @@
-import { Button, Stack, Typography } from '@mui/material';
+import { Stack } from '@mui/material';
 import cn from 'classnames';
 import React, { useEffect } from 'react';
 import { BsChevronLeft, BsDot } from 'react-icons/bs';
@@ -12,18 +12,17 @@ import {
   IoGridOutline,
   IoHome,
   IoHomeOutline,
-  IoLogOutOutline,
   IoPeople,
   IoPeopleOutline,
-  IoSettings,
-  IoSettingsOutline,
+  IoPerson,
+  IoPersonOutline,
   IoStorefront,
   IoStorefrontOutline,
 } from 'react-icons/io5';
 import { Menu, MenuItem, Sidebar, SubMenu, useProSidebar } from 'react-pro-sidebar';
 import { Link, useLocation } from 'react-router-dom';
-import { COLOR_CODE } from 'src/modules/components/configs/theme';
 import { PATHS } from 'src/appConfig/paths';
+import { COLOR_CODE } from 'src/modules/components/configs/theme';
 import './styles.scss';
 
 type MenuItemType = {
@@ -132,12 +131,12 @@ const MenuItems: MenuItemType[] = [
     activePath: PATHS.staff,
     icon: (
       <div className="title-icon" aria-details="Staff">
-        <IoSettingsOutline size={20} />
+        <IoPersonOutline size={20} />
       </div>
     ),
     activeIcon: (
       <div className="title-icon" aria-details="Staff">
-        <IoSettings size={20} />
+        <IoPerson size={20} />
       </div>
     ),
   },

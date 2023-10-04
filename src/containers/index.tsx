@@ -8,7 +8,7 @@ import { CustomErrorBoundary, CustomDialog, UserProfile } from '@components';
 import Dev from './Dev';
 
 const OnDevelop = React.lazy(() => import('./StartupContainers/OnDevelop'));
-const LoadingContainer = React.lazy(() => import('./StartupContainers/LoadingContainer'));
+const LoadingContainer = React.lazy(() => import('../modules/components/LoadingContainer'));
 const NotFound = React.lazy(() => import('./StartupContainers/NotFound'));
 const ToastContainer = React.lazy(() => import('./StartupContainers/ToastContainer'));
 const Sidebar = React.lazy(() => import('./StartupContainers/SideBar'));

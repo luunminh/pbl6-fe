@@ -5,20 +5,20 @@ import { useNavigate } from 'react-router-dom';
 import { COLOR_CODE } from 'src/modules/components/configs/theme';
 import { PATHS } from 'src/appConfig/paths';
 import {
+  ChangePassword,
   CustomDropdown,
   DialogContext,
   DialogType,
   Input,
+  MuiTextField,
   RoleTitle,
   UserProfileType,
 } from '@components';
-import { getFullName } from '@shared';
-import { changePasswordSchema, getShortName, initialChangePasswordFormValue } from './helpers';
+import { getErrorMessage, getFullName } from '@shared';
 import { DropdownItem } from '@components';
 import { AiOutlineLock, AiOutlineUser } from 'react-icons/ai';
 import { IoLogOutOutline } from 'react-icons/io5';
-import { useFormik } from 'formik';
-import { ChangePasswordFormType } from './helpers';
+import { getShortName } from './helpers';
 
 const UserMenu: React.FC<Props> = ({ profile }) => {
   //   const { logout } = useLogout();
@@ -52,39 +52,11 @@ const UserMenu: React.FC<Props> = ({ profile }) => {
   //     });
   //   };
 
-  const onChangePassword = () => {};
-
-  const { values, dirty, errors, setFieldValue, touched, setErrors } =
-    useFormik<ChangePasswordFormType>({
-      initialValues: initialChangePasswordFormValue,
-      onSubmit: onChangePassword,
-      validationSchema: changePasswordSchema,
-    });
-
   const handleChangePassword = () => {
     setDialogContent({
       type: DialogType.CONTENT_DIALOG,
       title: 'Change Password',
-      data: (
-        <Stack gap={3}>
-          <Stack gap={1}>
-            <Typography variant="h5">Current Password</Typography>
-            <Input />
-          </Stack>
-          <Stack gap={1}>
-            <Typography variant="h5">New Password</Typography>
-            <Input />
-          </Stack>
-          <Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-            <Button variant="outlined" color="inherit" onClick={closeModal}>
-              Cancel
-            </Button>
-            <Button variant="contained" color="primary">
-              Save
-            </Button>
-          </Stack>
-        </Stack>
-      ),
+      data: <ChangePassword id={'1'} />,
       maxWidth: 'sm',
     });
 
@@ -151,7 +123,7 @@ const UserMenu: React.FC<Props> = ({ profile }) => {
               <TfiAngleDown color={COLOR_CODE.GREY_500} size={11} />
             </Stack>
             <Typography fontSize={12} color={COLOR_CODE.GREY_600}>
-              {RoleTitle[profile.role]}
+              {RoleTitle[profile.role.roleId]}
             </Typography>
           </Stack>
         </Stack>

@@ -1,7 +1,8 @@
 import { UseQueryOptions } from '@tanstack/react-query';
 
 export enum ApiKey {
-  USER_MANAGEMENT = '/user/profile',
+  USERS = '/users',
+  PROFILE = 'users/profile',
 }
 
 export type QueryOptions<T> = Omit<UseQueryOptions, 'QueryKey'> & { QueryKey: T };

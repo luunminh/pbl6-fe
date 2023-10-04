@@ -11,10 +11,11 @@ const profile: UserProfileType = {
   firstName: 'Minh',
   lastName: 'Luu',
   avatarUrl: null,
-  role: UserRole.ADMIN,
+  role: { roleId: '3', role: { name: 'Admin', id: 3 } },
   email: 'minh_luu@datahouse.com',
   address: '1123',
-  phoneNumber: '09123124123',
+  phone: '09123124123',
+  gender: 1,
 };
 
 const Navbar: React.FC<Props> = () => {

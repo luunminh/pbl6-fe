@@ -8,7 +8,7 @@ import { theme } from 'src/modules/components/configs';
 import Container from './containers';
 import { BrowserRouter } from 'react-router-dom';
 import { ProSidebarProvider } from 'react-pro-sidebar';
-import LoadingContainer from './containers/StartupContainers/LoadingContainer';
+import LoadingContainer from './modules/components/LoadingContainer';
 import { DialogProvider } from '@components';
 
 const queryClient = new QueryClient({

@@ -1,31 +1,21 @@
-import { Avatar, Button, FormLabel, InputLabel, Stack, Typography } from '@mui/material';
+import { Avatar, Stack, Typography } from '@mui/material';
 import * as React from 'react';
 import { TfiAngleDown } from 'react-icons/tfi';
 import { useNavigate } from 'react-router-dom';
 import { COLOR_CODE } from 'src/modules/components/configs/theme';
 import { PATHS } from 'src/appConfig/paths';
-import {
-  ChangePassword,
-  CustomDropdown,
-  DialogContext,
-  DialogType,
-  Input,
-  MuiTextField,
-  RoleTitle,
-  UserProfileType,
-} from '@components';
-import { getErrorMessage, getFullName } from '@shared';
+import { CustomDropdown, DialogContext, DialogType, RoleTitle, UserProfileType } from '@components';
+import { getFullName } from '@shared';
 import { DropdownItem } from '@components';
 import { AiOutlineLock, AiOutlineUser } from 'react-icons/ai';
 import { IoLogOutOutline } from 'react-icons/io5';
 import { getShortName } from './helpers';
+import { EmailVerify } from '@components/ChangePassword/EmailVerify';
 
 const UserMenu: React.FC<Props> = ({ profile }) => {
   //   const { logout } = useLogout();
   const navigate = useNavigate();
-  const { openModal, closeModal, setDialogContent } = React.useContext(DialogContext);
-
-  const { id, firstName, lastName, avatarUrl, email } = profile;
+  const { openModal, setDialogContent } = React.useContext(DialogContext);
 
   //   const handleLogOut = () => {
   //     onShowDialog({
@@ -55,8 +45,8 @@ const UserMenu: React.FC<Props> = ({ profile }) => {
   const handleChangePassword = () => {
     setDialogContent({
       type: DialogType.CONTENT_DIALOG,
-      title: 'Change Password',
-      data: <ChangePassword id={'1'} />,
+      title: 'Request Change Password',
+      data: <EmailVerify />,
       maxWidth: 'sm',
     });
 

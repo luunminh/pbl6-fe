@@ -18,7 +18,7 @@ export function useGetProfile(
     data,
     error,
     isError,
-    isRefetching: isLoading,
+    isFetching: isLoading,
     isSuccess,
   } = useQuery<ApiResponseType<ProfileResponse>, Error, ProfileResponse>([ApiKey.PROFILE], {
     queryFn: handleGetProfile,

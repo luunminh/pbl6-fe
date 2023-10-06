@@ -10,7 +10,7 @@ const create = (baseURL = `${appConfig.API_URL}`) => {
   // Create and configure an apisauce-based api object.
   //
 
-  const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTExZDc2Yy0yYWZmLTQwODctYjM0NC1kMDM0YWI4MGZkZDciLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjk2NDM1NDE4LCJleHAiOjE2OTY0MzYwMTh9.Y2kz-34_PlIgx76qmUtqFxLqVea5GTodCxoA2hP2hMw`;
+  const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OTExZDc2Yy0yYWZmLTQwODctYjM0NC1kMDM0YWI4MGZkZDciLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjk2NjA4MjIxLCJleHAiOjE2OTY2MDg4MjF9.9rWKqddgZv5HAePVXoYaUehObBdaPf287tZP3ogCotU`;
   const api = apisauce.create({
     baseURL,
     headers: {
@@ -33,14 +33,19 @@ const create = (baseURL = `${appConfig.API_URL}`) => {
     return api.patch(`${ApiKey.USERS}/profile`, body, {});
   };
 
+  const requestChangePassword = () => {
+    return api.post(`${ApiKey.USERS}/request-change-password`, {});
+  };
+
   const changePassword = (body: ChangePasswordPayload) => {
-    return api.post(`${ApiKey.USERS}/update-password`, body, {});
+    return api.post(`${ApiKey.USERS}/change-password`, body, {});
   };
 
   return {
     getProfile,
     updateProfile,
     changePassword,
+    requestChangePassword,
   };
 };
 

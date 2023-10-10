@@ -9,7 +9,7 @@ import Dev from './Dev';
 
 const OnDevelop = React.lazy(() => import('./StartupContainers/OnDevelop'));
 const LoadingContainer = React.lazy(() => import('../modules/components/LoadingContainer'));
-const UserManagement = React.lazy(() => import('./Admin/UserManagement/UserList'));
+const StaffManagement = React.lazy(() => import('./Admin/StaffManagement/StaffList'));
 const CustomerList = React.lazy(() => import('./Admin/CustomerManagement/CustomerList'));
 const NotFound = React.lazy(() => import('./StartupContainers/NotFound'));
 const ToastContainer = React.lazy(() => import('./StartupContainers/ToastContainer'));
@@ -40,7 +40,7 @@ const Container: React.FC<ContainerProps> = () => {
           <Route path={PATHS.order} element={<OnDevelop />} />
           <Route path={PATHS.product} element={<OnDevelop />} />
           <Route path={PATHS.profile} element={<OnDevelop />} />
-          <Route path={PATHS.staff} element={<UserManagement />} />
+          <Route path={PATHS.staff} element={<StaffManagement />} />
           <Route path={PATHS.store} element={<OnDevelop />} />
           <Route path={PATHS.dev} element={<Dev />} />
           <Route path={PATHS.profile} element={<UserProfile />} />

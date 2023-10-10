@@ -1,17 +1,64 @@
-/* eslint-disable max-len */
+import React, { useCallback, useMemo, useContext } from 'react';
 import { CustomTableFilterContainer, CustomTableSearch, EmptyTable, Table } from '@components';
 import { Button, Container, Stack, Typography } from '@mui/material';
 import { Toastify } from '@shared';
 import { MUIDataTableOptions } from 'mui-datatables';
-import React, { useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { GetPropertiesParams, ROLE_ID, useGetAllStaff } from 'src/queries';
-import UserFilter from '../UserFilter';
+import StaffFilter from '../StaffFilter';
 import { allColumns } from './allColumns';
 import { FormValue, USER_FILTER_QUERY_KEY, formValueKey } from './helpers';
 import { IoAdd } from 'react-icons/io5';
+import { DialogContext, DialogType } from '@components';
+import AddNewStaffForm from '../StaffForms/AddNewStaffForm';
+import DeactivateStaffForm from '../StaffForms/DeactivateStaffForm';
+import ActivateStaffForm from '../StaffForms/ActivateStaffForm';
 
 const UserManagement: React.FC = () => {
+  const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
+
+  const handleOpenDialogAdd = () => {
+    setDialogContent({
+      type: DialogType.CONTENT_DIALOG,
+      title: 'Add New Staff',
+      data: <AddNewStaffForm />,
+      maxWidth: 'md',
+    });
+    openModal();
+  };
+
+  const handleOpenDialogDeactivate = useCallback(() => {
+    setDialogContent({
+      type: DialogType.YESNO_DIALOG,
+      title: 'Deactivate Staff',
+      hideTitle: true,
+      data: <DeactivateStaffForm />,
+      isWarning: true,
+      okText: 'Yes',
+      cancelText: 'Cancel',
+      onOk: closeModal,
+      onCancel: closeModal,
+      maxWidth: 'xs',
+    });
+    openModal();
+  }, [closeModal, openModal, setDialogContent]);
+
+  const handleOpenDialogActivate = useCallback(() => {
+    setDialogContent({
+      type: DialogType.YESNO_DIALOG,
+      title: 'Activate Staff',
+      hideTitle: true,
+      data: <ActivateStaffForm />,
+      isWarning: true,
+      okText: 'Yes',
+      cancelText: 'Cancel',
+      onOk: closeModal,
+      onCancel: closeModal,
+      maxWidth: 'xs',
+    });
+    openModal();
+  }, [closeModal, openModal, setDialogContent]);
+
   const { staffs, totalRecords, setParams, isFetching } = useGetAllStaff({
     onError: (error) => {
       Toastify.error(error?.message);
@@ -49,11 +96,10 @@ const UserManagement: React.FC = () => {
     [totalRecords],
   );
 
-  const handleDeactivate = useCallback(() => {
-    console.log('xoa nhe');
-  }, []);
-
-  const columns = useMemo(() => allColumns({ handleDeactivate }), [handleDeactivate]);
+  const columns = useMemo(
+    () => allColumns({ handleOpenDialogDeactivate, handleOpenDialogActivate }),
+    [handleOpenDialogDeactivate, handleOpenDialogActivate],
+  );
 
   return (
     <Container maxWidth="xl">
@@ -65,11 +111,16 @@ const UserManagement: React.FC = () => {
       <Stack alignItems="center" justifyContent="space-between" flexDirection="row">
         <CustomTableSearch placeholder="Search staff..." />
         <Stack justifyContent="flex-end" direction="row" flexGrow={1} alignItems="center" gap={2}>
-          <Button variant="contained" color="primary" startIcon={<IoAdd />}>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<IoAdd />}
+            onClick={handleOpenDialogAdd}
+          >
             Add new staff
           </Button>
           <CustomTableFilterContainer filterParamsKeys={formValueKey}>
-            <UserFilter searchValues={paramsUrl} />
+            <StaffFilter searchValues={paramsUrl} />
           </CustomTableFilterContainer>
         </Stack>
       </Stack>

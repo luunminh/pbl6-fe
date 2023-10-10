@@ -55,3 +55,14 @@ export interface StaffResponse {
   createdAt: string;
   deleteAt: string;
 }
+
+export type AddStaffPayload = {
+  firstName: string;
+  lastName: string;
+  username: string;
+  password: string;
+  gender: number | 0 | 1;
+  phone: string;
+  email: string;
+  address: string;
+};

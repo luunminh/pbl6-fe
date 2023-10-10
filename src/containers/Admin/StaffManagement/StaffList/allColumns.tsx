@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { COLOR_CODE } from '@components';
 import { IconButton, Stack, Tooltip } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
@@ -7,10 +6,14 @@ import { GENDER_NAME, StaffResponse } from 'src/queries';
 import { customRoleRender, customStatusRender } from './helpers';
 
 type ColumnProps = {
-  handleDeactivate: (..._args: any[]) => void;
+  handleOpenDialogDeactivate: (..._args: any[]) => void;
+  handleOpenDialogActivate: (..._args: any[]) => void;
 };
 
-export const allColumns = ({ handleDeactivate }: ColumnProps): MUIDataTableColumn[] => {
+export const allColumns = ({
+  handleOpenDialogDeactivate,
+  handleOpenDialogActivate,
+}: ColumnProps): MUIDataTableColumn[] => {
   const columns: MUIDataTableColumn[] = [
     {
       name: 'userRoles',
@@ -77,7 +80,7 @@ export const allColumns = ({ handleDeactivate }: ColumnProps): MUIDataTableColum
     },
     {
       name: '',
-      label: 'Actions',
+      label: 'Action',
       setCellProps: () => ({
         style: {},
       }),
@@ -85,7 +88,7 @@ export const allColumns = ({ handleDeactivate }: ColumnProps): MUIDataTableColum
         filter: false,
         sort: false,
         setCellProps: () => ({
-          style: { width: '80px', padding: '4px' },
+          style: { width: '80px' },
         }),
         customBodyRender: (
           _value: string,
@@ -101,7 +104,7 @@ export const allColumns = ({ handleDeactivate }: ColumnProps): MUIDataTableColum
                 <IconButton
                   onClick={(event) => {
                     event.stopPropagation();
-                    handleDeactivate(rowData);
+                    rowData.deleteAt ? handleOpenDialogActivate() : handleOpenDialogDeactivate();
                   }}
                   sx={{
                     '.MuiIconButton-root': {

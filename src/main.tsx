@@ -10,6 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import LoadingContainer from './modules/components/LoadingContainer';
 import { DialogProvider } from '@components';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,6 +52,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <BrowserRouter>
               <Suspense fallback={<LoadingContainer />}>
                 <Container />
+                <ReactQueryDevtools />
               </Suspense>
             </BrowserRouter>
           </ProSidebarProvider>

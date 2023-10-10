@@ -1,12 +1,11 @@
 /* eslint-disable max-len */
 import { CustomTableSearch, EmptyTable, Table } from '@components';
-import { Button, Container, Stack, Typography } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 import { Toastify } from '@shared';
 import { MUIDataTableOptions } from 'mui-datatables';
 import React, { useMemo } from 'react';
-import { IoAdd } from 'react-icons/io5';
 import { GetPropertiesParams, ROLE_ID, useGetAllStaff } from 'src/queries';
-import { USER_FILTER_QUERY_KEY } from '../../UserManagement/UserList/helpers';
+import { USER_FILTER_QUERY_KEY } from '../../StaffManagement/StaffList/helpers';
 import { allColumns } from './allColumns';
 
 const CustomerList: React.FC = () => {
@@ -45,11 +44,6 @@ const CustomerList: React.FC = () => {
       </Stack>
       <Stack alignItems="center" justifyContent="space-between" flexDirection="row">
         <CustomTableSearch placeholder="Search customer..." />
-        <Stack justifyContent="flex-end" direction="row" flexGrow={1} alignItems="center" gap={2}>
-          <Button variant="contained" color="primary" startIcon={<IoAdd />}>
-            Add new Customer
-          </Button>
-        </Stack>
       </Stack>
       <Table
         title=""

@@ -1,19 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { MUIDataTableColumn } from 'mui-datatables';
 import { GENDER_NAME } from 'src/queries';
-import { customRoleRender, customStatusRender } from '../../UserManagement/UserList/helpers';
+import { customStatusRender } from '../../StaffManagement/StaffList/helpers';
 
 export const allColumns = (): MUIDataTableColumn[] => {
   const columns: MUIDataTableColumn[] = [
-    {
-      name: 'userRoles',
-      label: 'Role',
-      options: {
-        filter: false,
-        sort: false,
-        customBodyRender: customRoleRender,
-      },
-    },
     {
       name: 'firstName',
       label: 'First Name',

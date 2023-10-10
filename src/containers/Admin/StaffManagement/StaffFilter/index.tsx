@@ -19,9 +19,9 @@ import {
   USER_FILTER_QUERY_KEY,
   UserRoleOptions,
   emptyFormValueFilter,
-} from '../UserList/helpers';
+} from '../StaffList/helpers';
 
-const UserFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
+const StaffFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
   const navigate = useNavigate();
   const { search } = useLocation();
 
@@ -179,4 +179,4 @@ type Props = {
   handleClosePopup?: (..._args: any[]) => void;
 };
 
-export default UserFilter;
+export default StaffFilter;

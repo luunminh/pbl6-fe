@@ -5,42 +5,46 @@ import { useNavigate } from 'react-router-dom';
 import { COLOR_CODE } from 'src/modules/components/configs/theme';
 import { PATHS } from 'src/appConfig/paths';
 import { CustomDropdown, DialogContext, DialogType, RoleTitle, UserProfileType } from '@components';
-import { getFullName } from '@shared';
+import { AuthService, getFullName } from '@shared';
 import { DropdownItem } from '@components';
 import { AiOutlineLock, AiOutlineUser } from 'react-icons/ai';
 import { IoLogOutOutline } from 'react-icons/io5';
 import { getShortName } from './helpers';
 import { EmailVerify } from '@components/ChangePassword/EmailVerify';
+import { useDispatch } from 'react-redux';
+import { setAuthenticated, setCurrentRole, setProfile } from '@redux/auth/authSlice';
 
 const UserMenu: React.FC<Props> = ({ profile }) => {
-  //   const { logout } = useLogout();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { openModal, setDialogContent } = React.useContext(DialogContext);
+  const { openModal, closeModal, setDialogContent } = React.useContext(DialogContext);
 
-  //   const handleLogOut = () => {
-  //     onShowDialog({
-  //       type: DIALOG_TYPES._YESNO_DIALOG,
-  //       data: {
-  //         title: 'Log out',
-  //         content: (
-  //           <Typography fontSize={14} fontWeight={500}>
-  //             You are logging out from the admin portal. Do you want to continue?
-  //           </Typography>
-  //         ),
-  //         cancelText: 'Cancel',
-  //         okText: 'Log Out',
-  //         onOk: () => {
-  //           setIsLoggingOut(true);
-  //           logout();
-  //           onHideAllDialog();
-  //         },
-  //         onCancel: () => {
-  //           onHideDialog();
-  //         },
-  //         maxWidth: 'xs',
-  //       },
-  //     });
-  //   };
+  const handleLogOut = () => {
+    setDialogContent({
+      type: DialogType.YESNO_DIALOG,
+      title: 'Confirm logging out',
+      data: (
+        <Typography fontSize={14} fontWeight={500}>
+          You are logging out from the admin portal. Do you want to continue?
+        </Typography>
+      ),
+      maxWidth: 'xs',
+      onOk: () => {
+        logout();
+        closeModal();
+      },
+      okText: 'Yes',
+    });
+
+    openModal();
+  };
+
+  const logout = () => {
+    dispatch(setAuthenticated(false));
+    dispatch(setCurrentRole(null));
+    dispatch(setProfile(null));
+    AuthService.clearToken();
+  };
 
   const handleChangePassword = () => {
     setDialogContent({
@@ -71,9 +75,7 @@ const UserMenu: React.FC<Props> = ({ profile }) => {
       },
       {
         label: 'Log out',
-        onClick: () => {
-          //   handleLogOut();
-        },
+        onClick: handleLogOut,
         icon: <IoLogOutOutline size={18} />,
       },
     ],
@@ -113,7 +115,7 @@ const UserMenu: React.FC<Props> = ({ profile }) => {
               <TfiAngleDown color={COLOR_CODE.GREY_500} size={11} />
             </Stack>
             <Typography fontSize={12} color={COLOR_CODE.GREY_600}>
-              {RoleTitle[profile.role.roleId]}
+              {RoleTitle[profile.userRoles[0].roleId]}
             </Typography>
           </Stack>
         </Stack>

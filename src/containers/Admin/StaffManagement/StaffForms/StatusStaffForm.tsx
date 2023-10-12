@@ -3,12 +3,14 @@ import { Stack, DialogContentText, Typography, Box } from '@mui/material';
 import { BsUnlockFill } from 'react-icons/bs';
 import { COLOR_CODE } from '@components';
 
-const ActivateStaffForm = () => {
+const StatusStaffForm: React.FC<Props> = ({ isDeactivate }) => {
+  const status = isDeactivate ? 'deactivate' : 'activate';
+
   return (
     <Stack sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', rowGap: '20px' }}>
       <Box
         sx={{
-          backgroundColor: COLOR_CODE.PRIMARY_200,
+          backgroundColor: COLOR_CODE[`${isDeactivate ? 'RED' : 'PRIMARY'}_200`],
           borderRadius: '50%',
           height: '80px',
           width: '80px',
@@ -17,7 +19,7 @@ const ActivateStaffForm = () => {
       >
         <BsUnlockFill
           size="50px"
-          color={COLOR_CODE.PRIMARY_500}
+          color={COLOR_CODE[`${isDeactivate ? 'RED' : 'PRIMARY'}_500`]}
           style={{
             position: 'absolute',
             top: '50%',
@@ -26,12 +28,16 @@ const ActivateStaffForm = () => {
           }}
         />
       </Box>
-      <Typography variant="h3" fontWeight={600}>
-        Activate Staff
+      <Typography variant="h3" fontWeight={600} textTransform={'capitalize'}>
+        {status} Staff
       </Typography>
-      <DialogContentText>Are you sure you want to activate this staff?</DialogContentText>
+      <DialogContentText>Are you sure you want to {status} this staff?</DialogContentText>
     </Stack>
   );
 };
 
-export default ActivateStaffForm;
+export type Props = {
+  isDeactivate?: boolean;
+};
+
+export default StatusStaffForm;

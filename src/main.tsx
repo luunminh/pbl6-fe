@@ -10,7 +10,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import LoadingContainer from './modules/components/LoadingContainer';
 import { DialogProvider } from '@components';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Provider } from 'react-redux';
+import createStore from '@redux/store';
+
+const { store } = createStore();
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -46,18 +49,19 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <DialogProvider>
-        <QueryClientProvider client={queryClient}>
-          <ProSidebarProvider>
-            <BrowserRouter>
-              <Suspense fallback={<LoadingContainer />}>
-                <Container />
-                <ReactQueryDevtools />
-              </Suspense>
-            </BrowserRouter>
-          </ProSidebarProvider>
-        </QueryClientProvider>
-      </DialogProvider>
+      <Provider store={store}>
+        <DialogProvider>
+          <QueryClientProvider client={queryClient}>
+            <ProSidebarProvider>
+              <BrowserRouter>
+                <Suspense fallback={<LoadingContainer />}>
+                  <Container />
+                </Suspense>
+              </BrowserRouter>
+            </ProSidebarProvider>
+          </QueryClientProvider>
+        </DialogProvider>
+      </Provider>
     </ThemeProvider>
   </React.StrictMode>,
 );

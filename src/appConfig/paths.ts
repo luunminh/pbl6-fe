@@ -9,4 +9,8 @@ export const PATHS = {
   store: '/store',
   customer: '/customer',
   staff: '/staff',
+  signIn: '/login',
+  logout: '/logout',
+  forgotPassword: '/forgot-password',
+  resetPassword: '/reset-password',
 };

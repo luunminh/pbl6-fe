@@ -2,8 +2,8 @@ import { QueryFunction, UseQueryOptions, useQuery, useQueryClient } from '@tanst
 import { useEffect } from 'react';
 import { ApiKey } from '../keys';
 import { ApiResponseType, Callback, responseWrapper } from '@shared';
-import { ProfileResponse } from './type';
-import { UAMApi } from '.';
+import { ProfileResponse } from '.';
+import { ProfileApi } from '.';
 
 export function useGetProfile(
   options?: UseQueryOptions<ApiResponseType<ProfileResponse>, Error, ProfileResponse> & {
@@ -12,7 +12,7 @@ export function useGetProfile(
   },
 ) {
   const handleGetProfile: QueryFunction<ApiResponseType<ProfileResponse>> = () =>
-    responseWrapper<ApiResponseType<ProfileResponse>>(UAMApi.getProfile);
+    responseWrapper<ApiResponseType<ProfileResponse>>(ProfileApi.getProfile);
 
   const {
     data,

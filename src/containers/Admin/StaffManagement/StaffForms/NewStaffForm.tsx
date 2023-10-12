@@ -18,7 +18,7 @@ import { Toastify, getErrorMessage } from '@shared';
 import { initialAddStaffFormValues, addStaffFormValidationSchema, roleOptions } from './helpers';
 import { DialogContext } from '@components';
 
-const AddNewStaffForm = () => {
+const NewStaffForm = () => {
   const { closeModal } = useContext(DialogContext);
 
   const { addStaff, isLoading, handleInvalidateStaffList } = useAddStaff({
@@ -216,7 +216,13 @@ const AddNewStaffForm = () => {
         </Grid>
         <Grid item xs={12}>
           <Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-            <Button variant="outlined" disabled={isLoading} onClick={closeModal}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              type="button"
+              disabled={isLoading}
+              onClick={closeModal}
+            >
               Cancel
             </Button>
             <Button variant="contained" disabled={isLoading} type="submit">
@@ -229,4 +235,4 @@ const AddNewStaffForm = () => {
   );
 };
 
-export default AddNewStaffForm;
+export default NewStaffForm;

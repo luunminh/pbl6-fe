@@ -1,6 +1,6 @@
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
-import { UAMApi } from '.';
 import { responseWrapper } from '@shared';
+import { ProfileApi } from '.';
 
 export function useRequestChangePassword(options?: UseMutationOptions<any, Error, any>) {
   const {
@@ -8,7 +8,7 @@ export function useRequestChangePassword(options?: UseMutationOptions<any, Error
     isLoading,
     isSuccess,
   } = useMutation<any, Error, any>({
-    mutationFn: (payload: any) => responseWrapper(UAMApi.requestChangePassword),
+    mutationFn: (payload: any) => responseWrapper(ProfileApi.requestChangePassword),
     ...options,
   });
 

@@ -4,22 +4,17 @@ import { AppBar, Stack, Toolbar, Typography } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 // import { useProfile } from 'src/queries';
-import { COLOR_CODE, Image, UserProfileType } from '@components';
 import UserMenu from './UserMenu';
-const profile: UserProfileType = {
-  id: '1',
-  firstName: 'Minh',
-  lastName: 'Luu',
-  avatarUrl: null,
-  role: { roleId: '3', role: { name: 'Admin', id: 3 } },
-  email: 'minh_luu@datahouse.com',
-  address: '1123',
-  phone: '09123124123',
-  gender: 1,
-};
+import { Image, COLOR_CODE } from '@components';
+import { useGetProfile } from '@queries/Profile/useGetProfile';
+import LoadingContainer from '@components/LoadingContainer';
 
 const Navbar: React.FC<Props> = () => {
-  //   const { profile } = useProfile();
+  const { profile, isLoading } = useGetProfile({});
+
+  if (isLoading) {
+    return <LoadingContainer />;
+  }
 
   return (
     <>

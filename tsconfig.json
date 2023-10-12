@@ -26,6 +26,8 @@
       // "@modules/*": ["src/modules/*"],
       "@appConfig": ["src/appConfig"],
       "@appConfig/*": ["src/appConfig/*"],
+      "@redux": ["src/redux"],
+      "@redux/*": ["src/redux/*"],
       "@queries": ["src/queries"],
       "@queries/*": ["src/queries/*"]
     },

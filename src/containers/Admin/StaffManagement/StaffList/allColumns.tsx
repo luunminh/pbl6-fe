@@ -6,14 +6,10 @@ import { GENDER_NAME, StaffResponse } from 'src/queries';
 import { customRoleRender, customStatusRender } from './helpers';
 
 type ColumnProps = {
-  handleOpenDialogDeactivate: (..._args: any[]) => void;
-  handleOpenDialogActivate: (..._args: any[]) => void;
+  onOpenStaffStatus: (..._args: any[]) => void;
 };
 
-export const allColumns = ({
-  handleOpenDialogDeactivate,
-  handleOpenDialogActivate,
-}: ColumnProps): MUIDataTableColumn[] => {
+export const allColumns = ({ onOpenStaffStatus }: ColumnProps): MUIDataTableColumn[] => {
   const columns: MUIDataTableColumn[] = [
     {
       name: 'userRoles',
@@ -104,7 +100,7 @@ export const allColumns = ({
                 <IconButton
                   onClick={(event) => {
                     event.stopPropagation();
-                    rowData.deleteAt ? handleOpenDialogActivate() : handleOpenDialogDeactivate();
+                    onOpenStaffStatus(!rowData.deleteAt);
                   }}
                   sx={{
                     '.MuiIconButton-root': {

@@ -1,12 +1,7 @@
 import { UserProfileType } from '@components';
 
-export type UpdateProfilePayload = {
+export type ForgotPasswordPayload = {
   email: string;
-  firstName: string;
-  lastName: string;
-  gender: number | 1 | 0;
-  address: string;
-  phone: string;
 };
 
 export type ChangePasswordPayload = {
@@ -14,4 +9,11 @@ export type ChangePasswordPayload = {
   newPassword: string;
 };
 
-export type ProfileResponse = UserProfileType;
+export type SignInPayload = {
+  username: string;
+  password: string;
+};
+
+export type SignInResponse = {
+  accessToken: string;
+};

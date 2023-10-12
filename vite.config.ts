@@ -20,6 +20,7 @@ export default defineConfig({
       '@components': pathResolve('src/modules/components'),
       '@shared': pathResolve('src/modules/shared'),
       '@appConfig': pathResolve('src/appConfig'),
+      '@redux': pathResolve('src/redux'),
       '@queries': pathResolve('src/queries'),
       // '@modules': pathResolve('src/modules'),
       src: pathResolve('src'),

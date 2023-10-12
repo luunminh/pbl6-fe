@@ -1,57 +1,47 @@
 /* eslint-disable react/self-closing-comp */
-import { Stack } from '@mui/material';
 import React, { Suspense } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { MINI_SIDE_BAR_WIDTH, NAVBAR_HEIGHT } from '@appConfig/constants';
-import { PATHS } from 'src/appConfig/paths';
-import { CustomErrorBoundary, CustomDialog, UserProfile, COLOR_CODE } from '@components';
-import Dev from './Dev';
-
-const OnDevelop = React.lazy(() => import('./StartupContainers/OnDevelop'));
+import { Route, Routes } from 'react-router-dom';
+import { CustomErrorBoundary, CustomDialog } from '@components';
+import AuthContainer from './StartupContainers/AuthContainer';
+import Screen from './StartupContainers/Screen';
+import { IRootState } from '@redux/store';
+import { connect } from 'react-redux';
+import { CustomRoute, routerGroup } from './helpers';
 const LoadingContainer = React.lazy(() => import('../modules/components/LoadingContainer'));
-const StaffManagement = React.lazy(() => import('./Admin/StaffManagement/StaffList'));
-const CustomerList = React.lazy(() => import('./Admin/CustomerManagement/CustomerList'));
-const NotFound = React.lazy(() => import('./StartupContainers/NotFound'));
 const ToastContainer = React.lazy(() => import('./StartupContainers/ToastContainer'));
-const Sidebar = React.lazy(() => import('./StartupContainers/SideBar'));
-const Navbar = React.lazy(() => import('./StartupContainers/NavBar'));
-// import SplashScreen from './StartupContainers/SplashScreen';
+const NotFound = React.lazy(() => import('./StartupContainers/NotFound'));
 
-type ContainerProps = {};
+type ContainerProps = ReturnType<typeof mapStateToProps>;
 
-const Container: React.FC<ContainerProps> = () => {
+const mapStateToProps = (state: IRootState) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+const Container: React.FC<ContainerProps> = ({ isAuthenticated }) => {
   return (
-    <Stack
-      sx={{
-        paddingTop: `${NAVBAR_HEIGHT}px`,
-        paddingLeft: `${MINI_SIDE_BAR_WIDTH}px`,
-        background: COLOR_CODE.GREY_50,
-      }}
-      style={{ position: 'relative', minHeight: '100vh' }}
-    >
-      <Navbar />
-      <Sidebar />
+    <Screen>
       <Suspense fallback={<LoadingContainer />}>
         <Routes>
-          <Route path={PATHS.root} element={<Navigate to={PATHS.dashboard} />} />
-          <Route path={PATHS.dashboard} element={<OnDevelop />} />
-          <Route path={PATHS.category} element={<OnDevelop />} />
-          <Route path={PATHS.customer} element={<CustomerList />} />
-          <Route path={PATHS.order} element={<OnDevelop />} />
-          <Route path={PATHS.product} element={<OnDevelop />} />
-          <Route path={PATHS.profile} element={<OnDevelop />} />
-          <Route path={PATHS.staff} element={<StaffManagement />} />
-          <Route path={PATHS.store} element={<OnDevelop />} />
-          <Route path={PATHS.dev} element={<Dev />} />
-          <Route path={PATHS.profile} element={<UserProfile />} />
+          {routerGroup.map(({ path, element, isRequireAuth }, idx) => (
+            <Route
+              key={`${path}-${idx}`}
+              path={path}
+              element={
+                <CustomRoute pageRequiredAuth={isRequireAuth} isAuthenticated={isAuthenticated}>
+                  {element}
+                </CustomRoute>
+              }
+            />
+          ))}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
-      <CustomErrorBoundary showErrorMessage></CustomErrorBoundary>
+      <AuthContainer />
       <ToastContainer />
       <CustomDialog />
-    </Stack>
+      <CustomErrorBoundary showErrorMessage></CustomErrorBoundary>
+    </Screen>
   );
 };
 
-export default Container;
+export default connect(mapStateToProps, undefined)(Container);

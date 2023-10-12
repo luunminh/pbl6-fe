@@ -1,11 +1,12 @@
-import { UpdateProfilePayload } from './type';
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
-import { UAMApi } from '.';
 import { responseWrapper } from '@shared';
+import { UpdateProfilePayload } from './type';
+import { ProfileApi } from '.';
 
 export function useUpdateProfile(options?: UseMutationOptions<any, Error, UpdateProfilePayload>) {
   const { mutate: updateProfile, isLoading } = useMutation<any, Error, UpdateProfilePayload>({
-    mutationFn: (payload: UpdateProfilePayload) => responseWrapper(UAMApi.updateProfile, [payload]),
+    mutationFn: (payload: UpdateProfilePayload) =>
+      responseWrapper(ProfileApi.updateProfile, [payload]),
     ...options,
   });
 

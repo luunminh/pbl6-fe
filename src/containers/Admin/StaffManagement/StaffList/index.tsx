@@ -10,9 +10,8 @@ import { allColumns } from './allColumns';
 import { FormValue, USER_FILTER_QUERY_KEY, formValueKey } from './helpers';
 import { IoAdd } from 'react-icons/io5';
 import { DialogContext, DialogType } from '@components';
-import AddNewStaffForm from '../StaffForms/AddNewStaffForm';
-import DeactivateStaffForm from '../StaffForms/DeactivateStaffForm';
-import ActivateStaffForm from '../StaffForms/ActivateStaffForm';
+import NewStaffForm from '../StaffForms/NewStaffForm';
+import StatusStaffForm from '../StaffForms/StatusStaffForm';
 
 const UserManagement: React.FC = () => {
   const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
@@ -21,43 +20,30 @@ const UserManagement: React.FC = () => {
     setDialogContent({
       type: DialogType.CONTENT_DIALOG,
       title: 'Add New Staff',
-      data: <AddNewStaffForm />,
+      data: <NewStaffForm />,
       maxWidth: 'md',
     });
     openModal();
   };
 
-  const handleOpenDialogDeactivate = useCallback(() => {
-    setDialogContent({
-      type: DialogType.YESNO_DIALOG,
-      title: 'Deactivate Staff',
-      hideTitle: true,
-      data: <DeactivateStaffForm />,
-      isWarning: true,
-      okText: 'Yes',
-      cancelText: 'Cancel',
-      onOk: closeModal,
-      onCancel: closeModal,
-      maxWidth: 'xs',
-    });
-    openModal();
-  }, [closeModal, openModal, setDialogContent]);
-
-  const handleOpenDialogActivate = useCallback(() => {
-    setDialogContent({
-      type: DialogType.YESNO_DIALOG,
-      title: 'Activate Staff',
-      hideTitle: true,
-      data: <ActivateStaffForm />,
-      isWarning: true,
-      okText: 'Yes',
-      cancelText: 'Cancel',
-      onOk: closeModal,
-      onCancel: closeModal,
-      maxWidth: 'xs',
-    });
-    openModal();
-  }, [closeModal, openModal, setDialogContent]);
+  const handleChangeStaffStatus = useCallback(
+    (isDeactivate: boolean) => {
+      setDialogContent({
+        type: DialogType.YESNO_DIALOG,
+        title: 'Deactivate Staff',
+        hideTitle: true,
+        data: <StatusStaffForm isDeactivate={isDeactivate} />,
+        isWarning: isDeactivate,
+        okText: 'Yes',
+        cancelText: 'Cancel',
+        onOk: closeModal,
+        onCancel: closeModal,
+        maxWidth: 'xs',
+      });
+      openModal();
+    },
+    [closeModal, openModal, setDialogContent],
+  );
 
   const { staffs, totalRecords, setParams, isFetching } = useGetAllStaff({
     onError: (error) => {
@@ -97,8 +83,8 @@ const UserManagement: React.FC = () => {
   );
 
   const columns = useMemo(
-    () => allColumns({ handleOpenDialogDeactivate, handleOpenDialogActivate }),
-    [handleOpenDialogDeactivate, handleOpenDialogActivate],
+    () => allColumns({ onOpenStaffStatus: handleChangeStaffStatus }),
+    [handleChangeStaffStatus],
   );
 
   return (

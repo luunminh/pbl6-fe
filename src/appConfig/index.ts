@@ -1,5 +1,6 @@
 const configs = {
   API_URL: import.meta.env.VITE_API_URL,
+  COOKIE_DOMAIN: import.meta.env.VITE_COOKIE_DOMAIN,
 };
 
 const table = {

@@ -1,11 +1,12 @@
 import { PATHS } from '@appConfig/paths';
-import SplashScreen from './StartupContainers/SplashScreen';
-import { Navigate, useLocation } from 'react-router';
 import { CustomErrorBoundary } from '@components';
 import React, { PropsWithChildren } from 'react';
+import { Navigate } from 'react-router';
 import Dev from './Dev';
+import SplashScreen from './StartupContainers/SplashScreen';
 const OnDevelop = React.lazy(() => import('./StartupContainers/OnDevelop'));
 const StaffList = React.lazy(() => import('./Admin/StaffManagement/StaffList'));
+const ProductManagement = React.lazy(() => import('./Admin/ProductManagement/ProductList'));
 const CustomerList = React.lazy(() => import('./Admin/CustomerManagement/CustomerList'));
 const CategoryList = React.lazy(() => import('./Admin/CategoryManagement/CategoryList'));
 const UserProfile = React.lazy(() => import('@components/UserProfile/UserProfile'));
@@ -45,8 +46,8 @@ export const routerGroup = [
   { path: PATHS.category, element: <CategoryList />, isRequireAuth: true },
   { path: PATHS.store, element: <OnDevelop />, isRequireAuth: true },
   { path: PATHS.order, element: <OnDevelop />, isRequireAuth: true },
-  { path: PATHS.product, element: <OnDevelop />, isRequireAuth: true },
   { path: PATHS.staff, element: <StaffList />, isRequireAuth: true },
+  { path: PATHS.product, element: <ProductManagement />, isRequireAuth: true },
   { path: PATHS.customer, element: <CustomerList />, isRequireAuth: true },
   { path: PATHS.profile, element: <UserProfile />, isRequireAuth: true },
   { path: PATHS.dev, element: <Dev />, isRequireAuth: true },

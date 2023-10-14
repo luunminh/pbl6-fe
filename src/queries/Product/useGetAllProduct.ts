@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
-import { GetPropertiesParams, StaffApi, StaffResponse } from '.';
 import { isEmpty, PaginationResponseType, responseWrapper } from 'src/modules/shared';
 import { ApiKey } from '../keys';
+import { GetPropertiesParams, ProductApi, ProductResponse } from '@queries';
+import toastify from '@shared/services/toastify';
 
-export function useGetAllStaff(
-  options?: UseQueryOptions<PaginationResponseType<StaffResponse>, Error>,
+export function useGetAllProduct(
+  options?: UseQueryOptions<PaginationResponseType<ProductResponse>, Error>,
 ) {
   const [params, setParams] = useState<GetPropertiesParams>({});
   const {
@@ -13,12 +14,18 @@ export function useGetAllStaff(
     error,
     isError,
     isFetching,
-    refetch: onGetAllStaffs,
-  } = useQuery<PaginationResponseType<StaffResponse>, Error>([ApiKey.USERS_LIST, params], {
+    refetch: onGetAllProducts,
+  } = useQuery<PaginationResponseType<ProductResponse>, Error>([ApiKey.PRODUCTS, params], {
     queryFn: (query) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const [_, ...params] = query.queryKey;
-      return responseWrapper<PaginationResponseType<StaffResponse>>(StaffApi.getStaffList, params);
+      return responseWrapper<PaginationResponseType<ProductResponse>>(
+        ProductApi.getProductList,
+        params,
+      );
+    },
+    onError: (error) => {
+      toastify.error(error.message);
     },
     notifyOnChangeProps: ['data', 'isFetching'],
     keepPreviousData: true,
@@ -28,20 +35,20 @@ export function useGetAllStaff(
 
   const queryClient = useQueryClient();
 
-  const handleInvalidateAllStaffs = () => queryClient.invalidateQueries([ApiKey.USERS_LIST]);
+  const handleInvalidateAllProducts = () => queryClient.invalidateQueries([ApiKey.PRODUCTS]);
 
-  const { data: staffs = [], hasNext, payloadSize, totalRecords } = data || {};
+  const { data: products = [], hasNext, payloadSize, totalRecords } = data || {};
 
   return {
-    staffs,
+    products,
     hasNext,
     payloadSize,
     totalRecords,
     error,
     isError,
     isFetching,
-    onGetAllStaffs,
+    onGetAllProducts,
     setParams,
-    handleInvalidateAllStaffs,
+    handleInvalidateAllProducts,
   };
 }

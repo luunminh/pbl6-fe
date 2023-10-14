@@ -76,16 +76,10 @@ export const allColumns = ({ onOpenStaffStatus }: ColumnProps): MUIDataTableColu
     },
     {
       name: '',
-      label: 'Action',
-      setCellProps: () => ({
-        style: {},
-      }),
+      label: 'Actions',
       options: {
         filter: false,
         sort: false,
-        setCellProps: () => ({
-          style: { width: '80px' },
-        }),
         customBodyRender: (
           _value: string,
           meta:

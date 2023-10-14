@@ -43,7 +43,7 @@ export type StaffList = {};
 
 export type StaffListParams = TableParams;
 
-export interface StaffResponse {
+export type StaffResponse = {
   id: string;
   email: string;
   username: string;

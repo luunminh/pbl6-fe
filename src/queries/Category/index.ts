@@ -6,4 +6,5 @@ export * from './useGetAllCategories';
 export * from './useGetCategoryDetails';
 export * from './useAddCategory';
 export * from './useUpdateCategory';
+export * from './useGetAllCategoryLazy';
 export * from './type';

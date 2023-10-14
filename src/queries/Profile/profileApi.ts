@@ -4,7 +4,7 @@ import appConfig from 'src/appConfig';
 import { UpdateProfilePayload } from './type';
 import { ApiKey } from '@queries/keys';
 import { AuthService } from '@shared';
-import { ChangePasswordPayload } from '@queries/UAM';
+import { ChangePasswordPayload } from '@components';
 
 axios.defaults.withCredentials = true;
 const create = (baseURL = `${appConfig.API_URL}`) => {

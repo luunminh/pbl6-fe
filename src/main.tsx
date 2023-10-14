@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.scss';
 import { ONE_HOUR } from './appConfig/constants';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from 'src/modules/components/configs';
 import Container from './containers';
@@ -59,6 +60,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 </Suspense>
               </BrowserRouter>
             </ProSidebarProvider>
+            <ReactQueryDevtools />
           </QueryClientProvider>
         </DialogProvider>
       </Provider>

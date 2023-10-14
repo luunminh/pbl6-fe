@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { MUIDataTableColumn } from 'mui-datatables';
 import { GENDER_NAME } from 'src/queries';
 import { customStatusRender } from '../../StaffManagement/StaffList/helpers';

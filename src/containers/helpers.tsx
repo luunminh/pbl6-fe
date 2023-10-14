@@ -5,8 +5,9 @@ import { CustomErrorBoundary } from '@components';
 import React, { PropsWithChildren } from 'react';
 import Dev from './Dev';
 const OnDevelop = React.lazy(() => import('./StartupContainers/OnDevelop'));
-const StaffManagement = React.lazy(() => import('./Admin/StaffManagement/StaffList'));
+const StaffList = React.lazy(() => import('./Admin/StaffManagement/StaffList'));
 const CustomerList = React.lazy(() => import('./Admin/CustomerManagement/CustomerList'));
+const CategoryList = React.lazy(() => import('./Admin/CategoryManagement/CategoryList'));
 const UserProfile = React.lazy(() => import('@components/UserProfile/UserProfile'));
 const SignIn = React.lazy(() => import('@components/UAMContainer/SignIn'));
 const ForgotPassword = React.lazy(() => import('@components/UAMContainer/ForgotPassword/'));
@@ -41,11 +42,11 @@ export const routerGroup = [
   { path: PATHS.forgotPassword, element: <ForgotPassword />, isRequireAuth: false },
   { path: PATHS.resetPassword, element: <ResetPassword />, isRequireAuth: false },
   { path: PATHS.dashboard, element: <OnDevelop />, isRequireAuth: true },
-  { path: PATHS.category, element: <OnDevelop />, isRequireAuth: true },
-  { path: PATHS.customer, element: <CustomerList />, isRequireAuth: true },
+  { path: PATHS.category, element: <CategoryList />, isRequireAuth: true },
+  { path: PATHS.store, element: <OnDevelop />, isRequireAuth: true },
   { path: PATHS.order, element: <OnDevelop />, isRequireAuth: true },
   { path: PATHS.product, element: <OnDevelop />, isRequireAuth: true },
-  { path: PATHS.staff, element: <StaffManagement />, isRequireAuth: true },
+  { path: PATHS.staff, element: <StaffList />, isRequireAuth: true },
   { path: PATHS.customer, element: <CustomerList />, isRequireAuth: true },
   { path: PATHS.profile, element: <UserProfile />, isRequireAuth: true },
   { path: PATHS.dev, element: <Dev />, isRequireAuth: true },

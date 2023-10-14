@@ -1,7 +1,7 @@
 export enum AddStaffFormFields {
   FIRST_NAME = 'firstName',
   LAST_NAME = 'lastName',
-  // ROLE = 'role',
+  ROLE = 'role',
   GENDER = 'gender',
   PHONE_NUMBER = 'phoneNumber',
   EMAIL = 'email',

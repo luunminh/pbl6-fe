@@ -10,7 +10,7 @@ import {
   Button,
 } from '@mui/material';
 import { Select } from '@components';
-import { CustomTextField, COLOR_CODE } from '@components';
+import { COLOR_CODE, MuiTextField } from '@components';
 import { useFormik } from 'formik';
 import { AddStaffFormFieldsType, AddStaffFormFields } from './type';
 import { useAddStaff } from '@queries/Staff/useAddStaff';
@@ -60,72 +60,46 @@ const NewStaffForm = () => {
     <form onSubmit={handleSubmit}>
       <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={6}>
-          <Stack spacing="10px">
-            <FormLabel id="label-first-name" className="form__label">
-              First name
-            </FormLabel>
-            <CustomTextField
-              required
-              placeholder="First name"
-              id="firstName"
-              name="firstName"
-              aria-labelledby="label-first-name"
-              size="small"
-              error={getFieldErrorMessage(AddStaffFormFields.FIRST_NAME) ? true : false}
-              {...getFieldProps(AddStaffFormFields.FIRST_NAME)}
-            />
-            {getFieldErrorMessage(AddStaffFormFields.FIRST_NAME) ? (
-              <Typography variant="h6" sx={{ color: COLOR_CODE.DANGER }}>
-                {getFieldErrorMessage(AddStaffFormFields.FIRST_NAME)}
-              </Typography>
-            ) : null}
-          </Stack>
+          <MuiTextField
+            required
+            fullWidth
+            size="small"
+            label="First name"
+            placeholder="First name"
+            errorMessage={getFieldErrorMessage(AddStaffFormFields.FIRST_NAME)}
+            {...getFieldProps(AddStaffFormFields.FIRST_NAME)}
+          />
         </Grid>
         <Grid item xs={6}>
-          <Stack spacing="10px">
-            <FormLabel id="label-last-name" className="form__label">
-              Last name
-            </FormLabel>
-            <CustomTextField
-              required
-              placeholder="Last name"
-              id="lastName"
-              name="lastName"
-              aria-labelledby="label-last-name"
-              size="small"
-              error={getFieldErrorMessage(AddStaffFormFields.LAST_NAME) ? true : false}
-              {...getFieldProps(AddStaffFormFields.LAST_NAME)}
-            />
-            {getFieldErrorMessage(AddStaffFormFields.LAST_NAME) ? (
-              <Typography variant="h6" sx={{ color: COLOR_CODE.DANGER }}>
-                {getFieldErrorMessage(AddStaffFormFields.LAST_NAME)}
-              </Typography>
-            ) : null}
-          </Stack>
+          <MuiTextField
+            required
+            fullWidth
+            size="small"
+            label="Last name"
+            placeholder="Last name"
+            errorMessage={getFieldErrorMessage(AddStaffFormFields.LAST_NAME)}
+            {...getFieldProps(AddStaffFormFields.LAST_NAME)}
+          />
         </Grid>
         <Grid item xs={6}>
           <Stack spacing="10px">
             <FormLabel id="label-role" className="form__label">
-              Role
+              Role <span className="text-red-500 font-bold text-md">*</span>
             </FormLabel>
             <Select
               onChange={() => {}}
-              value={'1'}
+              value={values[AddStaffFormFields.ROLE]}
               placeholder="Choose a role"
               options={roleOptions}
               className={'cmp-select--size-small'}
+              // errorMessage={getFieldErrorMessage(AddStaffFormFields.ROLE)}
             />
-            {/* {getFieldErrorMessage(AddStaffFormFields.ROLE) ? (
-              <Typography variant="h6" sx={{ color: COLOR_CODE.DANGER }}>
-                {getFieldErrorMessage(AddStaffFormFields.ROLE)}
-              </Typography>
-            ) : null} */}
           </Stack>
         </Grid>
         <Grid item xs={6}>
           <Stack spacing="10px">
             <FormLabel id="label-gender" className="form__label">
-              Gender
+              Gender <span className="text-red-500 font-bold text-md">*</span>
             </FormLabel>
             <RadioGroup
               row
@@ -152,80 +126,45 @@ const NewStaffForm = () => {
           </Stack>
         </Grid>
         <Grid item xs={6}>
-          <Stack spacing="10px">
-            <FormLabel id="label-phone-number" className="form__label">
-              Phone number
-            </FormLabel>
-            <CustomTextField
-              required
-              placeholder="Phone number"
-              id="phoneNumber"
-              name="phoneNumber"
-              size="small"
-              error={getFieldErrorMessage(AddStaffFormFields.PHONE_NUMBER) ? true : false}
-              {...getFieldProps(AddStaffFormFields.PHONE_NUMBER)}
-            />
-            {getFieldErrorMessage(AddStaffFormFields.PHONE_NUMBER) ? (
-              <Typography variant="h6" sx={{ color: COLOR_CODE.DANGER }}>
-                {getFieldErrorMessage(AddStaffFormFields.PHONE_NUMBER)}
-              </Typography>
-            ) : null}
-          </Stack>
+          <MuiTextField
+            required
+            fullWidth
+            size="small"
+            label="Phone number"
+            placeholder="Phone number"
+            errorMessage={getFieldErrorMessage(AddStaffFormFields.PHONE_NUMBER)}
+            {...getFieldProps(AddStaffFormFields.PHONE_NUMBER)}
+          />
         </Grid>
         <Grid item xs={6}>
-          <Stack spacing="10px">
-            <FormLabel id="label-email" className="form__label">
-              Email
-            </FormLabel>
-            <CustomTextField
-              required
-              placeholder="Email"
-              id="email"
-              name="email"
-              size="small"
-              error={getFieldErrorMessage(AddStaffFormFields.EMAIL) ? true : false}
-              {...getFieldProps(AddStaffFormFields.EMAIL)}
-            />
-            {getFieldErrorMessage(AddStaffFormFields.EMAIL) ? (
-              <Typography variant="h6" sx={{ color: COLOR_CODE.DANGER }}>
-                {getFieldErrorMessage(AddStaffFormFields.EMAIL)}
-              </Typography>
-            ) : null}
-          </Stack>
+          <MuiTextField
+            required
+            fullWidth
+            size="small"
+            label="Email"
+            placeholder="Email"
+            errorMessage={getFieldErrorMessage(AddStaffFormFields.EMAIL)}
+            {...getFieldProps(AddStaffFormFields.EMAIL)}
+          />
         </Grid>
         <Grid item xs={12}>
-          <Stack spacing="10px">
-            <FormLabel id="label-address" className="form__label">
-              Address
-            </FormLabel>
-            <CustomTextField
-              required
-              placeholder="Address"
-              id="address"
-              name="address"
-              size="small"
-              error={getFieldErrorMessage(AddStaffFormFields.ADDRESS) ? true : false}
-              {...getFieldProps(AddStaffFormFields.ADDRESS)}
-            />
-            {getFieldErrorMessage(AddStaffFormFields.ADDRESS) ? (
-              <Typography variant="h6" sx={{ color: COLOR_CODE.DANGER }}>
-                {getFieldErrorMessage(AddStaffFormFields.ADDRESS)}
-              </Typography>
-            ) : null}
-          </Stack>
+          <MuiTextField
+            required
+            fullWidth
+            multiline
+            size="small"
+            label="Address"
+            placeholder="Address"
+            errorMessage={getFieldErrorMessage(AddStaffFormFields.ADDRESS)}
+            {...getFieldProps(AddStaffFormFields.ADDRESS)}
+          />
         </Grid>
         <Grid item xs={12}>
           <Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-            <Button
-              variant="outlined"
-              color="inherit"
-              type="button"
-              disabled={isLoading}
-              onClick={closeModal}
-            >
+            <Button variant="outlined" color="inherit" disabled={isLoading} onClick={closeModal}>
               Cancel
             </Button>
-            <Button variant="contained" disabled={isLoading} type="submit">
+            <Button variant="contained" color="primary" disabled={isLoading} type="submit">
               Add
             </Button>
           </Stack>

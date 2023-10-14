@@ -1,4 +1,4 @@
-import { ChangePasswordPayload } from '../UAM/type';
+import { ChangePasswordPayload } from '@components';
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
 import { responseWrapper } from '@shared';
 import { ProfileApi } from '.';

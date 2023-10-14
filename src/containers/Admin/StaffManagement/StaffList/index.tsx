@@ -13,7 +13,7 @@ import { DialogContext, DialogType } from '@components';
 import NewStaffForm from '../StaffForms/NewStaffForm';
 import StatusStaffForm from '../StaffForms/StatusStaffForm';
 
-const UserManagement: React.FC = () => {
+const StaffList: React.FC = () => {
   const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
 
   const handleOpenDialogAdd = () => {
@@ -124,4 +124,4 @@ const UserManagement: React.FC = () => {
   );
 };
 
-export default UserManagement;
+export default StaffList;

@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { CustomTableSearch, EmptyTable, Table } from '@components';
 import { Container, Stack, Typography } from '@mui/material';
 import { Toastify } from '@shared';

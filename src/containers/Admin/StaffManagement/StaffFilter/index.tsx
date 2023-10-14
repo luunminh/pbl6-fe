@@ -29,6 +29,7 @@ const StaffFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
 
   const handleSubmitSearchAndFilter = (values: FormValue) => {
     const { roles, active } = values;
+    query.delete('page');
     if (!isEmpty(roles)) {
       query.delete(USER_FILTER_QUERY_KEY._USER_ROLE);
       roles.forEach((item) => {
@@ -38,7 +39,6 @@ const StaffFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
       query.delete(USER_FILTER_QUERY_KEY._USER_ROLE);
     }
     query.delete(USER_FILTER_QUERY_KEY._STATUS);
-    console.log('active', active);
     if (active === 'true') {
       query.append(USER_FILTER_QUERY_KEY._STATUS, 'true');
     } else if (active === 'false') {
@@ -72,8 +72,6 @@ const StaffFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
     onSubmit: handleSubmitSearchAndFilter,
   });
   const { setValues, handleSubmit, getFieldProps, values, setFieldValue } = formik;
-
-  console.log('values', values);
 
   return (
     <Container maxWidth="xs" sx={{ p: 2 }}>

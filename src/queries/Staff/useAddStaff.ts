@@ -16,7 +16,7 @@ export function useAddStaff(options?: UseMutationOptions<any, Error, AddStaffPay
 
   const queryClient = useQueryClient();
 
-  const handleInvalidateStaffList = () => queryClient.invalidateQueries([ApiKey._USERS_LIST]);
+  const handleInvalidateStaffList = () => queryClient.invalidateQueries([ApiKey.ADD_STAFF]);
 
   return {
     addStaff,

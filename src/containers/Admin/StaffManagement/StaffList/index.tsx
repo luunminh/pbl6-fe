@@ -48,7 +48,6 @@ const StaffList: React.FC = () => {
   const { staffs, totalRecords, setParams, isFetching } = useGetAllStaff({
     onError: (error) => {
       Toastify.error(error?.message);
-      console.log('error', error);
     },
   });
 

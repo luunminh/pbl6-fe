@@ -26,7 +26,6 @@ const create = (baseURL = `${appConfig.API_URL}`) => {
   const getStaffList = (params: StaffListParams) => {
     const { ...tableParams } = params;
     const queryString = stringify(tableParams);
-    console.log('queryString', queryString);
     return api.get(`/admin/users?${queryString}`, {});
   };
 

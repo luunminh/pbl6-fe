@@ -3,7 +3,6 @@ import { useGetProfile } from '@queries/Profile/useGetProfile';
 import { setAuthenticated, setCurrentRole, setProfile } from '@redux/auth/authSlice';
 import { IRootState } from '@redux/store';
 import { AuthService, Toastify } from '@shared';
-import { useEffect } from 'react';
 import { connect } from 'react-redux';
 const AuthContainer: React.FC<Props> = ({
   isAuthenticated,
@@ -15,7 +14,7 @@ const AuthContainer: React.FC<Props> = ({
     onSuccessCallback: (data) => {
       handleCheckRole(data);
     },
-    onErrorCallback: () => {
+    onErrorCallback: (error) => {
       Toastify.error('Failed to get profile. Please try to login again!');
       clearAuth();
     },
@@ -33,10 +32,10 @@ const AuthContainer: React.FC<Props> = ({
   };
 
   const clearAuth = () => {
-    AuthService.clearToken();
     onSetAuth(false);
     onSetCurrentRole(null);
     onSetProfile(null);
+    AuthService.clearToken();
   };
 
   return null;

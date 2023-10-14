@@ -22,7 +22,7 @@ export function useGetProfile(
     isSuccess,
   } = useQuery<ApiResponseType<ProfileResponse>, Error, ProfileResponse>([ApiKey.PROFILE], {
     queryFn: handleGetProfile,
-    notifyOnChangeProps: ['data'],
+    notifyOnChangeProps: ['data', 'isFetching'],
     ...options,
   });
 

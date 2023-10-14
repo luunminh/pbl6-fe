@@ -10,7 +10,7 @@ export interface IAuthState {
 }
 
 export const initialState: IAuthState = {
-  isAuthenticated: false,
+  isAuthenticated: null,
   user: null,
   currentRole: null,
   isLoggingOut: false,

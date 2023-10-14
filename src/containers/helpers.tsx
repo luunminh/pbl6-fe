@@ -8,7 +8,7 @@ const OnDevelop = React.lazy(() => import('./StartupContainers/OnDevelop'));
 const StaffManagement = React.lazy(() => import('./Admin/StaffManagement/StaffList'));
 const CustomerList = React.lazy(() => import('./Admin/CustomerManagement/CustomerList'));
 const UserProfile = React.lazy(() => import('@components/UserProfile/UserProfile'));
-const SignIn = React.lazy(() => import('@components/UAMContainer/SignIn/'));
+const SignIn = React.lazy(() => import('@components/UAMContainer/SignIn'));
 const ForgotPassword = React.lazy(() => import('@components/UAMContainer/ForgotPassword/'));
 const ResetPassword = React.lazy(() => import('@components/UAMContainer/ResetPassword/'));
 // import SplashScreen from './StartupContainers/SplashScreen';
@@ -48,5 +48,5 @@ export const routerGroup = [
   { path: PATHS.staff, element: <StaffManagement />, isRequireAuth: true },
   { path: PATHS.customer, element: <CustomerList />, isRequireAuth: true },
   { path: PATHS.profile, element: <UserProfile />, isRequireAuth: true },
-  { path: PATHS.dev, element: <Dev />, isRequireAuth: false },
+  { path: PATHS.dev, element: <Dev />, isRequireAuth: true },
 ];

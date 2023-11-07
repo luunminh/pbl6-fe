@@ -69,7 +69,7 @@ export const allColumns = ({
           const rowData = tableData.at(rowIndex) as StaffResponse;
           return (
             <Stack flexDirection="row">
-              <Tooltip title="view" arrow placement="top">
+              <Tooltip title="View" arrow placement="top">
                 <IconButton
                   onClick={(event) => {
                     event.stopPropagation();
@@ -79,7 +79,7 @@ export const allColumns = ({
                   <IoEye color={COLOR_CODE.GREY_600} size={20} />
                 </IconButton>
               </Tooltip>
-              <Tooltip title="edit" arrow placement="top">
+              <Tooltip title="Edit" arrow placement="top">
                 <IconButton
                   onClick={(event) => {
                     event.stopPropagation();
@@ -89,7 +89,7 @@ export const allColumns = ({
                   <IoPencil color={COLOR_CODE.GREY_600} size={20} />
                 </IconButton>
               </Tooltip>
-              <Tooltip title="delete" arrow placement="top">
+              <Tooltip title="Delete" arrow placement="top">
                 <IconButton
                   onClick={(event) => {
                     event.stopPropagation();

@@ -138,7 +138,7 @@ const StaffFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
                   p={1}
                   borderRadius="8px 8px 0 0"
                 >
-                  Role
+                  Status
                 </Typography>
                 <RadioGroup
                   sx={{ display: 'flex', gap: 2, flexDirection: 'column', mx: 2 }}

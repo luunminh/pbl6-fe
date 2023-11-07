@@ -8,7 +8,11 @@ const InputSkeleton = () => (
   </>
 );
 
-const ProductFormSkeleton = () => (
+type Props = {
+  readonly?: boolean;
+};
+
+const ProductFormSkeleton: React.FC<Props> = ({ readonly }) => (
   <Stack margin="0 -24px -24px">
     <Box
       sx={{
@@ -44,26 +48,28 @@ const ProductFormSkeleton = () => (
           gap={1}
         >
           <Skeleton variant="rectangular" sx={{ height: '100%' }} />
-          <Button disabled>Add Image</Button>
+          {!readonly && <Button disabled>Add Image</Button>}
         </Stack>
       </Stack>
     </Box>
-    <Stack
-      direction="row"
-      justifyContent="space-between"
-      alignItems="center"
-      sx={{
-        mt: 1,
-        padding: '16px 24px 24px 24px',
-        gap: 2,
-        borderRadius: '0 0 16px 16px',
-      }}
-    >
-      <Button variant="outlined" className="mr-16" disabled>
-        Cancel
-      </Button>
-      <Button disabled>Edit</Button>
-    </Stack>
+    {!readonly && (
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{
+          mt: 1,
+          padding: '16px 24px 24px 24px',
+          gap: 2,
+          borderRadius: '0 0 16px 16px',
+        }}
+      >
+        <Button variant="outlined" className="mr-16" disabled>
+          Cancel
+        </Button>
+        <Button disabled>Save</Button>
+      </Stack>
+    )}
   </Stack>
 );
 

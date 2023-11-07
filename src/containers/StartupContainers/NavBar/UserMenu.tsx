@@ -114,7 +114,7 @@ const UserMenu: React.FC<Props> = ({ profile }) => {
         >
           <Avatar
             sx={{ width: 32, height: 32, bgcolor: COLOR_CODE.PRIMARY, fontSize: 13 }}
-            src={undefined}
+            src={profile.avatarUrl}
           >
             {getShortName({ ...profile })}
           </Avatar>

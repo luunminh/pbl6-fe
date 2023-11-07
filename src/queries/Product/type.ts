@@ -11,6 +11,7 @@ export type ProductResponse = {
   name: string;
   description: string;
   amount: number;
+  image: string;
   price: number;
   category: CategoryResponse;
   createdAt: string;
@@ -22,6 +23,7 @@ export type ProductListParams = TableParams;
 export type ProductPayload = {
   id: string;
   name: string;
+  image: string;
   description: string;
   price: number;
   categoryId: string;

@@ -15,6 +15,7 @@ export const initialProduct: ProductPayload = {
   name: null,
   description: null,
   price: 0,
+  image: null,
   categoryId: null,
 };
 

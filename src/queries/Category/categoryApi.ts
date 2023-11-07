@@ -26,7 +26,6 @@ const create = (baseURL = `${appConfig.API_URL}`) => {
   const getCategoryList = (params: CategoryListParams) => {
     const { ...tableParams } = params;
     const queryString = stringify(tableParams);
-    // console.log('queryString', queryString);
     return api.get(`${ApiKey.CATEGORY}?${queryString}`);
   };
 

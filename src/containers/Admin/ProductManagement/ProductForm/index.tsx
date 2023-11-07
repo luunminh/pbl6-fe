@@ -24,12 +24,13 @@ import {
 } from '@queries';
 import { Toastify, getErrorMessage } from '@shared';
 import { Form, FormikProvider, useFormik } from 'formik';
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { PRODUCT_KEY, ProductSchema, ProductToastMessage, initialProduct } from './helpers';
 import toastify from '@shared/services/toastify';
 import { PRODUCT_FORM_KEY, handleKeyDown } from '../helpers';
 import ProductFormSkeleton from './ProductFormSkeleton';
 import { IMAGES } from '@appConfig/images';
+import UploadImage from '@components/UploadImage';
 
 type Props = {
   productId?: string;
@@ -38,6 +39,12 @@ type Props = {
 };
 
 const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
+  const [imageUrl, setImageUrl] = useState<string>(null);
+
+  const handleImageUrlChange = (newUrl: string) => {
+    setImageUrl(newUrl);
+  };
+
   const { productData, isLoadingProduct } = useGetProductById({
     onError: (error) => Toastify.error(error.message),
     id: productId,
@@ -57,6 +64,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
 
   const INITIAL: ProductPayload = useMemo(() => {
     if (productData) {
+      setImageUrl(productData.image);
       return {
         ...initialProduct,
         id: productData.id,
@@ -83,7 +91,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
   const { onUpdateProduct, isUpdating } = useUpdateProduct({
     onSuccess: () => {
       handleInvalidateAllProducts();
-      Toastify.success(ProductToastMessage.ADD_SUCCESS);
+      Toastify.success(ProductToastMessage.UPDATE_SUCCESS);
       closeModal();
     },
     onError: (error) => Toastify.error(error?.message),
@@ -103,6 +111,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
     const payload: ProductPayload = {
       ...values,
       price: Number(values.price),
+      image: imageUrl,
     };
     isEditing ? onUpdateProduct(payload) : onAddNewProduct(payload);
   };
@@ -121,8 +130,6 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
 
   if (isLoadingProduct) return <ProductFormSkeleton />;
 
-  // TODO image
-
   return (
     <Stack margin="0 -24px -24px">
       <FormikProvider value={formik}>
@@ -133,7 +140,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
               flexDirection: 'column',
               maxHeight: 550,
               overflow: 'hidden',
-              overflowY: 'scroll',
+              overflowY: 'auto',
             }}
           >
             <Stack direction="row" justifyContent="space-evenly" padding="24px" gap={2}>
@@ -163,10 +170,15 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
                   placeholder="Enter description"
                   fullWidth
                   multiline
-                  minRows={4}
+                  rows={5}
                   size="small"
                   readOnly={readonly}
                   {...getFieldProps(PRODUCT_KEY.DESCRIPTION)}
+                  InputProps={{
+                    inputProps: {
+                      maxLength: 255,
+                    },
+                  }}
                 />
                 <MuiSelect
                   label="Select category"
@@ -223,8 +235,15 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
                   width: '100%',
                 }}
               >
-                <Image src={IMAGES.noImage} sx={{ height: '100%', objectFit: 'cover' }} />
-                <Button>Add Image</Button>
+                {readonly ? (
+                  <Image src={IMAGES.noImage} sx={{ height: '100%', objectFit: 'scale-down' }} />
+                ) : (
+                  <UploadImage
+                    importTypeId={`product:${productData.id}`}
+                    imageUrl={imageUrl}
+                    handleImageUrlChange={handleImageUrlChange}
+                  />
+                )}
               </Stack>
             </Stack>
           </Box>

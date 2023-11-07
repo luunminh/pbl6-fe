@@ -1,9 +1,6 @@
 import { ProductPayload } from '@queries';
 import * as yup from 'yup';
-
-export enum ProductErrorMessage {
-  BLANK = 'This field cannot be blank.',
-}
+import { ERROR_MESSAGES } from '@shared/utils/message';
 
 export enum ProductToastMessage {
   ADD_SUCCESS = 'New product has been added successfully.',
@@ -20,11 +17,11 @@ export const initialProduct: ProductPayload = {
 };
 
 export const ProductSchema = yup.object().shape({
-  id: yup.string().required(ProductErrorMessage.BLANK).nullable(),
-  name: yup.string().required(ProductErrorMessage.BLANK).nullable(),
-  description: yup.string().required(ProductErrorMessage.BLANK).nullable(),
-  price: yup.number().required(ProductErrorMessage.BLANK).nullable().min(1),
-  categoryId: yup.string().required(ProductErrorMessage.BLANK).nullable(),
+  id: yup.string().required(ERROR_MESSAGES.FIELD_REQUIRED).nullable(),
+  name: yup.string().required(ERROR_MESSAGES.FIELD_REQUIRED).nullable(),
+  description: yup.string().required(ERROR_MESSAGES.FIELD_REQUIRED).nullable(),
+  price: yup.number().required(ERROR_MESSAGES.FIELD_REQUIRED).nullable().min(1),
+  categoryId: yup.string().required(ERROR_MESSAGES.FIELD_REQUIRED).nullable(),
 });
 
 export enum PRODUCT_KEY {

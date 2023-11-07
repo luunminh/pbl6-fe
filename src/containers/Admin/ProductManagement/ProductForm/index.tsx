@@ -128,7 +128,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
   const getFieldErrorMessage = (fieldName: string) =>
     getErrorMessage(fieldName, { touched, errors });
 
-  if (isLoadingProduct) return <ProductFormSkeleton />;
+  if (isLoadingProduct) return <ProductFormSkeleton readonly={readonly} />;
 
   return (
     <Stack margin="0 -24px -24px">
@@ -181,8 +181,8 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
                   }}
                 />
                 <MuiSelect
-                  label="Select category"
-                  placeholder="not found"
+                  label="Category"
+                  placeholder="Choose a category"
                   required
                   size="small"
                   defaultValue={productData?.category?.name ?? null}
@@ -261,6 +261,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
             >
               <Button
                 variant="outlined"
+                color="inherit"
                 onClick={closeModal}
                 disabled={isLoadingProduct || isAdding || isUpdating}
               >
@@ -270,6 +271,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
                 type="submit"
                 disabled={isLoadingProduct || isAdding || isUpdating}
                 variant="contained"
+                color="primary"
               >
                 {isEditing ? 'Save' : 'Add'}
               </Button>

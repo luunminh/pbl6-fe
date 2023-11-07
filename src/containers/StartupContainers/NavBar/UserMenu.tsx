@@ -22,12 +22,8 @@ const UserMenu: React.FC<Props> = ({ profile }) => {
   const handleLogOut = () => {
     setDialogContent({
       type: DialogType.YESNO_DIALOG,
-      title: 'Confirm logging out',
-      data: (
-        <Typography fontSize={14} fontWeight={500}>
-          You are logging out from the admin portal. Do you want to continue?
-        </Typography>
-      ),
+      contentText: 'Log Out',
+      subContentText: 'Are you sure you want to log out?',
       maxWidth: 'xs',
       onOk: () => {
         logout();

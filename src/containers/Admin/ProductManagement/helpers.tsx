@@ -8,6 +8,7 @@ export enum PRODUCT_FORM_KEY {
   description = 'description',
   price = 'price',
   categoryId = 'categoryId',
+  image = 'image',
 }
 
 export const formValueKey = [PRODUCT_FILTER_QUERY_KEY.Categories];

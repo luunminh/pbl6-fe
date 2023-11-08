@@ -7,7 +7,7 @@ import {
   Table,
 } from '@components';
 import { Button, Container, Stack, Typography } from '@mui/material';
-import { GetPropertiesParams, StaffResponse, useGetAllProduct } from '@queries';
+import { GetPropertiesParams, StaffResponse, useDeleteProduct, useGetAllProduct } from '@queries';
 import { Toastify } from '@shared';
 import { MUIDataTableOptions } from 'mui-datatables';
 import React, { useCallback, useContext, useMemo } from 'react';
@@ -21,9 +21,16 @@ import { allColumns } from './allColumns';
 const ProductManagement: React.FC = () => {
   const { openModal, setDialogContent } = useContext(DialogContext);
 
-  const { products, totalRecords, setParams, isFetching } = useGetAllProduct({
-    onError: (error) => {
-      Toastify.error(error?.message);
+  const { products, totalRecords, setParams, isFetching, handleInvalidateAllProducts } =
+    useGetAllProduct({
+      onError: (error) => {
+        Toastify.error(error?.message);
+      },
+    });
+
+  const { onDeleteProduct } = useDeleteProduct({
+    onSuccess() {
+      handleInvalidateAllProducts();
     },
   });
 
@@ -61,8 +68,12 @@ const ProductManagement: React.FC = () => {
     [openModal, setDialogContent],
   );
 
-  // TODO delete product
-  const handleDelete = useCallback((rowData: StaffResponse) => {}, []);
+  const handleDelete = useCallback(
+    (rowData: StaffResponse) => {
+      onDeleteProduct({ id: rowData.id });
+    },
+    [onDeleteProduct],
+  );
 
   const handleView = useCallback(
     (rowData: StaffResponse) => {

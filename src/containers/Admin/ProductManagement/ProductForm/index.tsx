@@ -27,7 +27,7 @@ import {
 import { Toastify, getErrorMessage } from '@shared';
 import toastify from '@shared/services/toastify';
 import { Form, FormikProvider, useFormik } from 'formik';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { PRODUCT_FORM_KEY, handleKeyDown } from '../helpers';
 import ProductFormSkeleton from './ProductFormSkeleton';
 import { PRODUCT_KEY, ProductSchema, ProductToastMessage, initialProduct } from './helpers';
@@ -39,10 +39,8 @@ type Props = {
 };
 
 const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
-  const [imageUrl, setImageUrl] = useState<string>(null);
-
   const handleImageUrlChange = (newUrl: string) => {
-    setImageUrl(newUrl);
+    setFieldValue(PRODUCT_FORM_KEY.image, newUrl);
   };
 
   const { productData, isLoadingProduct } = useGetProductById({
@@ -64,7 +62,6 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
 
   const INITIAL: ProductPayload = useMemo(() => {
     if (productData) {
-      setImageUrl(productData.image);
       return {
         ...initialProduct,
         id: productData.id,
@@ -72,6 +69,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
         description: productData.description,
         name: productData.name,
         price: productData.price,
+        image: productData.image,
       };
     }
     return { ...initialProduct };
@@ -111,7 +109,6 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
     const payload: ProductPayload = {
       ...values,
       price: Number(values.price),
-      image: imageUrl,
     };
     isEditing ? onUpdateProduct(payload) : onAddNewProduct(payload);
   };
@@ -123,7 +120,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
     enableReinitialize: true,
   });
 
-  const { errors, touched, getFieldProps, handleSubmit, setFieldValue } = formik;
+  const { errors, touched, getFieldProps, handleSubmit, setFieldValue, values } = formik;
 
   const getFieldErrorMessage = (fieldName: string) =>
     getErrorMessage(fieldName, { touched, errors });
@@ -233,14 +230,18 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
                   border: `1px solid ${COLOR_CODE.GREY_300} `,
                   borderRadius: 2,
                   width: '100%',
+                  justifyContent: 'center',
                 }}
               >
                 {readonly ? (
-                  <Image src={IMAGES.noImage} sx={{ height: '100%', objectFit: 'scale-down' }} />
+                  <Image
+                    src={values.image || IMAGES.noImage}
+                    sx={{ height: '100%', objectFit: 'scale-down' }}
+                  />
                 ) : (
                   <UploadImage
-                    importTypeId={`product:${productData.id}`}
-                    imageUrl={imageUrl}
+                    importTypeId={`product:${productData?.id}`}
+                    imageUrl={values.image}
                     handleImageUrlChange={handleImageUrlChange}
                   />
                 )}

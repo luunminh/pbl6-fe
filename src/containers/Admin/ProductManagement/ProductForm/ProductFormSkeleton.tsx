@@ -48,7 +48,6 @@ const ProductFormSkeleton: React.FC<Props> = ({ readonly }) => (
           gap={1}
         >
           <Skeleton variant="rectangular" sx={{ height: '100%' }} />
-          {!readonly && <Button disabled>Add Image</Button>}
         </Stack>
       </Stack>
     </Box>

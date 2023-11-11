@@ -7,7 +7,7 @@ import {
   Table,
 } from '@components';
 import { Button, Container, Stack, Typography } from '@mui/material';
-import { GetPropertiesParams, StaffResponse, useDeleteProduct, useGetAllProduct } from '@queries';
+import { GetPropertiesParams, ProductResponse, useDeleteProduct, useGetAllProduct } from '@queries';
 import { Toastify } from '@shared';
 import { MUIDataTableOptions } from 'mui-datatables';
 import React, { useCallback, useContext, useMemo } from 'react';
@@ -17,9 +17,10 @@ import ProductFilter from '../ProductFilter';
 import ProductForm from '../ProductForm';
 import { PRODUCT_FILTER_QUERY_KEY, ProductFilterFormValue, formValueKey } from '../helpers';
 import { allColumns } from './allColumns';
+import { ProductToastMessage } from '../ProductForm/helpers';
 
 const ProductManagement: React.FC = () => {
-  const { openModal, setDialogContent } = useContext(DialogContext);
+  const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
 
   const { products, totalRecords, setParams, isFetching, handleInvalidateAllProducts } =
     useGetAllProduct({
@@ -31,6 +32,7 @@ const ProductManagement: React.FC = () => {
   const { onDeleteProduct } = useDeleteProduct({
     onSuccess() {
       handleInvalidateAllProducts();
+      Toastify.success(ProductToastMessage.DELETE_SUCCESS);
     },
   });
 
@@ -56,7 +58,7 @@ const ProductManagement: React.FC = () => {
   };
 
   const handleEdit = useCallback(
-    (rowData: StaffResponse) => {
+    (rowData: ProductResponse) => {
       setDialogContent({
         type: DialogType.CONTENT_DIALOG,
         title: 'Edit Product',
@@ -68,15 +70,26 @@ const ProductManagement: React.FC = () => {
     [openModal, setDialogContent],
   );
 
-  const handleDelete = useCallback(
-    (rowData: StaffResponse) => {
-      onDeleteProduct({ id: rowData.id });
-    },
-    [onDeleteProduct],
-  );
+  const handleDelete = useCallback((rowData: ProductResponse) => {
+    setDialogContent({
+      type: DialogType.YESNO_DIALOG,
+      maxWidth: 'xs',
+      contentText: 'Delete Product',
+      subContentText: "Are you sure you want to delete this product? This action can't be undone.",
+      showIcon: true,
+      isWarning: true,
+      okText: 'Yes',
+      onOk: () => {
+        onDeleteProduct({ id: rowData.id });
+        closeModal();
+      },
+    });
+    openModal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleView = useCallback(
-    (rowData: StaffResponse) => {
+    (rowData: ProductResponse) => {
       setDialogContent({
         type: DialogType.CONTENT_DIALOG,
         title: 'Product Detail',

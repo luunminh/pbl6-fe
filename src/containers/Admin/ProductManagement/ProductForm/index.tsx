@@ -156,6 +156,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
                   errorMessage={getFieldErrorMessage(PRODUCT_KEY.PRODUCT_NAME)}
                   placeholder="Enter product name"
                   fullWidth
+                  multiline
                   size="small"
                   readOnly={readonly}
                   {...getFieldProps(PRODUCT_KEY.PRODUCT_NAME)}
@@ -242,6 +243,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
                   <UploadImage
                     importTypeId={`product:${productData?.id}`}
                     imageUrl={values.image}
+                    uploadMethod={isEditing ? 'UPDATE' : 'ADD'}
                     handleImageUrlChange={handleImageUrlChange}
                   />
                 )}

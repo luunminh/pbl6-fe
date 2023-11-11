@@ -5,6 +5,7 @@ export * from './useAddProduct';
 export * from './useDeleteProduct';
 export * from './useGetProductById';
 export * from './useUpdateProduct';
+export * from './useImportProduct';
 
 // export crud queries
 

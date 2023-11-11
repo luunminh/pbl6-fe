@@ -32,3 +32,24 @@ export type ProductPayload = {
 export interface DeleteProductPayload {
   id: string;
 }
+
+export enum ExportType {
+  CSV = 'CSV',
+  EXCEL = 'EXCEL',
+  PDF = 'PDF',
+}
+
+export interface ExportFileParams {
+  id: string;
+  exportType: ExportType;
+}
+
+export interface ImportDetail {
+  productStoreId: string;
+  amount: number;
+  pricePerProduct: number;
+}
+
+export interface ImportPayload {
+  importOrderDetails: ImportDetail[];
+}

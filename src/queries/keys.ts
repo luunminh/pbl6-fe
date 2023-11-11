@@ -10,6 +10,7 @@ export enum ApiKey {
   CATEGORY = 'admin/category',
   IMAGE = 'admin/files',
   STORE = 'admin/stores',
+  PRODUCTS_STORE = 'admin/products/stores',
 }
 
 export type QueryOptions<T> = Omit<UseQueryOptions, 'QueryKey'> & { QueryKey: T };

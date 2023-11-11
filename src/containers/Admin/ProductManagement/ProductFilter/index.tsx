@@ -21,6 +21,8 @@ const ProductFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
     useGetAllCategoryLazy({
       onError: (error) => toastify.error(error.message),
     });
+
+  console.log('categoryOptions', categoryOptions);
   const navigate = useNavigate();
   const { search } = useLocation();
 

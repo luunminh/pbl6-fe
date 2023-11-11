@@ -2,7 +2,13 @@ import axios from 'axios';
 import apisauce from 'apisauce';
 import appConfig from 'src/appConfig';
 import { AuthService, stringify } from '@shared';
-import { DeleteProductPayload, ProductListParams, ProductPayload } from '@queries';
+import {
+  DeleteProductPayload,
+  ExportFileParams,
+  ImportPayload,
+  ProductListParams,
+  ProductPayload,
+} from '@queries';
 
 axios.defaults.withCredentials = true;
 const create = (baseURL = `${appConfig.API_URL}`) => {
@@ -45,12 +51,24 @@ const create = (baseURL = `${appConfig.API_URL}`) => {
     return api.delete(`/admin/products/${id}`, {});
   };
 
+  const getProductStoreExportFile = (exportParams: ExportFileParams) => {
+    const { id, ...params } = exportParams;
+    const queryString = stringify(params);
+    return api.get(`/admin/products/stores/${id}?${queryString}`, {});
+  };
+
+  const importProduct = (body: ImportPayload) => {
+    return api.post('/admin/import-order/', body);
+  };
+
   return {
     getProductList,
     getProductById,
     addNewProduct,
     updateProduct,
     deleteProduct,
+    getProductStoreExportFile,
+    importProduct,
   };
 };
 

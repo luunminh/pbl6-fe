@@ -33,11 +33,12 @@ const create = (baseURL = `${appConfig.API_URL}`) => {
     return api.get(`${ApiKey.CATEGORY}/${id}`);
   };
 
-  const addCategory = (body: CategoryPayload) => {
-    return api.post(`${ApiKey.CATEGORY}`, body);
+  const addCategory = (payload: CategoryPayload) => {
+    return api.post(`${ApiKey.CATEGORY}`, payload);
   };
 
-  const updateCategory = (id: string, body: CategoryPayload) => {
+  const updateCategory = (payload: CategoryPayload) => {
+    const { id, ...body } = payload;
     return api.patch(`${ApiKey.CATEGORY}/${id}`, body);
   };
 

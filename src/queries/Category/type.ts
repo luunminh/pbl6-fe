@@ -18,6 +18,7 @@ export type ProductsType = {
 export interface CategoryListResponse {
   id: string;
   name: string;
+  image: string;
   description: string;
   _count: CountType;
   createdAt: string;
@@ -26,17 +27,15 @@ export interface CategoryListResponse {
 export interface CategoryDetailsResponse {
   id: string;
   name: string;
+  image: string;
   description: string;
   products: ProductsType[];
   createdAt: string;
 }
 
 export type CategoryPayload = {
+  id?: string;
   name: string;
+  image: string;
   description: string;
-};
-
-export type UpdateCategoryPayload = {
-  id: string;
-  body: CategoryPayload;
 };

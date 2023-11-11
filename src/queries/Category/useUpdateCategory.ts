@@ -1,13 +1,13 @@
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
-import { UpdateCategoryPayload } from './type';
+import { CategoryPayload } from './type';
 import { CategoryApi } from '.';
 import { responseWrapper } from '@shared';
 
-export function useUpdateCategory(options?: UseMutationOptions<any, Error, UpdateCategoryPayload>) {
-  const handleUpdateCategory = ({ id, body }: UpdateCategoryPayload) =>
-    responseWrapper(CategoryApi.updateCategory, [id, body]);
+export function useUpdateCategory(options?: UseMutationOptions<any, Error, CategoryPayload>) {
+  const handleUpdateCategory = (payload: CategoryPayload) =>
+    responseWrapper(CategoryApi.updateCategory, [payload]);
 
-  const { mutate: updateCategory, isLoading } = useMutation<any, Error, UpdateCategoryPayload>({
+  const { mutate: updateCategory, isLoading } = useMutation<any, Error, CategoryPayload>({
     mutationFn: handleUpdateCategory,
     ...options,
   });

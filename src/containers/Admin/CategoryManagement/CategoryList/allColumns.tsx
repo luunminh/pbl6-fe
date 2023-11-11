@@ -1,9 +1,10 @@
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
-import { IconButton, Tooltip } from '@mui/material';
+import { IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { IoPencil } from 'react-icons/io5';
-import { COLOR_CODE } from '@components';
+import { COLOR_CODE, Image } from '@components';
 import { CategoryListResponse, CountType } from '@queries/Category';
 import { tableBodyRender, getDate } from '@shared';
+import { IMAGES } from '@appConfig/images';
 
 type ColumnProps = {
   handleOpenCategoryDialog: (..._args: any[]) => void;
@@ -17,7 +18,24 @@ export const allColumns = ({ handleOpenCategoryDialog }: ColumnProps): MUIDataTa
       options: {
         filter: false,
         sort: true,
-        customBodyRender: (value: string) => tableBodyRender<string>(value),
+        customBodyRender: (
+          value,
+          tableMeta:
+            | MUIDataTableMeta
+            | (Omit<MUIDataTableMeta, 'tableData'> & { tableData: CategoryListResponse[] }),
+        ) => {
+          const { tableData, rowIndex } = tableMeta;
+          const rowData = tableData.at(rowIndex) as CategoryListResponse;
+          return (
+            <Stack flexDirection="row" alignItems="center" gap={1}>
+              <Image
+                src={rowData.image || IMAGES.noImage}
+                sx={{ width: '80px', height: '80px', objectFit: 'contain' }}
+              />
+              <Typography variant="body2">{tableBodyRender<string>(value)}</Typography>
+            </Stack>
+          );
+        },
       },
     },
     {
@@ -63,7 +81,7 @@ export const allColumns = ({ handleOpenCategoryDialog }: ColumnProps): MUIDataTa
             | (Omit<MUIDataTableMeta, 'tableData'> & { tableData: CategoryListResponse[] }),
         ) => {
           const { tableData, rowIndex } = tableMeta;
-          const rowData = tableData.at(rowIndex);
+          const rowData = tableData.at(rowIndex) as CategoryListResponse;
           return (
             <Tooltip title="Edit" placement="top" arrow>
               <IconButton
@@ -71,18 +89,6 @@ export const allColumns = ({ handleOpenCategoryDialog }: ColumnProps): MUIDataTa
                 onClick={(event) => {
                   event.stopPropagation();
                   handleOpenCategoryDialog(rowData.id);
-                }}
-                sx={{
-                  '.MuiIconButton-root': {
-                    width: '30px',
-                    height: '30px',
-                  },
-                  '&:hover': {
-                    bgcolor: COLOR_CODE.WHITE,
-                    boxShadow:
-                      '0px 0px 2px 0px rgba(0, 0, 0, 0.10), 0px 2px 4px 0px rgba(0, 0, 0, 0.05)',
-                    borderRadius: '4px',
-                  },
                 }}
               >
                 <IoPencil color={COLOR_CODE.GREY_600} size={20} />

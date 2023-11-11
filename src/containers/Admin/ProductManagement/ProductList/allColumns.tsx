@@ -1,9 +1,10 @@
-import { COLOR_CODE } from '@components';
-import { IconButton, Stack, Tooltip } from '@mui/material';
+import { IMAGES } from '@appConfig/images';
+import { COLOR_CODE, Image } from '@components';
+import { IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { Callback, formatMoney, tableBodyRender } from '@shared';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { IoEye, IoPencil, IoTrashBin } from 'react-icons/io5';
-import { CategoryResponse, StaffResponse } from 'src/queries';
+import { CategoryResponse, ProductResponse } from 'src/queries';
 
 type ColumnProps = {
   handleDelete: Callback;
@@ -23,7 +24,24 @@ export const allColumns = ({
       options: {
         filter: false,
         sort: true,
-        customBodyRender: (value: string) => tableBodyRender(value),
+        customBodyRender: (
+          value,
+          tableMeta:
+            | MUIDataTableMeta
+            | (Omit<MUIDataTableMeta, 'tableData'> & { tableData: ProductResponse[] }),
+        ) => {
+          const { tableData, rowIndex } = tableMeta;
+          const rowData = tableData.at(rowIndex) as ProductResponse;
+          return (
+            <Stack flexDirection="row" alignItems="center" gap={1}>
+              <Image
+                src={rowData.image || IMAGES.noImage}
+                sx={{ width: '80px', height: '80px', objectFit: 'contain' }}
+              />
+              <Typography variant="body2">{tableBodyRender<string>(value)}</Typography>
+            </Stack>
+          );
+        },
       },
     },
     {
@@ -40,7 +58,7 @@ export const allColumns = ({
       label: 'Quantity',
       options: {
         filter: false,
-        sort: false,
+        sort: true,
         customBodyRender: (value: number) => tableBodyRender<number>(value),
       },
     },
@@ -49,7 +67,7 @@ export const allColumns = ({
       label: 'Price',
       options: {
         filter: false,
-        sort: false,
+        sort: true,
         customBodyRender: (value: number) => tableBodyRender(formatMoney(value)),
       },
     },
@@ -63,10 +81,10 @@ export const allColumns = ({
           _value: string,
           meta:
             | MUIDataTableMeta
-            | (Omit<MUIDataTableMeta, 'tableData'> & { tableData: StaffResponse[] }),
+            | (Omit<MUIDataTableMeta, 'tableData'> & { tableData: ProductResponse[] }),
         ) => {
           const { tableData, rowIndex } = meta;
-          const rowData = tableData.at(rowIndex) as StaffResponse;
+          const rowData = tableData.at(rowIndex) as ProductResponse;
           return (
             <Stack flexDirection="row">
               <Tooltip title="View" arrow placement="top">

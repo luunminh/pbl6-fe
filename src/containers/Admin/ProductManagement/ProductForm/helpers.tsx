@@ -5,6 +5,7 @@ import { ERROR_MESSAGES } from '@shared/utils/message';
 export enum ProductToastMessage {
   ADD_SUCCESS = 'New product has been added successfully.',
   UPDATE_SUCCESS = 'Product has been updated successfully.',
+  DELETE_SUCCESS = 'Product has been deleted successfully.',
 }
 
 export const initialProduct: ProductPayload = {

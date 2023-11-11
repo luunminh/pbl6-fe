@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import { getErrorMessage, isEmpty, Toastify } from '@shared';
 import { StoreResponse, useAddStore, useGetAllStores, useUpdateStore } from '@queries/Store';
 import { StoreFormFields, StoreFormFieldsType } from './type';
-import { initialStoreFormValues, storeFormValidationSchema } from './helpers';
+import { initialStoreFormValues, storeFormValidationSchema, StoreToastMessage } from './helpers';
 
 type PropsType = {
   store: StoreResponse;
@@ -21,7 +21,7 @@ const StoreForm = ({ store }: PropsType) => {
   const { addStore, isLoading: isAdding } = useAddStore({
     onSuccess: () => {
       handleInvalidateStoreList();
-      Toastify.success('Added successfully!');
+      Toastify.success(StoreToastMessage.ADD_SUCCESS);
       closeModal();
     },
     onError: (error) => Toastify.error(error?.message),
@@ -30,20 +30,20 @@ const StoreForm = ({ store }: PropsType) => {
   const { updateStore, isLoading: isUpdating } = useUpdateStore({
     onSuccess: () => {
       handleInvalidateStoreList();
-      Toastify.success('Updated successfully!');
+      Toastify.success(StoreToastMessage.UPDATE_SUCCESS);
       closeModal();
     },
     onError: (error) => Toastify.error(error?.message),
   });
 
   const handleSubmitStore = (formValues: StoreFormFieldsType) => {
-    const { address } = formValues;
-    isEdit ? updateStore({ id: store.id, address: address }) : addStore({ address });
+    const { address, hotline } = formValues;
+    isEdit ? updateStore({ id: store.id, address, hotline }) : addStore({ address, hotline });
   };
 
   const getInitialStoreFormValues = useMemo((): StoreFormFieldsType => {
     if (isEdit && store) {
-      return { address: store.address };
+      return { address: store.address, hotline: store.hotline };
     }
     return { ...initialStoreFormValues };
   }, [isEdit, store]);
@@ -74,6 +74,17 @@ const StoreForm = ({ store }: PropsType) => {
             disabled={isSubmitting}
             errorMessage={getFieldErrorMessage(StoreFormFields.ADDRESS)}
             {...getFieldProps(StoreFormFields.ADDRESS)}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <MuiTextField
+            required
+            fullWidth
+            size="small"
+            label="Hotline"
+            disabled={isSubmitting}
+            errorMessage={getFieldErrorMessage(StoreFormFields.HOTLINE)}
+            {...getFieldProps(StoreFormFields.HOTLINE)}
           />
         </Grid>
         <Grid item xs={12}>

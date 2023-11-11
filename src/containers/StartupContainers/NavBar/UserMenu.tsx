@@ -85,7 +85,7 @@ const UserMenu: React.FC<Props> = ({ profile }) => {
         icon: <AiOutlineLock size={18} />,
       },
       {
-        label: 'Log out',
+        label: 'Log Out',
         onClick: handleLogOut,
         icon: <IoLogOutOutline size={18} />,
       },

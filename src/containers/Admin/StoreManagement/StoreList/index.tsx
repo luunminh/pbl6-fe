@@ -8,6 +8,7 @@ import { IoAdd } from 'react-icons/io5';
 import { isEmpty } from '@shared';
 import StoreForm from '../StoreForm';
 import { StoreListParams, useDeleteStore, useGetAllStores } from '@queries/Store';
+import { StoreToastMessage } from '../StoreForm/helpers';
 
 const StoreList: React.FC = () => {
   const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
@@ -26,7 +27,7 @@ const StoreList: React.FC = () => {
   const { deleteStore } = useDeleteStore({
     onSuccess: () => {
       handleInvalidateStoreList();
-      Toastify.success('Deleted successfully!');
+      Toastify.success(StoreToastMessage.DELETE_SUCCESS);
       closeModal();
     },
     onError: (error) => Toastify.error(error?.message),

@@ -25,6 +25,15 @@ export const allColumns = ({
       },
     },
     {
+      name: 'hotline',
+      label: 'Hotline',
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRender: (value: string) => tableBodyRender<string>(value),
+      },
+    },
+    {
       name: '',
       label: 'Action',
       options: {

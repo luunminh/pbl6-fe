@@ -15,7 +15,12 @@ import { useFormik } from 'formik';
 import { AddStaffFormFieldsType, AddStaffFormFields } from './type';
 import { useAddStaff } from '@queries/Staff/useAddStaff';
 import { Toastify, getErrorMessage } from '@shared';
-import { initialAddStaffFormValues, addStaffFormValidationSchema, roleOptions } from './helpers';
+import {
+  initialAddStaffFormValues,
+  addStaffFormValidationSchema,
+  roleOptions,
+  StaffToastMessage,
+} from './helpers';
 import { DialogContext } from '@components';
 
 const NewStaffForm = () => {
@@ -24,7 +29,7 @@ const NewStaffForm = () => {
   const { addStaff, isLoading, handleInvalidateStaffList } = useAddStaff({
     onSuccess: () => {
       handleInvalidateStaffList();
-      Toastify.success('Added successfully!');
+      Toastify.success(StaffToastMessage.ADD_SUCCESS);
       closeModal();
     },
     onError: (error) => Toastify.error(error?.message),

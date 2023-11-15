@@ -10,6 +10,8 @@ import {
   IoCartOutline,
   IoGrid,
   IoGridOutline,
+  IoReaderOutline,
+  IoReader,
   IoHome,
   IoHomeOutline,
   IoPeople,
@@ -77,6 +79,21 @@ const MenuItems: MenuItemType[] = [
     activeIcon: (
       <div className="title-icon" aria-details="Category">
         <IoGrid size={20} />
+      </div>
+    ),
+  },
+  {
+    label: 'Import Order',
+    path: PATHS.importOrder,
+    activePath: PATHS.importOrder,
+    icon: (
+      <div className="title-icon" aria-details="Import Order">
+        <IoReaderOutline size={20} />
+      </div>
+    ),
+    activeIcon: (
+      <div className="title-icon" aria-details="Import Order">
+        <IoReader size={20} />
       </div>
     ),
   },
@@ -176,34 +193,10 @@ const CustomSidebar: React.FC<Props> = () => {
         collapseSidebar(true);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [broken]);
 
   const handleToggleSidebar = () => (broken ? toggleSidebar() : collapseSidebar());
-
-  //   const handleLogOut = () => {
-  //     onShowDialog({
-  //       type: DIALOG_TYPES._YESNO_DIALOG,
-  //       data: {
-  //         title: 'Log out',
-  //         content: (
-  //           <Typography fontSize={14} fontWeight={500}>
-  //             You are logging out from the admin portal. Do you want to continue?
-  //           </Typography>
-  //         ),
-  //         cancelText: 'Cancel',
-  //         okText: 'Log Out',
-  //         onOk: () => {
-  //           setIsLoggingOut(true);
-  //           //   logout();
-  //           onHideAllDialog();
-  //         },
-  //         onCancel: () => {
-  //           onHideDialog();
-  //         },
-  //         maxWidth: 'xs',
-  //       },
-  //     });
-  //   };
 
   return (
     <Sidebar className={cn('cmp-sidebar')} breakPoint="md">

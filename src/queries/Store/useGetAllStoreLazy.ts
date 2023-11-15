@@ -69,7 +69,7 @@ export function useGetAllStoreLazy(
 
   const queryClient = useQueryClient();
 
-  const handleInvalidateCategories = () => queryClient.invalidateQueries([ApiKey.STORE]);
+  const handleInvalidateStores = () => queryClient.invalidateQueries([ApiKey.STORE]);
 
   return {
     data,
@@ -82,6 +82,6 @@ export function useGetAllStoreLazy(
     getStoreOptions,
     fetchNextPage,
     setParams,
-    handleInvalidateCategories,
+    handleInvalidateStores,
   };
 }

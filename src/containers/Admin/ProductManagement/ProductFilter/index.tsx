@@ -1,4 +1,4 @@
-import { COLOR_CODE, MuiMultiSelect, SelectOption, TableQueryParams } from '@components';
+import { COLOR_CODE, MuiMultiSelect, MuiSelect, SelectOption, TableQueryParams } from '@components';
 import {
   AutocompleteChangeReason,
   AutocompleteInputChangeReason,
@@ -15,28 +15,44 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import React, { useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PRODUCT_FILTER_QUERY_KEY, ProductFilterFormValue } from '../helpers';
+import { useGetAllStoreLazy } from '@queries/Store/useGetAllStoreLazy';
 
 const ProductFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
-  const { categoryOptions, setParams, loading, fetchNextPage, setInputSearch } =
-    useGetAllCategoryLazy({
-      onError: (error) => toastify.error(error.message),
-    });
+  const {
+    categoryOptions,
+    setParams: setCategoriesParams,
+    loading: loadingCategories,
+    fetchNextPage: fetchNextPageCategories,
+    setInputSearch: setInputSearchCategories,
+  } = useGetAllCategoryLazy({
+    onError: (error) => toastify.error(error.message),
+  });
 
-  console.log('categoryOptions', categoryOptions);
+  const {
+    storeOptions,
+    setParams: setStoresParams,
+    loading: loadingStores,
+    fetchNextPage: fetchNextPageStores,
+    setInputSearch: setInputSearchStores,
+  } = useGetAllStoreLazy({
+    onError: (error) => toastify.error(error.message),
+  });
+
   const navigate = useNavigate();
   const { search } = useLocation();
 
   useEffect(() => {
-    setParams({});
+    setCategoriesParams({});
+    setStoresParams({});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const query = useMemo(() => new URLSearchParams(search), [search]);
 
   const handleSubmitSearchAndFilter = (values: ProductFilterFormValue) => {
-    const { categories } = values;
-
+    const { categories, storeId } = values;
     query.delete(TableQueryParams._PAGE);
+
     if (!isEmpty(categories)) {
       query.delete(PRODUCT_FILTER_QUERY_KEY.Categories);
       categories.forEach((item) => {
@@ -45,6 +61,12 @@ const ProductFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
     } else {
       query.delete(PRODUCT_FILTER_QUERY_KEY.Categories);
     }
+
+    if (!isEmpty(storeId)) {
+      query.set(PRODUCT_FILTER_QUERY_KEY.StoreId, storeId);
+    } else {
+      query.delete(PRODUCT_FILTER_QUERY_KEY.StoreId);
+    }
     navigate({ search: query.toString() });
     handleClosePopup();
   };
@@ -52,8 +74,10 @@ const ProductFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
   const handleClearAll = () => {
     setValues({
       categories: null,
+      storeId: null,
     });
     query.delete(PRODUCT_FILTER_QUERY_KEY.Categories);
+    query.delete(PRODUCT_FILTER_QUERY_KEY.StoreId);
     navigate({ search: query.toString() });
     handleClosePopup();
   };
@@ -61,6 +85,7 @@ const ProductFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
   const initialValue: ProductFilterFormValue = useMemo(
     () => ({
       categories: searchValues.categories || [],
+      storeId: searchValues.storeId || null,
     }),
     [searchValues],
   );
@@ -76,12 +101,21 @@ const ProductFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
 
   const handleSearch = (_e: unknown, value: string, reason: AutocompleteInputChangeReason) => {
     if (reason !== 'reset') {
-      setInputSearch(value);
+      setInputSearchCategories(value);
+      setInputSearchStores(value);
     }
   };
 
-  const handleOnChange = (e: unknown, value: SelectOption[], r: AutocompleteChangeReason) => {
+  const handleOnChangeCategory = (
+    e: unknown,
+    value: SelectOption[],
+    r: AutocompleteChangeReason,
+  ) => {
     setFieldValue(PRODUCT_FILTER_QUERY_KEY.Categories, value.map((v) => v.value) || null);
+  };
+
+  const handleOnChangeStore = (e: unknown, value: SelectOption, r: AutocompleteChangeReason) => {
+    setFieldValue(PRODUCT_FILTER_QUERY_KEY.StoreId, value?.value);
   };
 
   return (
@@ -97,19 +131,19 @@ const ProductFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <MuiMultiSelect
-                label="Select category"
-                placeholder="..."
+                label="Select categories"
+                placeholder="Choose a category"
                 required
                 size="small"
                 {...getFieldProps(PRODUCT_FILTER_QUERY_KEY.Categories)}
-                onChange={handleOnChange}
+                onChange={handleOnChangeCategory}
                 onInputChange={handleSearch}
                 options={categoryOptions}
-                onFetchNextPage={fetchNextPage}
+                onFetchNextPage={fetchNextPageCategories}
                 allowLazyLoad
                 filterOptions={(x) => x}
                 isGetOptionOnChange
-                isLoading={loading}
+                isLoading={loadingCategories}
                 onBlur={(event, value, reason) => {
                   if (!value) handleSearch(event, '', reason);
                 }}
@@ -117,12 +151,38 @@ const ProductFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
                 errorMessage={getFieldErrorMessage(PRODUCT_FILTER_QUERY_KEY.Categories)}
               />
             </Grid>
+            <Grid item xs={12}>
+              <MuiSelect
+                label="Select a store"
+                placeholder="Choose a store"
+                required
+                size="small"
+                {...getFieldProps(PRODUCT_FILTER_QUERY_KEY.StoreId)}
+                onChange={handleOnChangeStore}
+                onInputChange={handleSearch}
+                options={storeOptions}
+                onFetchNextPage={fetchNextPageStores}
+                allowLazyLoad
+                filterOptions={(x) => x}
+                isGetOptionOnChange
+                isLoading={loadingStores}
+                onBlur={(event, value, reason) => {
+                  if (!value) handleSearch(event, '', reason);
+                }}
+                noOptionsText={'not found'}
+                errorMessage={getFieldErrorMessage(PRODUCT_FILTER_QUERY_KEY.StoreId)}
+              />
+            </Grid>
             <Grid item xs={12} display="flex" justifyContent="flex-end">
               <Button variant="outlined" sx={{ mr: 2 }} onClick={handleClearAll}>
                 Reset
               </Button>
-
-              <Button type="submit" variant="contained" color="primary">
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                onClick={() => handleSubmit()}
+              >
                 Apply Filter
               </Button>
             </Grid>

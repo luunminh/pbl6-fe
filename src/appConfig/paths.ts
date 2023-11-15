@@ -5,6 +5,7 @@ export const PATHS = {
   dashboard: '/dashboard',
   product: '/product',
   category: '/category',
+  importOrder: '/import-order',
   order: '/order',
   store: '/store',
   customer: '/customer',

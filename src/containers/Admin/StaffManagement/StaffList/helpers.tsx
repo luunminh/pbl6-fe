@@ -29,7 +29,7 @@ export enum USER_FILTER_QUERY_KEY {
   _STATUS = 'active',
 }
 
-export const formValueKey = [USER_FILTER_QUERY_KEY._USER_ROLE, USER_FILTER_QUERY_KEY._STATUS];
+export const filterParamsKey = [USER_FILTER_QUERY_KEY._USER_ROLE, USER_FILTER_QUERY_KEY._STATUS];
 
 export const customStatusRender = (deleteAt: string) => {
   if (!deleteAt) return <Chip label={STATUS._ACTIVE} color="success" />;

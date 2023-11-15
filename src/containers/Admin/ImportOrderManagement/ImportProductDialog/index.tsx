@@ -1,6 +1,6 @@
 import {
   DialogContext,
-  DocumentReview,
+  DocumentPreview,
   FileUpload,
   MuiSelect,
   SelectOption,
@@ -10,39 +10,41 @@ import {
   AutocompleteChangeReason,
   AutocompleteInputChangeReason,
   Button,
-  Divider,
   Stack,
   Typography,
 } from '@mui/material';
 import {
   ExportType,
-  ImportPayload,
-  ProductApi,
+  ImportOrderApi,
+  ImportProductPayload,
   useGetAllProduct,
   useGetAllStoreLazy,
+  useGetImportOrderList,
   useImportProduct,
 } from '@queries';
 import { isEmpty } from '@shared';
 import toastify from '@shared/services/toastify';
+import { isEqual } from 'lodash';
 import Papa, { ParseResult } from 'papaparse';
 import React, { useContext, useEffect, useState } from 'react';
 import { ImportFormat, templateKey } from './helpers';
-import { isEqual } from 'lodash';
 
 type Props = {};
 
-const ImportModal: React.FC<Props> = () => {
+const ImportProductDialog: React.FC<Props> = () => {
   const [storeId, setStoreId] = useState<string>('');
   const [files, setFiles] = useState<UploadFileType[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>(null);
   const { closeModal } = useContext(DialogContext);
 
   const { handleInvalidateAllProducts } = useGetAllProduct();
+  const { handleInvalidateImportOrderList } = useGetImportOrderList();
 
   const { onImportProduct, isImporting } = useImportProduct({
     onSuccess() {
       handleInvalidateAllProducts();
-      toastify.success('Import successfully!');
+      handleInvalidateImportOrderList();
+      toastify.success('Import product successfully!');
       closeModal();
     },
     onError: (error) => toastify.error(error.message),
@@ -68,7 +70,7 @@ const ImportModal: React.FC<Props> = () => {
   };
 
   const downloadFile = () => {
-    ProductApi.getProductStoreExportFile({
+    ImportOrderApi.getProductStoreExportFile({
       id: storeId,
       exportType: ExportType.CSV,
     }).then((res) => {
@@ -80,7 +82,7 @@ const ImportModal: React.FC<Props> = () => {
         downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, { type: 'text/csv' }));
         downloadLink.setAttribute(
           'download',
-          `importTemplate-MALT-${
+          `importProductTemplate-MALT-${
             storeOptions
               .find((store) => store.value === storeId)
               .label.toString()
@@ -102,7 +104,7 @@ const ImportModal: React.FC<Props> = () => {
 
   const handleImport = () => {
     if (isEmpty(files)) {
-      setErrorMessage('No file uploaded.');
+      setErrorMessage('No file uploaded');
       return;
     }
     Papa.parse(files[0].file, {
@@ -129,7 +131,7 @@ const ImportModal: React.FC<Props> = () => {
           return setErrorMessage('This file have wrong format');
         }
 
-        const importPayload: ImportPayload = {
+        const importProductPayload: ImportProductPayload = {
           importOrderDetails: responses.data
             .map((product) => ({
               productStoreId: product.ProductStoreID,
@@ -139,12 +141,12 @@ const ImportModal: React.FC<Props> = () => {
             .filter((product) => product.amount > 0 && product.pricePerProduct > 0),
         };
 
-        if (isEmpty(importPayload.importOrderDetails)) {
+        if (isEmpty(importProductPayload.importOrderDetails)) {
           return setErrorMessage(
-            'You have not enter both the quantity and the price for any product yet!',
+            'You have not enter both the quantity and the price for any product yet',
           );
         }
-        onImportProduct(importPayload);
+        onImportProduct(importProductPayload);
       },
     });
   };
@@ -153,34 +155,54 @@ const ImportModal: React.FC<Props> = () => {
     <Stack margin="0 -24px -24px">
       <Stack
         sx={{
-          padding: '16px 24px 24px 24px',
-          gap: 2,
+          paddingX: '24px',
+          gap: 2.5,
         }}
       >
-        <Typography fontSize={16}>Please choose a store to download the template</Typography>
-        <MuiSelect
-          label=""
-          placeholder="Choose a store"
-          required
-          size="small"
-          value={storeId}
-          onChange={handleOnChange}
-          onInputChange={handleSearch}
-          options={storeOptions}
-          onFetchNextPage={fetchNextPage}
-          allowLazyLoad
-          filterOptions={(x) => x}
-          isGetOptionOnChange
-          isLoading={loading}
-          onBlur={(event, value, reason) => {
-            if (!value) handleSearch(event, '', reason);
-          }}
-          noOptionsText={'not found'}
-        />
-        {storeId && <Button onClick={downloadFile}>Download Template</Button>}
-        <Divider />
+        <Typography fontSize={16}>
+          <strong>Step 1:</strong>&nbsp;Select a store to download the import product template (CSV
+          file).
+        </Typography>
+        <Stack
+          direction="row"
+          width="100%"
+          alignItems="center"
+          justifyContent="space-between"
+          gap={2}
+        >
+          <Stack width={storeId ? '75%' : '100%'}>
+            <MuiSelect
+              label=""
+              placeholder="Choose a store"
+              required
+              size="small"
+              value={storeId}
+              onChange={handleOnChange}
+              onInputChange={handleSearch}
+              options={storeOptions}
+              onFetchNextPage={fetchNextPage}
+              allowLazyLoad
+              filterOptions={(x) => x}
+              isGetOptionOnChange
+              isLoading={loading}
+              onBlur={(event, value, reason) => {
+                if (!value) handleSearch(event, '', reason);
+              }}
+              noOptionsText={'not found'}
+            />
+          </Stack>
+          {storeId && (
+            <Button sx={{ width: '25%' }} variant="outlined" onClick={downloadFile}>
+              Download Template
+            </Button>
+          )}
+        </Stack>
+        <Typography fontSize={16}>
+          <strong>Step 2:</strong>&nbsp;Upload the import product template again after entering data
+          into the downloaded file.
+        </Typography>
         {!isEmpty(files) && (
-          <DocumentReview
+          <DocumentPreview
             doc={files[0]}
             onRemoveAttachment={() => {
               handleResetFile();
@@ -206,9 +228,7 @@ const ImportModal: React.FC<Props> = () => {
         justifyContent="space-between"
         alignItems="center"
         sx={{
-          mt: 1,
-          padding: '16px 24px 24px 24px',
-          gap: 2,
+          padding: '24px',
           borderRadius: '0 0 16px 16px',
         }}
       >
@@ -233,4 +253,4 @@ const ImportModal: React.FC<Props> = () => {
   );
 };
 
-export default ImportModal;
+export default ImportProductDialog;

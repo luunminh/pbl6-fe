@@ -1,5 +1,6 @@
 export enum PRODUCT_FILTER_QUERY_KEY {
   Categories = 'categories',
+  StoreId = 'storeId',
 }
 
 export enum PRODUCT_FORM_KEY {
@@ -11,10 +12,14 @@ export enum PRODUCT_FORM_KEY {
   image = 'image',
 }
 
-export const formValueKey = [PRODUCT_FILTER_QUERY_KEY.Categories];
+export const filterParamsKey = [
+  PRODUCT_FILTER_QUERY_KEY.Categories,
+  PRODUCT_FILTER_QUERY_KEY.StoreId,
+];
 
 export type ProductFilterFormValue = {
   categories: string[];
+  storeId: string;
 };
 
 export const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

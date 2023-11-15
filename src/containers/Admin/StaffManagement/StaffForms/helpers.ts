@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import { AddStaffFormFieldsType } from './type';
-import { getStartCase } from '@shared';
+import { getStartCase, phoneRegExp } from '@shared';
 import { ROLE_ID, ROLE_NAME } from './type';
 import { ERROR_MESSAGES } from '@shared/utils/message';
 
@@ -19,7 +19,13 @@ export const addStaffFormValidationSchema = yup.object({
   lastName: yup.string().nullable().required(ERROR_MESSAGES.FIELD_REQUIRED),
   // role: yup.string().oneOf(['Admin', 'Staff'], 'You must choose a role').required(ERROR_MESSAGES.FIELD_REQUIRED),
   gender: yup.boolean().required(ERROR_MESSAGES.FIELD_REQUIRED),
-  phoneNumber: yup.string().nullable().required(ERROR_MESSAGES.FIELD_REQUIRED),
+  phoneNumber: yup
+    .string()
+    .matches(phoneRegExp, ERROR_MESSAGES.INVALID_DATA)
+    .min(10, 'Phone number must have a minimum of 10 digits')
+    .max(11, 'Phone number have a maximum of 11 digits')
+    .nullable()
+    .required(ERROR_MESSAGES.FIELD_REQUIRED),
   email: yup
     .string()
     .nullable()

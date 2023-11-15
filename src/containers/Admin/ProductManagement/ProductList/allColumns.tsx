@@ -64,7 +64,7 @@ export const allColumns = ({
     },
     {
       name: 'price',
-      label: 'Price',
+      label: 'Selling Price',
       options: {
         filter: false,
         sort: true,

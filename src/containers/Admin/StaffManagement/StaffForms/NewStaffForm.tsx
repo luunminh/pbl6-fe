@@ -22,13 +22,16 @@ import {
   StaffToastMessage,
 } from './helpers';
 import { DialogContext } from '@components';
+import { useGetAllStaff } from '@queries';
 
 const NewStaffForm = () => {
   const { closeModal } = useContext(DialogContext);
 
-  const { addStaff, isLoading, handleInvalidateStaffList } = useAddStaff({
+  const { handleInvalidateAllStaffs } = useGetAllStaff();
+
+  const { addStaff, isLoading } = useAddStaff({
     onSuccess: () => {
-      handleInvalidateStaffList();
+      handleInvalidateAllStaffs();
       Toastify.success(StaffToastMessage.ADD_SUCCESS);
       closeModal();
     },

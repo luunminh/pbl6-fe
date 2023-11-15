@@ -11,14 +11,13 @@ import { GetPropertiesParams, ProductResponse, useDeleteProduct, useGetAllProduc
 import { Toastify } from '@shared';
 import { MUIDataTableOptions } from 'mui-datatables';
 import React, { useCallback, useContext, useMemo } from 'react';
-import { IoAdd, IoCloudUpload } from 'react-icons/io5';
+import { IoAdd } from 'react-icons/io5';
 import { useLocation } from 'react-router-dom';
 import ProductFilter from '../ProductFilter';
 import ProductForm from '../ProductForm';
-import { PRODUCT_FILTER_QUERY_KEY, ProductFilterFormValue, formValueKey } from '../helpers';
+import { PRODUCT_FILTER_QUERY_KEY, ProductFilterFormValue, filterParamsKey } from '../helpers';
 import { allColumns } from './allColumns';
 import { ProductToastMessage } from '../ProductForm/helpers';
-import ImportModal from '../ImportModal';
 
 const ProductManagement: React.FC = () => {
   const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
@@ -42,9 +41,11 @@ const ProductManagement: React.FC = () => {
 
   const paramsUrl: ProductFilterFormValue = useMemo(() => {
     const categoryQuery = query.getAll(PRODUCT_FILTER_QUERY_KEY.Categories) || undefined;
+    const storeIdQuery = query.get(PRODUCT_FILTER_QUERY_KEY.StoreId) || undefined;
 
     return {
       categories: categoryQuery,
+      storeId: storeIdQuery,
     };
   }, [query]);
 
@@ -53,16 +54,6 @@ const ProductManagement: React.FC = () => {
       type: DialogType.CONTENT_DIALOG,
       title: 'Add New Product',
       data: <ProductForm />,
-      maxWidth: 'md',
-    });
-    openModal();
-  };
-
-  const handleImport = () => {
-    setDialogContent({
-      type: DialogType.CONTENT_DIALOG,
-      title: 'Import Product',
-      data: <ImportModal />,
       maxWidth: 'md',
     });
     openModal();
@@ -112,7 +103,7 @@ const ProductManagement: React.FC = () => {
     [openModal, setDialogContent],
   );
 
-  const handleGetUser = (params: GetPropertiesParams) => {
+  const handleGetProductList = (params: GetPropertiesParams) => {
     setParams({ ...params });
   };
 
@@ -141,31 +132,23 @@ const ProductManagement: React.FC = () => {
       <Stack alignItems="center" justifyContent="space-between" flexDirection="row">
         <CustomTableSearch placeholder="Search product..." />
         <Stack justifyContent="flex-end" direction="row" flexGrow={1} alignItems="center" gap={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<IoCloudUpload />}
-            onClick={handleImport}
-          >
-            Import Product
-          </Button>
           <Button variant="contained" color="primary" startIcon={<IoAdd />} onClick={handleAdd}>
             Add new Product
           </Button>
-          <CustomTableFilterContainer filterParamsKeys={formValueKey}>
+          <CustomTableFilterContainer filterParamsKeys={filterParamsKey}>
             <ProductFilter searchValues={paramsUrl} />
           </CustomTableFilterContainer>
         </Stack>
       </Stack>
       <Table
         title=""
-        onAction={handleGetUser}
+        onAction={handleGetProductList}
         isLoading={isFetching}
         data={products}
         tableOptions={tableOptions}
         columns={columns}
         emptyComponent={<EmptyTable />}
-        additionalFilterParams={[PRODUCT_FILTER_QUERY_KEY.Categories]}
+        additionalFilterParams={filterParamsKey}
       />
     </Container>
   );

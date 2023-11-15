@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { GetPropertiesParams, ROLE_ID, useGetAllStaff } from 'src/queries';
 import StaffFilter from '../StaffFilter';
 import { allColumns } from './allColumns';
-import { FormValue, USER_FILTER_QUERY_KEY, formValueKey } from './helpers';
+import { FormValue, USER_FILTER_QUERY_KEY, filterParamsKey } from './helpers';
 import { IoAdd } from 'react-icons/io5';
 import { DialogContext, DialogType } from '@components';
 import NewStaffForm from '../StaffForms/NewStaffForm';
@@ -104,7 +104,7 @@ const StaffList: React.FC = () => {
           >
             Add new staff
           </Button>
-          <CustomTableFilterContainer filterParamsKeys={formValueKey}>
+          <CustomTableFilterContainer filterParamsKeys={filterParamsKey}>
             <StaffFilter searchValues={paramsUrl} />
           </CustomTableFilterContainer>
         </Stack>
@@ -116,7 +116,7 @@ const StaffList: React.FC = () => {
         data={staffs}
         tableOptions={tableOptions}
         columns={columns}
-        additionalFilterParams={[USER_FILTER_QUERY_KEY._USER_ROLE, USER_FILTER_QUERY_KEY._STATUS]}
+        additionalFilterParams={filterParamsKey}
         emptyComponent={<EmptyTable />}
       />
     </Container>

@@ -1,17 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ProductApi, ImportPayload } from '@queries';
 import { responseWrapper } from '@shared';
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+import { ImportProductPayload } from './type';
+import { ImportOrderApi } from '.';
 
-export function useImportProduct(options?: UseMutationOptions<any, Error, ImportPayload>) {
+export function useImportProduct(options?: UseMutationOptions<any, Error, ImportProductPayload>) {
   const {
     mutate: onImportProduct,
     isLoading: isImporting,
     isSuccess,
     isError,
     error,
-  } = useMutation<any, Error, ImportPayload>({
-    mutationFn: (payload: ImportPayload) => responseWrapper(ProductApi.importProduct, [payload]),
+  } = useMutation<any, Error, ImportProductPayload>({
+    mutationFn: (payload: ImportProductPayload) =>
+      responseWrapper(ImportOrderApi.importProduct, [payload]),
     ...options,
   });
 

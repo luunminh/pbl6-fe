@@ -1,8 +1,7 @@
-import { useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react-query';
-import { AddStaffPayload } from './type';
-import { StaffApi } from '.';
 import { responseWrapper } from '@shared';
-import { ApiKey } from '@queries/keys';
+import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+import { StaffApi } from '.';
+import { AddStaffPayload } from './type';
 
 export function useAddStaff(options?: UseMutationOptions<any, Error, AddStaffPayload>) {
   const handleAddStaff = (payload: AddStaffPayload) =>
@@ -14,13 +13,8 @@ export function useAddStaff(options?: UseMutationOptions<any, Error, AddStaffPay
     ...options,
   });
 
-  const queryClient = useQueryClient();
-
-  const handleInvalidateStaffList = () => queryClient.invalidateQueries([ApiKey.ADD_STAFF]);
-
   return {
     addStaff,
     isLoading,
-    handleInvalidateStaffList,
   };
 }

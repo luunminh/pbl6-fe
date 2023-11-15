@@ -140,10 +140,10 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
               overflowY: 'auto',
             }}
           >
-            <Stack direction="row" justifyContent="space-evenly" padding="24px" gap={2}>
+            <Stack direction="row" justifyContent="space-between" paddingX="24px" gap={2}>
               <Stack
                 padding="24px"
-                gap={1}
+                gap={2}
                 sx={{
                   border: `1px solid ${COLOR_CODE.GREY_300} `,
                   borderRadius: 2,
@@ -168,7 +168,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
                   placeholder="Enter description"
                   fullWidth
                   multiline
-                  rows={5}
+                  minRows={5}
                   size="small"
                   readOnly={readonly}
                   {...getFieldProps(PRODUCT_KEY.DESCRIPTION)}
@@ -184,6 +184,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
                   required
                   size="small"
                   defaultValue={productData?.category?.name ?? null}
+                  errorMessage={getFieldErrorMessage(PRODUCT_FORM_KEY.categoryId)}
                   {...getFieldProps(PRODUCT_FORM_KEY.categoryId)}
                   onChange={handleOnChange}
                   onInputChange={handleSearch}
@@ -198,7 +199,6 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
                     if (!value) handleSearch(event, '', reason);
                   }}
                   noOptionsText={'not found'}
-                  errorMessage={getFieldErrorMessage(PRODUCT_FORM_KEY.categoryId)}
                 />
                 {readonly && (
                   <MuiInput
@@ -256,8 +256,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
               justifyContent="space-between"
               alignItems="center"
               sx={{
-                mt: 1,
-                padding: '16px 24px 24px 24px',
+                padding: '24px',
                 gap: 2,
                 borderRadius: '0 0 16px 16px',
               }}

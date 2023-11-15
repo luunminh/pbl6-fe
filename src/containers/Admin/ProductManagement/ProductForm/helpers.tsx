@@ -20,7 +20,11 @@ export const initialProduct: ProductPayload = {
 export const ProductSchema = yup.object().shape({
   id: yup.string().required(ERROR_MESSAGES.FIELD_REQUIRED).nullable(),
   name: yup.string().required(ERROR_MESSAGES.FIELD_REQUIRED).nullable(),
-  description: yup.string().required(ERROR_MESSAGES.FIELD_REQUIRED).nullable(),
+  description: yup
+    .string()
+    .required(ERROR_MESSAGES.FIELD_REQUIRED)
+    .max(180, 'This field must be 180 characters or less')
+    .nullable(),
   price: yup.number().required(ERROR_MESSAGES.FIELD_REQUIRED).nullable().min(1),
   categoryId: yup.string().required(ERROR_MESSAGES.FIELD_REQUIRED).nullable(),
 });

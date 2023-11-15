@@ -128,7 +128,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
   if (isLoadingProduct) return <ProductFormSkeleton readonly={readonly} />;
 
   return (
-    <Stack margin="0 -24px -24px">
+    <Stack marginX="-24px">
       <FormikProvider value={formik}>
         <Form onSubmit={handleSubmit} autoComplete="off">
           <Box
@@ -140,7 +140,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
               overflowY: 'auto',
             }}
           >
-            <Stack direction="row" justifyContent="space-between" paddingX="24px" gap={2}>
+            <Stack direction="row" justifyContent="space-between" padding="0px 24px 8px" gap={2}>
               <Stack
                 padding="24px"
                 gap={2}
@@ -256,7 +256,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
               justifyContent="space-between"
               alignItems="center"
               sx={{
-                padding: '24px',
+                padding: '16px 24px 0px',
                 gap: 2,
                 borderRadius: '0 0 16px 16px',
               }}

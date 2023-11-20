@@ -27,4 +27,5 @@ export default defineConfig({
       './runtimeConfig': './runtimeConfig.browser',
     },
   },
+  base: '/',
 });

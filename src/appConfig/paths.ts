@@ -14,4 +14,5 @@ export const PATHS = {
   logout: '/logout',
   forgotPassword: '/forgot-password',
   resetPassword: '/reset-password',
+  voucher: '/voucher',
 };

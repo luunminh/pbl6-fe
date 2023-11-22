@@ -1,5 +1,5 @@
 import { COLOR_CODE } from '@components';
-import { IconButton, Tooltip } from '@mui/material';
+import { IconButton, Stack, Tooltip } from '@mui/material';
 import { StoreResponse } from '@queries/Store';
 import { tableBodyRender } from '@shared';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
@@ -48,7 +48,7 @@ export const allColumns = ({
           const { tableData, rowIndex } = tableMeta;
           const rowData = tableData.at(rowIndex);
           return (
-            <>
+            <Stack flexDirection={'row'} justifyContent={'center'}>
               <Tooltip title="Edit" placement="top" arrow>
                 <IconButton
                   aria-label="edit store"
@@ -71,9 +71,10 @@ export const allColumns = ({
                   <IoTrashBin color={COLOR_CODE.GREY_600} size={20} />
                 </IconButton>
               </Tooltip>
-            </>
+            </Stack>
           );
         },
+        setCellHeaderProps: () => ({ style: { textAlign: 'center' } }),
       },
     },
   ];

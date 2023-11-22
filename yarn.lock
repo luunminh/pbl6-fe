@@ -4369,6 +4369,13 @@ react-accessible-dropdown-menu-hook@^4.0.0:
   resolved "https://registry.yarnpkg.com/react-accessible-dropdown-menu-hook/-/react-accessible-dropdown-menu-hook-4.0.0.tgz#a07b719f75a7a3661f4800fec16852f2a6350ea6"
   integrity sha512-dquRX+26jBD2Pida0fmePfIYFPlHcAPh7uBSZ3TUJZcb3rRQ0yZXHEz2hFFX1/7vpofx8tIba85qc58tAuuOyg==
 
+react-currency-format@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-currency-format/-/react-currency-format-1.1.0.tgz#efef7f18045fc09a987de270b144f5eec8801dab"
+  integrity sha512-WWrEOIp/3GbDSk1wlhFXaBc7IHGT3IwL306DHbGP3GVr4YFa0iS5hHPbKjHa0haruGL4Ly+WG4/5jBHpUtgqZg==
+  dependencies:
+    prop-types "^15.6.0"
+
 react-datepicker@^4.16.0:
   version "4.16.0"
   resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-4.16.0.tgz#b9dd389bb5611a1acc514bba1dd944be21dd877f"

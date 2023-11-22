@@ -20,6 +20,8 @@ import {
   IoPersonOutline,
   IoStorefront,
   IoStorefrontOutline,
+  IoTicketSharp,
+  IoTicketOutline,
 } from 'react-icons/io5';
 import { Menu, MenuItem, Sidebar, SubMenu, useProSidebar } from 'react-pro-sidebar';
 import { Link, useLocation } from 'react-router-dom';
@@ -154,6 +156,21 @@ const MenuItems: MenuItemType[] = [
     activeIcon: (
       <div className="title-icon" aria-details="Staff">
         <IoPerson size={20} />
+      </div>
+    ),
+  },
+  {
+    label: 'Voucher',
+    path: PATHS.voucher,
+    activePath: PATHS.voucher,
+    icon: (
+      <div className="title-icon" aria-details="Staff">
+        <IoTicketOutline size={20} />
+      </div>
+    ),
+    activeIcon: (
+      <div className="title-icon" aria-details="Staff">
+        <IoTicketSharp size={20} />
       </div>
     ),
   },

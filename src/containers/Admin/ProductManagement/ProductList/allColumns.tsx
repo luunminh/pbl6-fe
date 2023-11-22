@@ -86,7 +86,7 @@ export const allColumns = ({
           const { tableData, rowIndex } = meta;
           const rowData = tableData.at(rowIndex) as ProductResponse;
           return (
-            <Stack flexDirection="row">
+            <Stack flexDirection="row" justifyContent={'center'}>
               <Tooltip title="View" arrow placement="top">
                 <IconButton
                   onClick={(event) => {
@@ -120,6 +120,7 @@ export const allColumns = ({
             </Stack>
           );
         },
+        setCellHeaderProps: () => ({ style: { textAlign: 'center' } }),
       },
     },
   ];

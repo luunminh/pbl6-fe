@@ -12,6 +12,7 @@ export enum ApiKey {
   STORE = '/admin/stores',
   IMPORT_ORDER = '/admin/import-order',
   PRODUCTS_STORE_EXPORT = '/admin/products/stores',
+  VOUCHER = 'voucher',
 }
 
 export type QueryOptions<T> = Omit<UseQueryOptions, 'QueryKey'> & { QueryKey: T };

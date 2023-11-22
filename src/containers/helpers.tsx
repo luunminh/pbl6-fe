@@ -15,6 +15,7 @@ const UserProfile = React.lazy(() => import('@components/UserProfile/UserProfile
 const SignIn = React.lazy(() => import('@components/UAMContainer/SignIn'));
 const ForgotPassword = React.lazy(() => import('@components/UAMContainer/ForgotPassword/'));
 const ResetPassword = React.lazy(() => import('@components/UAMContainer/ResetPassword/'));
+const Vouchers = React.lazy(() => import('./Admin/Voucher/List'));
 // import SplashScreen from './StartupContainers/SplashScreen';
 
 type RouteWrapperProps = {
@@ -53,5 +54,6 @@ export const routerGroup = [
   { path: PATHS.product, element: <ProductList />, isRequireAuth: true },
   { path: PATHS.customer, element: <CustomerList />, isRequireAuth: true },
   { path: PATHS.profile, element: <UserProfile />, isRequireAuth: true },
+  { path: PATHS.voucher, element: <Vouchers />, isRequireAuth: true },
   { path: PATHS.dev, element: <Dev />, isRequireAuth: true },
 ];

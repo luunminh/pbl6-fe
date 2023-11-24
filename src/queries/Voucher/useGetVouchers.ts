@@ -1,5 +1,5 @@
 import { PaginationResponseType, responseWrapper, Callback } from '@shared';
-import { UseQueryOptions, useQuery } from '@tanstack/react-query';
+import { UseQueryOptions, useQuery, useQueryClient } from '@tanstack/react-query';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
 import { ApiKey } from '..';
@@ -52,6 +52,10 @@ export function useGetVouchers(
 
   const { data: vouchers = [], totalRecords } = data || {};
 
+  const queryClient = useQueryClient();
+
+  const handleInvalidateVouchers = () => queryClient.invalidateQueries([ApiKey.VOUCHER]);
+
   return {
     vouchers,
     totalRecords,
@@ -59,5 +63,6 @@ export function useGetVouchers(
     isSuccess,
     isFetching,
     setParams,
+    handleInvalidateVouchers,
   };
 }

@@ -13,13 +13,13 @@ export const VoucherStatusOptions = [
 ];
 
 export type VoucherFilterFormType = {
-  status: string;
+  valid: string;
 };
 
 export enum VoucherFilterFormField {
-  STATUS = 'status',
+  VALID = 'valid',
 }
 
 export const voucherFilterFormInitValue = {
-  status: '',
+  valid: null,
 };

@@ -24,11 +24,11 @@ import {
   useGetProductById,
   useUpdateProduct,
 } from '@queries';
-import { Toastify, getErrorMessage } from '@shared';
+import { Toastify, getErrorMessage, handleKeyDownNumberInput } from '@shared';
 import toastify from '@shared/services/toastify';
 import { Form, FormikProvider, useFormik } from 'formik';
 import React, { useContext, useEffect, useMemo } from 'react';
-import { PRODUCT_FORM_KEY, handleKeyDown } from '../helpers';
+import { PRODUCT_FORM_KEY } from '../helpers';
 import ProductFormSkeleton from './ProductFormSkeleton';
 import { PRODUCT_KEY, ProductSchema, ProductToastMessage, initialProduct } from './helpers';
 
@@ -218,7 +218,7 @@ const ProductForm: React.FC<Props> = ({ productId, isEditing, readonly }) => {
                   fullWidth
                   size="small"
                   readOnly={readonly}
-                  onKeyDown={handleKeyDown}
+                  onKeyDown={handleKeyDownNumberInput}
                   {...getFieldProps(PRODUCT_KEY.PRICE)}
                   InputProps={{
                     endAdornment: 'VND',

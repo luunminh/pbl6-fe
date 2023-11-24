@@ -3,7 +3,7 @@ import { IconButton, Stack, Tooltip } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { IoLockClosed, IoLockOpen } from 'react-icons/io5';
 import { formatDate, formatValueOrNull } from '@shared';
-import { GetVouchersResponse } from '@queries';
+import { GetVouchersResponse, VoucherStatus } from '@queries';
 import { ActionButton } from './components';
 import { renderVoucherStatus } from './helpers';
 
@@ -38,7 +38,6 @@ export const allColumns = (): MUIDataTableColumn[] => {
       label: 'Description',
       options: {
         ...defaultOptions,
-        sort: true,
         customBodyRender: (value: string) => value ?? '--',
       },
     },
@@ -65,8 +64,14 @@ export const allColumns = (): MUIDataTableColumn[] => {
       label: 'Status',
       options: {
         ...defaultOptions,
-        sort: true,
-        customBodyRender: (value: string) => renderVoucherStatus(value),
+        customBodyRender: (value, meta) => {
+          const { tableData, rowIndex } = meta;
+          const rowData = tableData.at(rowIndex) as GetVouchersResponse;
+
+          const status =
+            new Date(rowData.endDate) > new Date() ? VoucherStatus.VALID : VoucherStatus.EXPIRED;
+          return renderVoucherStatus(status);
+        },
       },
     },
     {

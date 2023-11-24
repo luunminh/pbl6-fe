@@ -19,7 +19,7 @@ const VoucherFilter = ({ searchValues, handleClosePopup }: Props) => {
 
   const initialValue: VoucherFilterFormType = useMemo(
     () => ({
-      status: searchValues.status || null,
+      valid: searchValues.valid || null,
     }),
     [searchValues],
   );
@@ -77,15 +77,15 @@ const VoucherFilter = ({ searchValues, handleClosePopup }: Props) => {
               </Typography>
               <RadioGroup
                 sx={{ display: 'flex', gap: 2, flexDirection: 'column', mx: 2 }}
-                {...getFieldProps(VoucherFilterFormField.STATUS)}
-                value={values?.status ?? null}
+                {...getFieldProps(VoucherFilterFormField.VALID)}
+                value={values?.valid ?? null}
               >
                 <Stack flexDirection={'row'} alignItems={'center'} gap={3} mt={1}>
-                  <Radio value={VoucherStatus.VALID} />
+                  <Radio value={'true'} />
                   <Typography>Valid</Typography>
                 </Stack>
                 <Stack flexDirection={'row'} alignItems={'center'} gap={3} mb={1}>
-                  <Radio value={VoucherStatus.EXPIRED} />
+                  <Radio value={'false'} />
                   <Typography>Expired</Typography>
                 </Stack>
               </RadioGroup>

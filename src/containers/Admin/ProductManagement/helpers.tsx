@@ -21,23 +21,3 @@ export type ProductFilterFormValue = {
   categories: string[];
   storeId: string;
 };
-
-export const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-  const { key } = event;
-  const regex = /^[0-9\b]+$/;
-  switch (key) {
-    case 'ArrowLeft':
-      break;
-    case 'ArrowRight':
-      break;
-    case 'Delete':
-      break;
-    case 'Backspace':
-      break;
-    default:
-      if (!regex.test(key)) {
-        event.preventDefault();
-      }
-      break;
-  }
-};

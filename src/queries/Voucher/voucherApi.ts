@@ -5,6 +5,7 @@ import { AuthService, stringify } from 'src/modules/shared';
 import { ApiKey } from '@queries/keys';
 import { TableParams } from '@components';
 import { getMockVoucherList } from 'src/mocks';
+import { DeleteVoucherPayload, VoucherPayload } from './types';
 
 axios.defaults.withCredentials = true;
 const create = (baseURL = `${appConfig.API_URL}`) => {
@@ -27,12 +28,36 @@ const create = (baseURL = `${appConfig.API_URL}`) => {
   const getVouchers = (params: TableParams) => {
     const { ...tableParams } = params;
     const queryString = stringify(tableParams);
-    return getMockVoucherList();
-    // return api.get(`/admin/users?${queryString}`, {});
+    // return getMockVoucherList();
+    return api.get(`/admin/voucher?${queryString}`, {});
+  };
+
+  const getVoucherDetail = (id: string) => {
+    return api.get(`/admin/voucher/${id}`);
+  };
+
+  const addVoucher = (payload: VoucherPayload) => {
+    return api.post(`/admin/voucher`, payload);
+  };
+
+  const updateVoucher = (params: VoucherPayload) => {
+    const formatPayload = {
+      ...params,
+    };
+    delete formatPayload.id;
+    return api.patch(`/admin/voucher/${params.id}`, formatPayload);
+  };
+
+  const deleteVoucher = (payload: DeleteVoucherPayload) => {
+    return api.delete(`/admin/voucher/${payload.id}`, {});
   };
 
   return {
     getVouchers,
+    addVoucher,
+    updateVoucher,
+    deleteVoucher,
+    getVoucherDetail,
   };
 };
 

@@ -2,6 +2,7 @@ import {
   CustomTableFilterContainer,
   CustomTableSearch,
   DialogContext,
+  DialogType,
   EmptyTable,
   Table,
   TableParams,
@@ -16,6 +17,7 @@ import { allColumns } from './allColumns';
 import { VoucherFilterFormField, VoucherFilterFormType } from './components/VoucherFilter/helpers';
 import { VoucherFilter } from './components';
 import { useSearchParams } from 'react-router-dom';
+import VoucherForm from '../VoucherForm';
 
 const VoucherList = () => {
   const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
@@ -30,7 +32,7 @@ const VoucherList = () => {
   const paramsUrl = useMemo(
     () =>
       ({
-        status: searchParams.get(VoucherFilterFormField.STATUS),
+        valid: searchParams.get(VoucherFilterFormField.VALID),
       } as VoucherFilterFormType),
     [searchParams],
   );
@@ -55,7 +57,16 @@ const VoucherList = () => {
 
   const columns = useMemo(() => allColumns(), []);
 
-  const handleOpenAddVoucherModal = () => {};
+  const handleOpenAddVoucherModal = () => {
+    setDialogContent({
+      type: DialogType.CONTENT_DIALOG,
+      title: 'Add New Voucher',
+      maxWidth: 'md',
+      data: <VoucherForm />,
+    });
+
+    openModal();
+  };
 
   return (
     <Container maxWidth={'xl'}>

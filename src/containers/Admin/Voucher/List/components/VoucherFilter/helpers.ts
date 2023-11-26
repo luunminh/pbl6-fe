@@ -7,8 +7,8 @@ export const VoucherStatusOptions = [
     label: getTitleCase(VoucherStatus.VALID),
   },
   {
-    value: VoucherStatus.EXPIRED,
-    label: getTitleCase(VoucherStatus.EXPIRED),
+    value: VoucherStatus.INVALID,
+    label: getTitleCase(VoucherStatus.INVALID),
   },
 ];
 

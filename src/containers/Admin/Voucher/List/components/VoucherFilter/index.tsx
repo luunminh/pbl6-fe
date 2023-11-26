@@ -86,7 +86,7 @@ const VoucherFilter = ({ searchValues, handleClosePopup }: Props) => {
                 </Stack>
                 <Stack flexDirection={'row'} alignItems={'center'} gap={3} mb={1}>
                   <Radio value={'false'} />
-                  <Typography>Expired</Typography>
+                  <Typography>Invalid</Typography>
                 </Stack>
               </RadioGroup>
             </Stack>

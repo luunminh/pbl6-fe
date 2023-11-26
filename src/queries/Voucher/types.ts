@@ -1,6 +1,6 @@
 export enum VoucherStatus {
   VALID = 'valid',
-  EXPIRED = 'expired',
+  INVALID = 'invalid',
 }
 
 export enum VoucherType {

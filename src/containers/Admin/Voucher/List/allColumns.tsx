@@ -1,8 +1,8 @@
 import { COLOR_CODE } from '@components';
-import { IconButton, Stack, Tooltip } from '@mui/material';
+import { IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { IoLockClosed, IoLockOpen } from 'react-icons/io5';
-import { formatDate, formatValueOrNull } from '@shared';
+import { formatDate, formatTextEllipsisStyles, formatValueOrNull } from '@shared';
 import { GetVouchersResponse, VoucherStatus } from '@queries';
 import { ActionButton } from './components';
 import { renderVoucherStatus } from './helpers';
@@ -15,6 +15,7 @@ const defaultOptions = {
 export enum VouchersParamsKey {
   CODE = 'code',
   DESCRIPTION = 'description',
+  QUANTITY = 'quantity',
   START_DATE = 'startDate',
   EXP_DATE = 'endDate',
   STATUS = 'status',
@@ -36,6 +37,21 @@ export const allColumns = (): MUIDataTableColumn[] => {
     {
       name: VouchersParamsKey.DESCRIPTION,
       label: 'Description',
+      options: {
+        ...defaultOptions,
+        customBodyRender: (value: string) => (
+          <Tooltip title={value} arrow>
+            <Typography sx={formatTextEllipsisStyles(1)}>{value ?? '--'}</Typography>
+          </Tooltip>
+        ),
+      },
+      setCellProps: () => ({
+        style: { width: '500px' },
+      }),
+    },
+    {
+      name: VouchersParamsKey.QUANTITY,
+      label: 'Quantity',
       options: {
         ...defaultOptions,
         customBodyRender: (value: string) => value ?? '--',
@@ -67,9 +83,12 @@ export const allColumns = (): MUIDataTableColumn[] => {
         customBodyRender: (value, meta) => {
           const { tableData, rowIndex } = meta;
           const rowData = tableData.at(rowIndex) as GetVouchersResponse;
-
           const status =
-            new Date(rowData.endDate) > new Date() ? VoucherStatus.VALID : VoucherStatus.EXPIRED;
+            new Date(rowData.endDate) > new Date() &&
+            new Date(rowData.startDate) < new Date() &&
+            +rowData.quantity > 0
+              ? VoucherStatus.VALID
+              : VoucherStatus.INVALID;
           return renderVoucherStatus(status);
         },
       },

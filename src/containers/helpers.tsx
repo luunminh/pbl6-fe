@@ -16,7 +16,7 @@ const SignIn = React.lazy(() => import('@components/UAMContainer/SignIn'));
 const ForgotPassword = React.lazy(() => import('@components/UAMContainer/ForgotPassword/'));
 const ResetPassword = React.lazy(() => import('@components/UAMContainer/ResetPassword/'));
 const Vouchers = React.lazy(() => import('./Admin/Voucher/List'));
-// import SplashScreen from './StartupContainers/SplashScreen';
+const Dashboard = React.lazy(() => import('./Admin/Dashboard'));
 
 type RouteWrapperProps = {
   isAuthenticated: boolean;
@@ -41,11 +41,11 @@ export const CustomRoute: React.FC<PropsWithChildren<RouteWrapperProps>> = ({
 };
 
 export const routerGroup = [
-  { path: PATHS.root, element: <OnDevelop />, isRequireAuth: true },
+  { path: PATHS.root, element: <Dashboard />, isRequireAuth: true },
   { path: PATHS.signIn, element: <SignIn />, isRequireAuth: false },
   { path: PATHS.forgotPassword, element: <ForgotPassword />, isRequireAuth: false },
   { path: PATHS.resetPassword, element: <ResetPassword />, isRequireAuth: false },
-  { path: PATHS.dashboard, element: <OnDevelop />, isRequireAuth: true },
+  { path: PATHS.dashboard, element: <Dashboard />, isRequireAuth: true },
   { path: PATHS.category, element: <CategoryList />, isRequireAuth: true },
   { path: PATHS.importOrder, element: <ImportOrderList />, isRequireAuth: true },
   { path: PATHS.store, element: <StoreList />, isRequireAuth: true },

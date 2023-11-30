@@ -7,6 +7,6 @@ export const renderVoucherStatus = (status: string) => {
     case VoucherStatus.VALID:
       return <Chip color="success" label={getTitleCase(status)} />;
     case VoucherStatus.INVALID:
-      return <Chip color="default" label={getTitleCase(status)} />;
+      return <Chip label={getTitleCase(status)} />;
   }
 };

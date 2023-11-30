@@ -1,12 +1,12 @@
 import { DialogContext, DialogType } from '@components';
 import { IconButton, Stack, Tooltip } from '@mui/material';
 import { GetVouchersResponse, useDeleteVoucher, useGetVouchers } from '@queries';
+import { Toastify } from '@shared';
 import { useCallback, useContext } from 'react';
 import { AiFillEye } from 'react-icons/ai';
-import { IoPencil, IoTrash, IoTrashBin } from 'react-icons/io5';
-import { MdModeEditOutline } from 'react-icons/md';
+import { IoPencil, IoTrashBin } from 'react-icons/io5';
 import VoucherForm from '../../../VoucherForm';
-import { Toastify } from '@shared';
+import { VoucherToastMessage } from '../../../VoucherForm/helpers';
 
 const ActionButton = ({ record }: Props) => {
   const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
@@ -31,7 +31,7 @@ const ActionButton = ({ record }: Props) => {
   const { deleteVoucher } = useDeleteVoucher({
     onSuccess() {
       handleInvalidateVouchers();
-      Toastify.success('Deleted successfully!');
+      Toastify.success(VoucherToastMessage.DELETE_SUCCESS);
       closeModal();
     },
     onError(error) {
@@ -57,11 +57,11 @@ const ActionButton = ({ record }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [record]);
 
-  const isDisabledExpiredVoucher = new Date(record.startDate) < new Date();
+  const isStartedVoucher = new Date(record.startDate) <= new Date();
 
   return (
     <Stack flexDirection={'row'} justifyContent={'center'}>
-      <Tooltip title="Detail" arrow>
+      <Tooltip title="View" arrow>
         <IconButton
           onClick={(e) => {
             e.stopPropagation();
@@ -73,25 +73,29 @@ const ActionButton = ({ record }: Props) => {
         </IconButton>
       </Tooltip>
       <Tooltip title="Edit" arrow>
-        <IconButton
-          disabled={isDisabledExpiredVoucher}
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            handleOpenVoucherModal(true);
-          }}
-        >
-          <IoPencil size={20} />
-        </IconButton>
+        <span>
+          <IconButton
+            disabled={isStartedVoucher}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              handleOpenVoucherModal(true);
+            }}
+          >
+            <IoPencil size={20} />
+          </IconButton>
+        </span>
       </Tooltip>
       <Tooltip title="Delete">
-        <IconButton
-          size="small"
-          onClick={handleOpenDeleteModal}
-          disabled={isDisabledExpiredVoucher}
-        >
-          <IoTrashBin />
-        </IconButton>
+        <span>
+          <IconButton
+            size="small"
+            onClick={handleOpenDeleteModal}
+            disabled={isStartedVoucher}
+          >
+            <IoTrashBin />
+          </IconButton>
+        </span>
       </Tooltip>
     </Stack>
   );

@@ -11,7 +11,7 @@ import {
   ImportOrderListResponse,
   useGetImportOrderList,
 } from '@queries/ImportOrder';
-import { Toastify } from '@shared';
+import { Toastify, isEmpty } from '@shared';
 import { MUIDataTableOptions } from 'mui-datatables';
 import React, { useCallback, useContext, useMemo } from 'react';
 import { IoCloudUpload } from 'react-icons/io5';
@@ -67,7 +67,11 @@ const ImportOrderList: React.FC = () => {
   });
 
   const handleGetImportOrderList = (params: ImportOrderListParams) => {
-    setParams({ ...params });
+    if (isEmpty(params?.order)) {
+      setParams({ ...params, order: 'createdAt:desc' });
+    } else {
+      setParams({ ...params });
+    }
   };
 
   const tableOptions: MUIDataTableOptions = useMemo(

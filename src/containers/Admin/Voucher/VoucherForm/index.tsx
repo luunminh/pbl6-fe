@@ -7,14 +7,6 @@ import {
   SegmentedButton,
 } from '@components';
 import { Button, Grid, Stack } from '@mui/material';
-import { useFormik } from 'formik';
-import {
-  VoucherFormField,
-  VoucherFormType,
-  voucherFormInitValue,
-  voucherFormSchema,
-  voucherTypeOptions,
-} from './helpers';
 import {
   VoucherType,
   useAddVoucher,
@@ -23,7 +15,16 @@ import {
   useUpdateVoucher,
 } from '@queries';
 import { Toastify, getErrorMessage, handleKeyDownNumberInput, isEmpty } from '@shared';
+import { useFormik } from 'formik';
 import { useContext, useMemo, useState } from 'react';
+import {
+  VoucherFormField,
+  VoucherFormType,
+  VoucherToastMessage,
+  voucherFormInitValue,
+  voucherFormSchema,
+  voucherTypeOptions,
+} from './helpers';
 
 const VoucherForm = ({ voucherId, isEditing, readOnly }: Props) => {
   const { closeModal } = useContext(DialogContext);
@@ -46,7 +47,7 @@ const VoucherForm = ({ voucherId, isEditing, readOnly }: Props) => {
     onSuccess() {
       handleInvalidateVoucherDetail();
       handleInvalidateVouchers();
-      Toastify.success('New voucher has been added successfully!');
+      Toastify.success(VoucherToastMessage.ADD_SUCCESS);
       closeModal();
     },
     onError(error) {
@@ -58,7 +59,7 @@ const VoucherForm = ({ voucherId, isEditing, readOnly }: Props) => {
     onSuccess() {
       handleInvalidateVoucherDetail();
       handleInvalidateVouchers();
-      Toastify.success('New voucher has been added successfully!');
+      Toastify.success(VoucherToastMessage.UPDATE_SUCCESS);
       closeModal();
     },
     onError(error) {
@@ -74,23 +75,35 @@ const VoucherForm = ({ voucherId, isEditing, readOnly }: Props) => {
   }, [isEditing, voucherDetail, readOnly]);
 
   const handleFormSubmit = (formValues: VoucherFormType) => {
-    if (isEditing) {
-      updateVoucher({ ...formValues, type: segmentedButtonValue });
+    if (!isEmpty(segmentedButtonValue)) {
+      if (isEditing) {
+        updateVoucher({ ...formValues, type: segmentedButtonValue });
+      } else {
+        addVoucher({ ...formValues, type: segmentedButtonValue });
+      }
     } else {
-      addVoucher({ ...formValues, type: segmentedButtonValue });
+      setFieldError(VoucherFormField.DISCOUNT_VALUE, 'Please choose a discount type');
     }
   };
 
   const getFieldErrorMessage = (fieldName: string) =>
     getErrorMessage(fieldName, { touched, errors });
 
-  const { errors, touched, getFieldProps, handleSubmit, setFieldValue, values, setFieldTouched } =
-    useFormik<VoucherFormType>({
-      initialValues: getInitValue,
-      onSubmit: handleFormSubmit,
-      validationSchema: voucherFormSchema(segmentedButtonValue),
-      enableReinitialize: true,
-    });
+  const {
+    errors,
+    touched,
+    getFieldProps,
+    handleSubmit,
+    setFieldValue,
+    values,
+    setFieldTouched,
+    setFieldError,
+  } = useFormik<VoucherFormType>({
+    initialValues: getInitValue,
+    onSubmit: handleFormSubmit,
+    validationSchema: voucherFormSchema(segmentedButtonValue),
+    enableReinitialize: true,
+  });
 
   const handleChangeMinimumOrder = (_, value) => {
     setFieldValue(VoucherFormField.MIN_VALUE_ORDER, value);
@@ -109,9 +122,9 @@ const VoucherForm = ({ voucherId, isEditing, readOnly }: Props) => {
           <Grid item xs={12}>
             <MuiTextField
               required
-              label="Voucher Code"
+              label="Voucher code"
               errorMessage={getFieldErrorMessage(VoucherFormField.CODE)}
-              placeholder="Enter voucher code"
+              placeholder="Voucher code"
               fullWidth
               size="small"
               readOnly={readOnly}
@@ -122,6 +135,7 @@ const VoucherForm = ({ voucherId, isEditing, readOnly }: Props) => {
             <MuiTextField
               required
               label="Description"
+              placeholder="Description"
               errorMessage={getFieldErrorMessage(VoucherFormField.DESC)}
               fullWidth
               multiline
@@ -134,6 +148,7 @@ const VoucherForm = ({ voucherId, isEditing, readOnly }: Props) => {
             <Input
               required
               label="Quantity"
+              placeholder="Quantity"
               type="number"
               errorMessage={getFieldErrorMessage(VoucherFormField.QUANTITY)}
               readOnly={readOnly}
@@ -141,14 +156,22 @@ const VoucherForm = ({ voucherId, isEditing, readOnly }: Props) => {
             />
           </Grid>
           <Grid item xs={6}>
-            <Stack flexDirection={'row'} alignItems={'end'} gap={2}>
+            <Stack
+              flexDirection={'row'}
+              alignItems={
+                !isEmpty(getFieldErrorMessage(VoucherFormField.DISCOUNT_VALUE)) ? 'center' : 'end'
+              }
+              gap={2}
+            >
               <Grid item xs={8}>
                 <CurrencyInput
                   required
                   label="Discount value"
+                  placeholder="Discount value"
                   errorMessage={getFieldErrorMessage(VoucherFormField.DISCOUNT_VALUE)}
                   readOnly={readOnly}
-                  prefix=""
+                  prefix={segmentedButtonValue === VoucherType.FIXED ? 'VND ' : ''}
+                  suffix={segmentedButtonValue === VoucherType.PERCENTAGE ? '%' : ''}
                   {...getFieldProps(VoucherFormField.DISCOUNT_VALUE)}
                   onChange={handleChangeDiscountValue}
                   onKeyDown={handleKeyDownNumberInput}
@@ -159,11 +182,6 @@ const VoucherForm = ({ voucherId, isEditing, readOnly }: Props) => {
                 <SegmentedButton
                   disabled={readOnly}
                   fullWidth
-                  style={{
-                    marginBottom: !isEmpty(getFieldErrorMessage(VoucherFormField.DISCOUNT_VALUE))
-                      ? '36px'
-                      : 0,
-                  }}
                   items={voucherTypeOptions}
                   value={segmentedButtonValue}
                   onChange={(_, value) => setSegmentedButtonValue(value)}
@@ -175,6 +193,7 @@ const VoucherForm = ({ voucherId, isEditing, readOnly }: Props) => {
             <CurrencyInput
               required
               label="Minimum order value"
+              placeholder="Minimum order value"
               errorMessage={getFieldErrorMessage(VoucherFormField.MIN_VALUE_ORDER)}
               readOnly={readOnly}
               prefix="VND "
@@ -188,12 +207,12 @@ const VoucherForm = ({ voucherId, isEditing, readOnly }: Props) => {
             <DatePicker
               readOnly={readOnly}
               required
+              // isSmallSize
               showYearDropdown
               showMonthDropdown
               dropdownMode="select"
               selected={values.startDate ? new Date(values.startDate) : null}
-              label="Start Date"
-              placeholder="Select"
+              label="Start date"
               {...getFieldProps(VoucherFormField.START_DATE)}
               errorMessage={getFieldErrorMessage(VoucherFormField.START_DATE)}
               onChange={setFieldValue}
@@ -206,12 +225,12 @@ const VoucherForm = ({ voucherId, isEditing, readOnly }: Props) => {
             <DatePicker
               readOnly={readOnly}
               required
+              isSmallSize
               showYearDropdown
               showMonthDropdown
               dropdownMode="select"
               selected={values.endDate ? new Date(values.endDate) : null}
-              label="Expiration Date"
-              placeholder="Select"
+              label="Expiration date"
               {...getFieldProps(VoucherFormField.EXP_DATE)}
               errorMessage={getFieldErrorMessage(VoucherFormField.EXP_DATE)}
               onChange={setFieldValue}

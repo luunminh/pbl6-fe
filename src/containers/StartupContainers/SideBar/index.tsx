@@ -164,12 +164,12 @@ const MenuItems: MenuItemType[] = [
     path: PATHS.voucher,
     activePath: PATHS.voucher,
     icon: (
-      <div className="title-icon" aria-details="Staff">
+      <div className="title-icon" aria-details="Voucher">
         <IoTicketOutline size={20} />
       </div>
     ),
     activeIcon: (
-      <div className="title-icon" aria-details="Staff">
+      <div className="title-icon" aria-details="Voucher">
         <IoTicketSharp size={20} />
       </div>
     ),

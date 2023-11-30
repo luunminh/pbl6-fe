@@ -1,9 +1,7 @@
-import { COLOR_CODE } from '@components';
-import { IconButton, Stack, Tooltip, Typography } from '@mui/material';
-import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
-import { IoLockClosed, IoLockOpen } from 'react-icons/io5';
-import { formatDate, formatTextEllipsisStyles, formatValueOrNull } from '@shared';
+import { Tooltip, Typography } from '@mui/material';
 import { GetVouchersResponse, VoucherStatus } from '@queries';
+import { formatDate, formatTextEllipsisStyles, formatValueOrNull, tableBodyRender } from '@shared';
+import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { ActionButton } from './components';
 import { renderVoucherStatus } from './helpers';
 
@@ -29,9 +27,7 @@ export const allColumns = (): MUIDataTableColumn[] => {
       label: 'Voucher Code',
       options: {
         ...defaultOptions,
-        customBodyRender: (value) => {
-          return value ?? '--';
-        },
+        customBodyRender: (value: string) => tableBodyRender<string>(value),
       },
     },
     {
@@ -41,7 +37,9 @@ export const allColumns = (): MUIDataTableColumn[] => {
         ...defaultOptions,
         customBodyRender: (value: string) => (
           <Tooltip title={value} arrow>
-            <Typography sx={formatTextEllipsisStyles(1)}>{value ?? '--'}</Typography>
+            <Typography fontSize={14} sx={formatTextEllipsisStyles(1)}>
+              {value ?? '--'}
+            </Typography>
           </Tooltip>
         ),
       },
@@ -54,7 +52,8 @@ export const allColumns = (): MUIDataTableColumn[] => {
       label: 'Quantity',
       options: {
         ...defaultOptions,
-        customBodyRender: (value: string) => value ?? '--',
+        sort: true,
+        customBodyRender: (value: string) => tableBodyRender<string>(value),
       },
     },
     {

@@ -67,3 +67,9 @@ export const voucherFormSchema = (voucherType: string) =>
     startDate: Yup.date().nullable().required(ERROR_MESSAGES.FIELD_REQUIRED),
     endDate: Yup.date().nullable().required(ERROR_MESSAGES.FIELD_REQUIRED),
   });
+
+export enum VoucherToastMessage {
+  ADD_SUCCESS = 'New voucher has been added successfully.',
+  UPDATE_SUCCESS = 'Voucher has been updated successfully.',
+  DELETE_SUCCESS = 'Voucher has been deleted successfully.',
+}

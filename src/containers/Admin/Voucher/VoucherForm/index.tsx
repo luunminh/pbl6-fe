@@ -207,7 +207,7 @@ const VoucherForm = ({ voucherId, isEditing, readOnly }: Props) => {
             <DatePicker
               readOnly={readOnly}
               required
-              // isSmallSize
+              isSmallSize
               showYearDropdown
               showMonthDropdown
               dropdownMode="select"

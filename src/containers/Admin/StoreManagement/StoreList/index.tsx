@@ -3,7 +3,7 @@ import { Container, Stack, Typography, Button } from '@mui/material';
 import { CustomTableSearch, Table, EmptyTable, DialogContext, DialogType } from '@components';
 import { MUIDataTableOptions } from 'mui-datatables';
 import { allColumns } from './allColumns';
-import { Toastify } from '@shared';
+import { RoleService, Toastify } from '@shared';
 import { IoAdd } from 'react-icons/io5';
 import { isEmpty } from '@shared';
 import StoreForm from '../StoreForm';
@@ -88,14 +88,16 @@ const StoreList: React.FC = () => {
       </Stack>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between">
         <CustomTableSearch placeholder="Search store..." />
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<IoAdd />}
-          onClick={() => handleOpenStoreDialog()}
-        >
-          Add new store
-        </Button>
+        {RoleService.isAdminRole() && (
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<IoAdd />}
+            onClick={() => handleOpenStoreDialog()}
+          >
+            Add new store
+          </Button>
+        )}
       </Stack>
       <Table
         data={stores}

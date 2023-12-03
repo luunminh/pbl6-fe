@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { COLOR_CODE } from 'src/modules/components/configs/theme';
 import { PATHS } from 'src/appConfig/paths';
 import { CustomDropdown, DialogContext, DialogType, RoleTitle, UserProfileType } from '@components';
-import { AuthService, getFullName } from '@shared';
+import { AuthService, RoleService, getFullName } from '@shared';
 import { DropdownItem } from '@components';
 import { AiOutlineLock, AiOutlineUser } from 'react-icons/ai';
 import { IoLogOutOutline } from 'react-icons/io5';
@@ -53,6 +53,8 @@ const UserMenu: React.FC<Props> = ({ profile }) => {
     dispatch(setAuthenticated(false));
     dispatch(setCurrentRole(null));
     dispatch(setProfile(null));
+
+    RoleService.setUserRole(null);
     AuthService.clearToken();
     closeModal();
   };

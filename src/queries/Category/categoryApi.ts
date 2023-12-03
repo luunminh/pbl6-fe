@@ -2,8 +2,9 @@ import axios from 'axios';
 import apisauce from 'apisauce';
 import appConfig from 'src/appConfig';
 import { CategoryListParams, CategoryPayload } from './type';
-import { AuthService, stringify } from '@shared';
+import { AuthService, RoleService, stringify } from '@shared';
 import { ApiKey } from '@queries/keys';
+import { RoleTitle, UserRole } from '@components';
 
 axios.defaults.withCredentials = true;
 const create = (baseURL = `${appConfig.API_URL}`) => {
@@ -26,7 +27,7 @@ const create = (baseURL = `${appConfig.API_URL}`) => {
   const getCategoryList = (params: CategoryListParams) => {
     const { ...tableParams } = params;
     const queryString = stringify(tableParams);
-    return api.get(`${ApiKey.CATEGORY}?${queryString}`);
+    return api.get(`${RoleService.isAdminRole() ? ApiKey.CATEGORY : '/category'}?${queryString}`);
   };
 
   const getCategoryDetails = (id: string) => {

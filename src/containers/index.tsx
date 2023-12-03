@@ -15,19 +15,25 @@ type ContainerProps = ReturnType<typeof mapStateToProps>;
 
 const mapStateToProps = (state: IRootState) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  currentRole: state.auth.currentRole,
 });
 
-const Container: React.FC<ContainerProps> = ({ isAuthenticated }) => {
+const Container: React.FC<ContainerProps> = ({ isAuthenticated, currentRole }) => {
   return (
     <Screen>
       <Suspense fallback={<LoadingContainer />}>
         <Routes>
-          {routerGroup.map(({ path, element, isRequireAuth }, idx) => (
+          {routerGroup.map(({ path, element, isRequireAuth, isOnlyAdminSite = false }, idx) => (
             <Route
               key={`${path}-${idx}`}
               path={path}
               element={
-                <CustomRoute pageRequiredAuth={isRequireAuth} isAuthenticated={isAuthenticated}>
+                <CustomRoute
+                  currentRole={currentRole}
+                  pageRequiredAuth={isRequireAuth}
+                  isAuthenticated={isAuthenticated}
+                  isOnlyAdminSite={isOnlyAdminSite}
+                >
                   {element}
                 </CustomRoute>
               }

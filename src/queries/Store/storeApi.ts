@@ -1,7 +1,7 @@
 import axios from 'axios';
 import apisauce from 'apisauce';
 import appConfig from 'src/appConfig';
-import { AuthService, stringify } from '@shared';
+import { AuthService, RoleService, stringify } from '@shared';
 import { ApiKey } from '@queries/keys';
 import { StoreListParams, StorePayload } from './type';
 
@@ -26,7 +26,7 @@ const create = (baseURL = `${appConfig.API_URL}`) => {
   const getStoreList = (params: StoreListParams) => {
     const { ...tableParams } = params;
     const queryString = stringify(tableParams);
-    return api.get(`${ApiKey.STORE}?${queryString}`);
+    return api.get(`${RoleService.isAdminRole() ? ApiKey.STORE : '/store'}?${queryString}`);
   };
 
   const addStore = (payload: StorePayload) => {

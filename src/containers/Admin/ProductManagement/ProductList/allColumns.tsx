@@ -1,7 +1,7 @@
 import { IMAGES } from '@appConfig/images';
 import { COLOR_CODE, Image } from '@components';
 import { IconButton, Stack, Tooltip, Typography } from '@mui/material';
-import { Callback, formatMoney, tableBodyRender } from '@shared';
+import { Callback, RoleService, formatMoney, tableBodyRender } from '@shared';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { IoEye, IoPencil, IoTrashBin } from 'react-icons/io5';
 import { CategoryResponse, ProductResponse } from 'src/queries';
@@ -97,26 +97,30 @@ export const allColumns = ({
                   <IoEye color={COLOR_CODE.GREY_600} size={20} />
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Edit" arrow placement="top">
-                <IconButton
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    handleEdit(rowData);
-                  }}
-                >
-                  <IoPencil color={COLOR_CODE.GREY_600} size={20} />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Delete" arrow placement="top">
-                <IconButton
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    handleDelete(rowData);
-                  }}
-                >
-                  <IoTrashBin color={COLOR_CODE.GREY_600} size={20} />
-                </IconButton>
-              </Tooltip>
+              {RoleService.isAdminRole() && (
+                <Tooltip title="Edit" arrow placement="top">
+                  <IconButton
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handleEdit(rowData);
+                    }}
+                  >
+                    <IoPencil color={COLOR_CODE.GREY_600} size={20} />
+                  </IconButton>
+                </Tooltip>
+              )}
+              {RoleService.isAdminRole() && (
+                <Tooltip title="Delete" arrow placement="top">
+                  <IconButton
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handleDelete(rowData);
+                    }}
+                  >
+                    <IoTrashBin color={COLOR_CODE.GREY_600} size={20} />
+                  </IconButton>
+                </Tooltip>
+              )}
             </Stack>
           );
         },

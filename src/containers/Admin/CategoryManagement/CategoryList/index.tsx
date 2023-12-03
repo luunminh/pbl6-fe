@@ -4,7 +4,7 @@ import { CustomTableSearch, Table, EmptyTable, DialogContext, DialogType } from 
 import { MUIDataTableOptions } from 'mui-datatables';
 import { allColumns } from './allColumns';
 import { CategoryListParams, useGetAllCategories } from '@queries/Category';
-import { Toastify } from '@shared';
+import { RoleService, Toastify } from '@shared';
 import { IoAdd } from 'react-icons/io5';
 import CategoryForm from '../CategoryForm';
 import { isEmpty } from '@shared';
@@ -55,14 +55,16 @@ const CategoryList: React.FC = () => {
       </Stack>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between">
         <CustomTableSearch placeholder="Search category..." />
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<IoAdd />}
-          onClick={() => handleOpenCategoryDialog()}
-        >
-          Add new category
-        </Button>
+        {RoleService.isAdminRole() && (
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<IoAdd />}
+            onClick={() => handleOpenCategoryDialog()}
+          >
+            Add new category
+          </Button>
+        )}
       </Stack>
       <Table
         data={categories}

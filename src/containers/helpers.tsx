@@ -1,9 +1,10 @@
 import { PATHS } from '@appConfig/paths';
-import { CustomErrorBoundary } from '@components';
+import { CustomErrorBoundary, UserRole } from '@components';
 import React, { PropsWithChildren } from 'react';
 import { Navigate } from 'react-router';
 import Dev from './Dev';
 import SplashScreen from './StartupContainers/SplashScreen';
+import { Toastify } from '@shared';
 const OnDevelop = React.lazy(() => import('./StartupContainers/OnDevelop'));
 const StaffList = React.lazy(() => import('./Admin/StaffManagement/StaffList'));
 const ProductList = React.lazy(() => import('./Admin/ProductManagement/ProductList'));
@@ -19,20 +20,26 @@ const Vouchers = React.lazy(() => import('./Admin/Voucher/List'));
 const Dashboard = React.lazy(() => import('./Admin/Dashboard'));
 
 type RouteWrapperProps = {
+  currentRole?: UserRole;
   isAuthenticated: boolean;
   pageRequiredAuth?: boolean;
   pageForAuthentication?: boolean;
+  isOnlyAdminSite?: boolean;
 };
 
 export const CustomRoute: React.FC<PropsWithChildren<RouteWrapperProps>> = ({
   isAuthenticated,
+  currentRole,
   pageRequiredAuth,
+  isOnlyAdminSite,
   children,
 }) => {
   if (isAuthenticated === null) return <SplashScreen />;
 
   if ((isAuthenticated && pageRequiredAuth) || (!isAuthenticated && !pageRequiredAuth)) {
-    return <CustomErrorBoundary showErrorMessage>{children}</CustomErrorBoundary>;
+    if (!isOnlyAdminSite || currentRole === UserRole.ADMIN) {
+      return <CustomErrorBoundary showErrorMessage>{children}</CustomErrorBoundary>;
+    }
   }
 
   const redirectPath = isAuthenticated ? PATHS.root : PATHS.signIn;
@@ -47,13 +54,18 @@ export const routerGroup = [
   { path: PATHS.resetPassword, element: <ResetPassword />, isRequireAuth: false },
   { path: PATHS.dashboard, element: <Dashboard />, isRequireAuth: true },
   { path: PATHS.category, element: <CategoryList />, isRequireAuth: true },
-  { path: PATHS.importOrder, element: <ImportOrderList />, isRequireAuth: true },
+  {
+    path: PATHS.importOrder,
+    element: <ImportOrderList />,
+    isRequireAuth: true,
+    isOnlyAdminSite: true,
+  },
   { path: PATHS.store, element: <StoreList />, isRequireAuth: true },
   { path: PATHS.order, element: <OnDevelop />, isRequireAuth: true },
-  { path: PATHS.staff, element: <StaffList />, isRequireAuth: true },
+  { path: PATHS.staff, element: <StaffList />, isRequireAuth: true, isOnlyAdminSite: true },
   { path: PATHS.product, element: <ProductList />, isRequireAuth: true },
   { path: PATHS.customer, element: <CustomerList />, isRequireAuth: true },
   { path: PATHS.profile, element: <UserProfile />, isRequireAuth: true },
-  { path: PATHS.voucher, element: <Vouchers />, isRequireAuth: true },
+  { path: PATHS.voucher, element: <Vouchers />, isRequireAuth: true, isOnlyAdminSite: true },
   { path: PATHS.dev, element: <Dev />, isRequireAuth: true },
 ];

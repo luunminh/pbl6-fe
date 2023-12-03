@@ -60,7 +60,7 @@ const ActionButton = ({ record }: Props) => {
   const isStartedVoucher = new Date(record.startDate) <= new Date();
 
   return (
-    <Stack flexDirection={'row'} justifyContent={'center'}>
+    <Stack flexDirection={'row'} justifyContent={'center'} alignItems={'center'}>
       <Tooltip title="View" arrow>
         <IconButton
           onClick={(e) => {
@@ -88,11 +88,7 @@ const ActionButton = ({ record }: Props) => {
       </Tooltip>
       <Tooltip title="Delete">
         <span>
-          <IconButton
-            size="small"
-            onClick={handleOpenDeleteModal}
-            disabled={isStartedVoucher}
-          >
+          <IconButton size="small" onClick={handleOpenDeleteModal} disabled={isStartedVoucher}>
             <IoTrashBin />
           </IconButton>
         </span>

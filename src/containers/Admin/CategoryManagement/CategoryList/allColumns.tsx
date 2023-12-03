@@ -3,7 +3,7 @@ import { IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { IoPencil } from 'react-icons/io5';
 import { COLOR_CODE, Image } from '@components';
 import { CategoryListResponse, CountType } from '@queries/Category';
-import { tableBodyRender, getDate } from '@shared';
+import { tableBodyRender, getDate, RoleService } from '@shared';
 import { IMAGES } from '@appConfig/images';
 
 type ColumnProps = {
@@ -70,7 +70,7 @@ export const allColumns = ({ handleOpenCategoryDialog }: ColumnProps): MUIDataTa
     },
     {
       name: '',
-      label: 'Action',
+      label: `${RoleService.isAdminRole() ? 'Action' : ''}`,
       options: {
         filter: false,
         sort: false,
@@ -83,17 +83,19 @@ export const allColumns = ({ handleOpenCategoryDialog }: ColumnProps): MUIDataTa
           const { tableData, rowIndex } = tableMeta;
           const rowData = tableData.at(rowIndex) as CategoryListResponse;
           return (
-            <Tooltip title="Edit" placement="top" arrow>
-              <IconButton
-                aria-label="edit category"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  handleOpenCategoryDialog(rowData.id);
-                }}
-              >
-                <IoPencil color={COLOR_CODE.GREY_600} size={20} />
-              </IconButton>
-            </Tooltip>
+            RoleService.isAdminRole() && (
+              <Tooltip title="Edit" placement="top" arrow>
+                <IconButton
+                  aria-label="edit category"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleOpenCategoryDialog(rowData.id);
+                  }}
+                >
+                  <IoPencil color={COLOR_CODE.GREY_600} size={20} />
+                </IconButton>
+              </Tooltip>
+            )
           );
         },
       },

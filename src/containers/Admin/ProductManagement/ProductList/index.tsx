@@ -8,7 +8,7 @@ import {
 } from '@components';
 import { Button, Container, Stack, Typography } from '@mui/material';
 import { GetPropertiesParams, ProductResponse, useDeleteProduct, useGetAllProduct } from '@queries';
-import { Toastify } from '@shared';
+import { RoleService, Toastify } from '@shared';
 import { MUIDataTableOptions } from 'mui-datatables';
 import React, { useCallback, useContext, useMemo } from 'react';
 import { IoAdd } from 'react-icons/io5';
@@ -132,9 +132,11 @@ const ProductManagement: React.FC = () => {
       <Stack alignItems="center" justifyContent="space-between" flexDirection="row">
         <CustomTableSearch placeholder="Search product..." />
         <Stack justifyContent="flex-end" direction="row" flexGrow={1} alignItems="center" gap={2}>
-          <Button variant="contained" color="primary" startIcon={<IoAdd />} onClick={handleAdd}>
-            Add new Product
-          </Button>
+          {RoleService.isAdminRole() && (
+            <Button variant="contained" color="primary" startIcon={<IoAdd />} onClick={handleAdd}>
+              Add new Product
+            </Button>
+          )}
           <CustomTableFilterContainer filterParamsKeys={filterParamsKey}>
             <ProductFilter searchValues={paramsUrl} />
           </CustomTableFilterContainer>

@@ -1,8 +1,8 @@
-import { UserProfileType, UserRole, isStaffPortal } from '@components';
+import { RoleTitle, UserProfileType, UserRole, isStaffPortal } from '@components';
 import { useGetProfile } from '@queries/Profile/useGetProfile';
 import { setAuthenticated, setCurrentRole, setProfile } from '@redux/auth/authSlice';
 import { IRootState } from '@redux/store';
-import { AuthService, Toastify } from '@shared';
+import { AuthService, RoleService, Toastify } from '@shared';
 import { connect } from 'react-redux';
 const AuthContainer: React.FC<Props> = ({
   isAuthenticated,
@@ -23,9 +23,17 @@ const AuthContainer: React.FC<Props> = ({
 
   const handleCheckRole = (profile: UserProfileType = myProfile) => {
     if (isStaffPortal(profile?.userRoles)) {
+      const roleId = profile.userRoles.find(
+        (role) => role.roleId === UserRole.ADMIN || role.roleId === UserRole.STAFF,
+      ).roleId;
       onSetAuth(true);
       onSetProfile(profile);
-      onSetCurrentRole(profile.userRoles.find((role) => role.roleId === UserRole.ADMIN).roleId);
+      onSetCurrentRole(
+        profile.userRoles.find(
+          (role) => role.roleId === UserRole.ADMIN || role.roleId === UserRole.STAFF,
+        ).roleId,
+      );
+      RoleService.setUserRole(roleId);
     } else {
       Toastify.error("You don't have permission to access this page!");
       clearAuth();
@@ -34,7 +42,10 @@ const AuthContainer: React.FC<Props> = ({
 
   const clearAuth = () => {
     onSetAuth(false);
+
     onSetCurrentRole(null);
+    RoleService.setUserRole(null);
+
     onSetProfile(null);
     AuthService.clearToken();
   };

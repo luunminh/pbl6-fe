@@ -1,7 +1,7 @@
 import axios from 'axios';
 import apisauce from 'apisauce';
 import appConfig from 'src/appConfig';
-import { AuthService, stringify } from '@shared';
+import { AuthService, RoleService, stringify } from '@shared';
 import { DeleteProductPayload, ProductListParams, ProductPayload } from '@queries';
 
 axios.defaults.withCredentials = true;
@@ -25,10 +25,14 @@ const create = (baseURL = `${appConfig.API_URL}`) => {
   const getProductList = (params: ProductListParams) => {
     const { ...tableParams } = params;
     const queryString = stringify(tableParams);
-    return api.get(`/admin/products?${queryString}`, {});
+    return api.get(
+      `${RoleService.isAdminRole() ? '/admin/products' : 'product'}?${queryString}`,
+      {},
+    );
   };
 
-  const getProductById = (params: { id: string }) => api.get(`/admin/products/${params.id}`, {});
+  const getProductById = (params: { id: string }) =>
+    api.get(`${RoleService.isAdminRole() ? '/admin/products' : 'product'}/${params.id}`, {});
 
   const addNewProduct = (body: ProductPayload) => {
     const { id: _id, ...payload } = body;

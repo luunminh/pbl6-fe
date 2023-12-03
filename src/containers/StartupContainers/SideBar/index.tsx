@@ -28,6 +28,10 @@ import { Link, useLocation } from 'react-router-dom';
 import { PATHS } from 'src/appConfig/paths';
 import { COLOR_CODE } from 'src/modules/components/configs/theme';
 import './styles.scss';
+import { UserProfile, UserRole } from '@components';
+import { useGetProfile } from '@queries/Profile/useGetProfile';
+import { useSelector } from 'react-redux';
+import { IRootState } from '@redux/store';
 
 type MenuItemType = {
   label: string;
@@ -36,6 +40,7 @@ type MenuItemType = {
   icon?: React.ReactNode;
   activeIcon?: React.ReactNode;
   subItems?: MenuItemType[];
+  accessRoles?: UserRole[];
 };
 
 const MenuItems: MenuItemType[] = [
@@ -53,6 +58,7 @@ const MenuItems: MenuItemType[] = [
         <IoHome size={20} />
       </div>
     ),
+    accessRoles: [UserRole.ADMIN],
   },
   {
     label: 'Product',
@@ -68,6 +74,7 @@ const MenuItems: MenuItemType[] = [
         <IoBag size={20} />
       </div>
     ),
+    accessRoles: [UserRole.ADMIN, UserRole.STAFF],
   },
   {
     label: 'Category',
@@ -83,6 +90,7 @@ const MenuItems: MenuItemType[] = [
         <IoGrid size={20} />
       </div>
     ),
+    accessRoles: [UserRole.ADMIN, UserRole.STAFF],
   },
   {
     label: 'Import Order',
@@ -98,6 +106,7 @@ const MenuItems: MenuItemType[] = [
         <IoReader size={20} />
       </div>
     ),
+    accessRoles: [UserRole.ADMIN],
   },
   {
     label: 'Order & Invoice',
@@ -113,6 +122,7 @@ const MenuItems: MenuItemType[] = [
         <IoCart size={20} />
       </div>
     ),
+    accessRoles: [UserRole.ADMIN, UserRole.STAFF],
   },
   {
     label: 'Store',
@@ -128,8 +138,10 @@ const MenuItems: MenuItemType[] = [
         <IoStorefront size={20} />
       </div>
     ),
+    accessRoles: [UserRole.ADMIN, UserRole.STAFF],
   },
   {
+    // TODO: clear requirement: do staff can access to this screen
     label: 'Customer',
     path: PATHS.customer,
     activePath: PATHS.customer,
@@ -143,6 +155,7 @@ const MenuItems: MenuItemType[] = [
         <IoPeople size={20} />
       </div>
     ),
+    accessRoles: [UserRole.ADMIN, UserRole.STAFF],
   },
   {
     label: 'Staff',
@@ -158,6 +171,7 @@ const MenuItems: MenuItemType[] = [
         <IoPerson size={20} />
       </div>
     ),
+    accessRoles: [UserRole.ADMIN],
   },
   {
     label: 'Voucher',
@@ -173,6 +187,7 @@ const MenuItems: MenuItemType[] = [
         <IoTicketSharp size={20} />
       </div>
     ),
+    accessRoles: [UserRole.ADMIN],
   },
 ];
 const DevItem: MenuItemType = {
@@ -189,10 +204,12 @@ const DevItem: MenuItemType = {
       <FaEject size={20} />
     </div>
   ),
+  accessRoles: [UserRole.ADMIN, UserRole.STAFF],
 };
 
 const CustomSidebar: React.FC<Props> = () => {
-  //   const { logout } = useLogout();
+  const currentRole = useSelector((state: IRootState) => state.auth.currentRole);
+
   const location = useLocation();
   const { collapseSidebar, collapsed, toggleSidebar, broken, toggled } = useProSidebar();
 
@@ -228,42 +245,44 @@ const CustomSidebar: React.FC<Props> = () => {
       </Stack>
       <Stack flexGrow={1} sx={{ height: '100%' }} justifyContent="space-between">
         <Menu>
-          {[...MenuItems, DevItem].map((item) => {
-            const isActive = Array.isArray(item.activePath)
-              ? item.activePath.some((path) => location.pathname.includes(path))
-              : location.pathname.includes(item.activePath);
-            if (!item.subItems) {
-              return (
-                <MenuItem
-                  active={isActive}
-                  icon={isActive ? item.activeIcon : item.icon}
-                  component={<Link to={item.path} />}
-                  key={item.path}
-                >
-                  {item.label}
-                </MenuItem>
-              );
-            }
-            return (
-              <SubMenu
-                label={item.label}
-                icon={isActive ? item.activeIcon : item.icon}
-                key={`sub-menu-${item.label}`}
-                defaultOpen
-              >
-                {item.subItems.map((subItem) => (
+          {[...MenuItems, DevItem]
+            .filter((item) => item?.accessRoles.includes(currentRole))
+            .map((item) => {
+              const isActive = Array.isArray(item.activePath)
+                ? item.activePath.some((path) => location.pathname.includes(path))
+                : location.pathname.includes(item.activePath);
+              if (!item.subItems) {
+                return (
                   <MenuItem
                     active={isActive}
-                    icon={<BsDot size={24} />}
-                    component={<Link to={subItem.path} />}
-                    key={subItem.path}
+                    icon={isActive ? item.activeIcon : item.icon}
+                    component={<Link to={item.path} />}
+                    key={item.path}
                   >
-                    {subItem.label}
+                    {item.label}
                   </MenuItem>
-                ))}
-              </SubMenu>
-            );
-          })}
+                );
+              }
+              return (
+                <SubMenu
+                  label={item.label}
+                  icon={isActive ? item.activeIcon : item.icon}
+                  key={`sub-menu-${item.label}`}
+                  defaultOpen
+                >
+                  {item.subItems.map((subItem) => (
+                    <MenuItem
+                      active={isActive}
+                      icon={<BsDot size={24} />}
+                      component={<Link to={subItem.path} />}
+                      key={subItem.path}
+                    >
+                      {subItem.label}
+                    </MenuItem>
+                  ))}
+                </SubMenu>
+              );
+            })}
         </Menu>
       </Stack>
     </Sidebar>

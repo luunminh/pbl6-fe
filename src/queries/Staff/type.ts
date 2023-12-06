@@ -28,7 +28,7 @@ export const ROLE_NAME = {
 };
 
 export type GetPropertiesParams = TableParams & {
-  [key: string]: string | number | string[];
+  [key: string]: string | number | string[] | number[];
 };
 
 export type UserRoles = {
@@ -53,8 +53,8 @@ export type StaffResponse = {
   address: string;
   userRoles: UserRoles[];
   createdAt: string;
-  deleteAt: string;
-}
+  deletedAt: string;
+};
 
 export type AddStaffPayload = {
   firstName: string;
@@ -65,4 +65,8 @@ export type AddStaffPayload = {
   phone: string;
   email: string;
   address: string;
+};
+
+export type DeleteStaffPayload = {
+  id: string;
 };

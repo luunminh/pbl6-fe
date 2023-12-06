@@ -130,7 +130,7 @@ const ProductManagement: React.FC = () => {
         </Typography>
       </Stack>
       <Stack alignItems="center" justifyContent="space-between" flexDirection="row">
-        <CustomTableSearch placeholder="Search product..." />
+        <CustomTableSearch placeholder="Search by product name..." />
         <Stack justifyContent="flex-end" direction="row" flexGrow={1} alignItems="center" gap={2}>
           {RoleService.isAdminRole() && (
             <Button variant="contained" color="primary" startIcon={<IoAdd />} onClick={handleAdd}>

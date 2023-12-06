@@ -87,7 +87,7 @@ const StoreList: React.FC = () => {
         </Typography>
       </Stack>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between">
-        <CustomTableSearch placeholder="Search store..." />
+        <CustomTableSearch placeholder="Search by address..." />
         {RoleService.isAdminRole() && (
           <Button
             variant="contained"

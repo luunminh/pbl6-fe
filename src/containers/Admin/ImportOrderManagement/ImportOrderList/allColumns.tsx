@@ -53,7 +53,7 @@ export const allColumns = ({ handleOpenImportOrderDialog }: ColumnProps): MUIDat
     },
     {
       name: 'createdAt',
-      label: 'Created Date',
+      label: 'Date Created',
       options: {
         filter: false,
         sort: true,

@@ -138,4 +138,45 @@ const productDataSet = [
   },
 ];
 
-export { dataset, dataKey, chartSelectOptions, ChartSelect, productDataSet, getKeys };
+export {
+  dataset,
+  dataKey,
+  chartSelectOptions,
+  ChartSelect,
+  storeTableDataset,
+  productDataSet,
+  getKeys,
+};
+
+const storeTableDataset = [
+  {
+    storeAddress: '69 Nguyễn Hoàng, P. Hải Châu 2, Q. Hải Châu, TP. Đà Nẵng',
+    expense: 9910000,
+    revenue: 12500000,
+    profit: 2590000,
+  },
+  {
+    storeAddress: '488 Tôn Đức Thắng, P. Hòa Khánh Bắc, Q. Liên Chiểu, TP. Đà Nẵng',
+    expense: 18210000,
+    revenue: 23600000,
+    profit: 5390000,
+  },
+  {
+    storeAddress: '408 Hoàng Diệu, P. Bình Thuận, Q. Hải Châu, TP. Đà Nẵng',
+    expense: 112624000,
+    revenue: 120500000,
+    profit: 7876000,
+  },
+  {
+    storeAddress: '52 Ngô Thì Nhậm, P. Hòa Khánh Nam, Q. Liên Chiểu, TP. Đà Nẵng',
+    expense: 55864000,
+    revenue: 60600000,
+    profit: 4736000,
+  },
+  {
+    storeAddress: '445 Trưng Nữ Vương, P. Hòa Thuận Tây, Q. Hải Châu, TP. Đà Nẵng',
+    expense: 95674000,
+    revenue: 110800000,
+    profit: 15126000,
+  },
+];

@@ -1,10 +1,10 @@
-import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
-import { IconButton, Stack, Tooltip, Typography } from '@mui/material';
-import { IoPencil } from 'react-icons/io5';
-import { COLOR_CODE, Image } from '@components';
-import { CategoryListResponse, CountType } from '@queries/Category';
-import { tableBodyRender, getDate, RoleService } from '@shared';
 import { IMAGES } from '@appConfig/images';
+import { COLOR_CODE, Image } from '@components';
+import { IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { CategoryListResponse, CountType } from '@queries/Category';
+import { RoleService, getDate, tableBodyRender } from '@shared';
+import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
+import { IoPencil } from 'react-icons/io5';
 
 type ColumnProps = {
   handleOpenCategoryDialog: (..._args: any[]) => void;
@@ -52,7 +52,7 @@ export const allColumns = ({ handleOpenCategoryDialog }: ColumnProps): MUIDataTa
     },
     {
       name: '_count',
-      label: 'Stock',
+      label: 'Products',
       options: {
         filter: false,
         sort: true,
@@ -61,7 +61,7 @@ export const allColumns = ({ handleOpenCategoryDialog }: ColumnProps): MUIDataTa
     },
     {
       name: 'createdAt',
-      label: 'Added Date',
+      label: 'Date Added',
       options: {
         filter: false,
         sort: true,

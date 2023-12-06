@@ -1,17 +1,29 @@
-import React, { useCallback, useMemo, useContext } from 'react';
-import { CustomTableFilterContainer, CustomTableSearch, EmptyTable, Table } from '@components';
+import {
+  CustomTableFilterContainer,
+  CustomTableSearch,
+  DialogContext,
+  DialogType,
+  EmptyTable,
+  Table,
+} from '@components';
 import { Button, Container, Stack, Typography } from '@mui/material';
 import { Toastify } from '@shared';
 import { MUIDataTableOptions } from 'mui-datatables';
+import React, { useCallback, useContext, useMemo } from 'react';
+import { IoAdd, IoLockClosed } from 'react-icons/io5';
 import { useLocation } from 'react-router-dom';
-import { GetPropertiesParams, ROLE_ID, useGetAllStaff } from 'src/queries';
+import {
+  GetPropertiesParams,
+  ROLE_ID,
+  StaffResponse,
+  useDeleteStaff,
+  useGetAllStaff,
+} from 'src/queries';
 import StaffFilter from '../StaffFilter';
+import NewStaffForm from '../StaffForms/NewStaffForm';
+import { StaffToastMessage } from '../StaffForms/helpers';
 import { allColumns } from './allColumns';
 import { FormValue, USER_FILTER_QUERY_KEY, filterParamsKey } from './helpers';
-import { IoAdd } from 'react-icons/io5';
-import { DialogContext, DialogType } from '@components';
-import NewStaffForm from '../StaffForms/NewStaffForm';
-import StatusStaffForm from '../StaffForms/StatusStaffForm';
 
 const StaffList: React.FC = () => {
   const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
@@ -26,47 +38,57 @@ const StaffList: React.FC = () => {
     openModal();
   };
 
-  const handleChangeStaffStatus = useCallback(
-    (isDeactivate: boolean) => {
-      setDialogContent({
-        type: DialogType.YESNO_DIALOG,
-        title: 'Deactivate Staff',
-        hideTitle: true,
-        data: <StatusStaffForm isDeactivate={isDeactivate} />,
-        isWarning: isDeactivate,
-        okText: 'Yes',
-        cancelText: 'Cancel',
-        onOk: closeModal,
-        onCancel: closeModal,
-        maxWidth: 'xs',
-      });
-      openModal();
+  const { deleteStaff: deactivateStaff } = useDeleteStaff({
+    onSuccess: () => {
+      handleInvalidateAllStaffs();
+      Toastify.success(StaffToastMessage.DELETE_SUCCESS);
+      closeModal();
     },
-    [closeModal, openModal, setDialogContent],
-  );
-
-  const { staffs, totalRecords, setParams, isFetching } = useGetAllStaff({
-    onError: (error) => {
-      Toastify.error(error?.message);
-    },
+    onError: (error) => Toastify.error(error?.message),
   });
+
+  const handleOpenDeactivateDialog = useCallback((staff: StaffResponse) => {
+    setDialogContent({
+      type: DialogType.YESNO_DIALOG,
+      maxWidth: 'xs',
+      contentText: 'Deactivate Staff',
+      subContentText:
+        "Are you sure you want to deactivate this staff? This action can't be undone.",
+      showIcon: true,
+      icon: <IoLockClosed />,
+      isWarning: true,
+      okText: 'Yes',
+      onOk: () => {
+        deactivateStaff({ id: staff.id });
+        closeModal();
+      },
+    });
+    openModal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const { staffs, totalRecords, setParams, isFetching, handleInvalidateAllStaffs } = useGetAllStaff(
+    {
+      onError: (error) => {
+        Toastify.error(error?.message);
+      },
+    },
+  );
 
   const { search } = useLocation();
   const query = useMemo(() => new URLSearchParams(search), [search]);
 
   const paramsUrl: FormValue = useMemo(() => {
-    const userRoleQuery = query.getAll(USER_FILTER_QUERY_KEY._USER_ROLE) || undefined;
     const statusQuery = query.get(USER_FILTER_QUERY_KEY._STATUS) || undefined;
 
     return {
-      roles: userRoleQuery.map(Number),
       active: statusQuery,
     };
   }, [query]);
 
   const handleGetUser = (params: GetPropertiesParams) => {
     if (!Array.isArray(params.roles) || params.roles.length === 0) {
-      params.roles = [ROLE_ID._ADMIN.toString(), ROLE_ID._STAFF.toString()];
+      params.roles = [ROLE_ID._STAFF.toString()];
     }
     setParams({ ...params });
   };
@@ -82,8 +104,8 @@ const StaffList: React.FC = () => {
   );
 
   const columns = useMemo(
-    () => allColumns({ onOpenStaffStatus: handleChangeStaffStatus }),
-    [handleChangeStaffStatus],
+    () => allColumns({ handleOpenDeactivateDialog }),
+    [handleOpenDeactivateDialog],
   );
 
   return (
@@ -94,7 +116,7 @@ const StaffList: React.FC = () => {
         </Typography>
       </Stack>
       <Stack alignItems="center" justifyContent="space-between" flexDirection="row">
-        <CustomTableSearch placeholder="Search staff..." />
+        <CustomTableSearch placeholder="Search by first name/ last name/ email..." />
         <Stack justifyContent="flex-end" direction="row" flexGrow={1} alignItems="center" gap={2}>
           <Button
             variant="contained"

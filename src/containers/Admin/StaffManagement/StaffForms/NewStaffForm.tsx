@@ -1,28 +1,25 @@
-import React, { useContext } from 'react';
+import { COLOR_CODE, DialogContext, MuiTextField } from '@components';
 import {
-  Stack,
-  Grid,
-  FormLabel,
-  Radio,
-  FormControlLabel,
-  RadioGroup,
-  Typography,
   Button,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  Stack,
+  Typography,
 } from '@mui/material';
-import { Select } from '@components';
-import { COLOR_CODE, MuiTextField } from '@components';
-import { useFormik } from 'formik';
-import { AddStaffFormFieldsType, AddStaffFormFields } from './type';
+import { useGetAllStaff } from '@queries';
 import { useAddStaff } from '@queries/Staff/useAddStaff';
 import { Toastify, getErrorMessage } from '@shared';
+import { useFormik } from 'formik';
+import { useContext } from 'react';
 import {
-  initialAddStaffFormValues,
-  addStaffFormValidationSchema,
-  roleOptions,
   StaffToastMessage,
+  addStaffFormValidationSchema,
+  initialAddStaffFormValues
 } from './helpers';
-import { DialogContext } from '@components';
-import { useGetAllStaff } from '@queries';
+import { AddStaffFormFields, AddStaffFormFieldsType } from './type';
 
 const NewStaffForm = () => {
   const { closeModal } = useContext(DialogContext);
@@ -89,24 +86,14 @@ const NewStaffForm = () => {
             {...getFieldProps(AddStaffFormFields.LAST_NAME)}
           />
         </Grid>
+
         <Grid item xs={6}>
           <Stack spacing="10px">
-            <FormLabel id="label-role" className="form__label">
-              Role <span className="text-red-500 font-bold text-md">*</span>
-            </FormLabel>
-            <Select
-              onChange={() => {}}
-              value={values[AddStaffFormFields.ROLE]}
-              placeholder="Choose a role"
-              options={roleOptions}
-              className={'cmp-select--size-small'}
-              // errorMessage={getFieldErrorMessage(AddStaffFormFields.ROLE)}
-            />
-          </Stack>
-        </Grid>
-        <Grid item xs={6}>
-          <Stack spacing="10px">
-            <FormLabel id="label-gender" className="form__label">
+            <FormLabel
+              id="label-gender"
+              className="form__label"
+              sx={{ color: COLOR_CODE.GREY_700 }}
+            >
               Gender <span className="text-red-500 font-bold text-md">*</span>
             </FormLabel>
             <RadioGroup
@@ -144,7 +131,7 @@ const NewStaffForm = () => {
             {...getFieldProps(AddStaffFormFields.PHONE_NUMBER)}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <MuiTextField
             required
             fullWidth

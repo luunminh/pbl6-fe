@@ -12,7 +12,7 @@ import { useContext, useMemo } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import { useGetVouchers } from '@queries';
 import { MUIDataTableOptions } from 'mui-datatables';
-import { Toastify } from '@shared';
+import { RoleService, Toastify } from '@shared';
 import { allColumns } from './allColumns';
 import { VoucherFilterFormField, VoucherFilterFormType } from './components/VoucherFilter/helpers';
 import { VoucherFilter } from './components';
@@ -20,7 +20,7 @@ import { useSearchParams } from 'react-router-dom';
 import VoucherForm from '../VoucherForm';
 
 const VoucherList = () => {
-  const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
+  const { openModal, setDialogContent } = useContext(DialogContext);
   const [searchParams] = useSearchParams();
 
   const { vouchers, totalRecords, setParams, isFetching } = useGetVouchers({
@@ -76,16 +76,18 @@ const VoucherList = () => {
         </Typography>
       </Stack>
       <Stack alignItems="center" justifyContent="space-between" flexDirection="row">
-        <CustomTableSearch placeholder="Search by Voucher Code..." />
+        <CustomTableSearch placeholder="Search by voucher code..." />
         <Stack justifyContent="flex-end" direction="row" flexGrow={1} alignItems="center" gap={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<IoAdd />}
-            onClick={handleOpenAddVoucherModal}
-          >
-            Add new voucher
-          </Button>
+          {RoleService.isAdminRole() && (
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<IoAdd />}
+              onClick={handleOpenAddVoucherModal}
+            >
+              Add new voucher
+            </Button>
+          )}
           <CustomTableFilterContainer filterParamsKeys={Object.values(VoucherFilterFormField)}>
             <VoucherFilter searchValues={paramsUrl} />
           </CustomTableFilterContainer>
@@ -103,7 +105,5 @@ const VoucherList = () => {
     </Container>
   );
 };
-
-type Props = {};
 
 export default VoucherList;

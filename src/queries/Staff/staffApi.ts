@@ -1,8 +1,8 @@
 import axios from 'axios';
 import apisauce from 'apisauce';
 import appConfig from 'src/appConfig';
-import { AddStaffPayload, StaffListParams } from './type';
-import { AuthService, stringify } from 'src/modules/shared';
+import { AddStaffPayload, DeleteStaffPayload, StaffListParams } from './type';
+import { AuthService, RoleService, stringify } from 'src/modules/shared';
 import { ApiKey } from '@queries/keys';
 
 axios.defaults.withCredentials = true;
@@ -26,16 +26,24 @@ const create = (baseURL = `${appConfig.API_URL}`) => {
   const getStaffList = (params: StaffListParams) => {
     const { ...tableParams } = params;
     const queryString = stringify(tableParams);
-    return api.get(`/admin/users?${queryString}`, {});
+    return api.get(
+      `${RoleService.isAdminRole() ? '/admin/users' : '/staff/users'}?${queryString}`,
+      {},
+    );
   };
 
   const addStaff = (body: AddStaffPayload) => {
     return api.post(`${ApiKey.ADD_STAFF}`, body, {});
   };
 
+  const deleteStaff = (payload: DeleteStaffPayload) => {
+    return api.delete(`/admin/cashiers/${payload.id}`);
+  };
+
   return {
     getStaffList,
     addStaff,
+    deleteStaff,
   };
 };
 

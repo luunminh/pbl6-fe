@@ -55,7 +55,7 @@ export const allColumns = ({
     },
     {
       name: 'amount',
-      label: 'Quantity',
+      label: 'Stock',
       options: {
         filter: false,
         sort: true,

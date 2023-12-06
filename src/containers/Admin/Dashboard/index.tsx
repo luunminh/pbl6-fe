@@ -1,14 +1,32 @@
-import React, { ReactNode } from 'react';
-import { Container, Grid, Stack, Typography } from '@mui/material';
-import { emptyFunction, formatMoney } from '@shared';
 import { COLOR_CODE, DateRangePicker, Select } from '@components';
-import { chartSelectOptions, dataKey, dataset, getKeys, productDataSet } from './helpers';
+import {
+  Container,
+  Grid,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
 import { ResponsiveBar } from '@nivo/bar';
-import { cardStyles } from './styles';
-import { LuScanLine } from 'react-icons/lu';
-import { IoWalletOutline } from 'react-icons/io5';
-import { CiMoneyBill } from 'react-icons/ci';
+import { emptyFunction, formatMoney } from '@shared';
+import React, { ReactNode } from 'react';
 import { BsCart2 } from 'react-icons/bs';
+import { CiMoneyBill } from 'react-icons/ci';
+import { IoWalletOutline } from 'react-icons/io5';
+import { LuScanLine } from 'react-icons/lu';
+import {
+  chartSelectOptions,
+  dataKey,
+  dataset,
+  getKeys,
+  productDataSet,
+  storeTableDataset,
+} from './helpers';
+import { cardStyles } from './styles';
 
 const Dashboard: React.FC<Props> = ({}) => (
   <Container maxWidth="xl">
@@ -167,7 +185,7 @@ const Dashboard: React.FC<Props> = ({}) => (
                   Revenue
                 </Typography>
                 <Typography variant="h3" fontWeight={700}>
-                  {formatMoney(19000000)}
+                  {formatMoney(345500000)}
                 </Typography>
               </Stack>
             </Grid>
@@ -186,7 +204,7 @@ const Dashboard: React.FC<Props> = ({}) => (
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={6} height={'100%'}>
+        <Grid item xs={6}>
           <Stack width={'100%'} height={'100%'}>
             <Typography variant="h3" fontWeight={700} color={COLOR_CODE.GREY_500} pl={2}>
               Revenue by product
@@ -272,6 +290,45 @@ const Dashboard: React.FC<Props> = ({}) => (
           </Stack>
         </Grid>
       </Grid>
+    </Stack>
+    <Stack sx={{ mb: 2, padding: 3 }}>
+      <TableContainer>
+        <Table>
+          <TableHead sx={{ bgcolor: COLOR_CODE.GREY_50 }}>
+            <TableRow>
+              <TableCell width="40%" sx={{ color: COLOR_CODE.GREY_700, fontWeight: 600 }}>
+                Store Address
+              </TableCell>
+              <TableCell width="20%" sx={{ color: COLOR_CODE.GREY_700, fontWeight: 600 }}>
+                Expense
+              </TableCell>
+              <TableCell width="20%" sx={{ color: COLOR_CODE.GREY_700, fontWeight: 600 }}>
+                Revenue
+              </TableCell>
+              <TableCell width="20%" sx={{ color: COLOR_CODE.GREY_700, fontWeight: 600 }}>
+                Profit
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {storeTableDataset.map((data) => (
+              <TableRow
+                key={data.storeAddress}
+                // sx={{
+                //   '&:last-child td, &:last-child th': { border: 0 },
+                // }}
+              >
+                <TableCell>
+                  <Typography fontSize={14}>{data.storeAddress}</Typography>
+                </TableCell>
+                <TableCell>{formatMoney(data.expense)}</TableCell>
+                <TableCell>{formatMoney(data.revenue)}</TableCell>
+                <TableCell>{formatMoney(data.profit)}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Stack>
   </Container>
 );

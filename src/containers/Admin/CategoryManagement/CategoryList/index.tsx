@@ -1,13 +1,12 @@
-import React, { useMemo, useContext, useCallback } from 'react';
-import { Container, Stack, Typography, Button } from '@mui/material';
-import { CustomTableSearch, Table, EmptyTable, DialogContext, DialogType } from '@components';
-import { MUIDataTableOptions } from 'mui-datatables';
-import { allColumns } from './allColumns';
+import { CustomTableSearch, DialogContext, DialogType, EmptyTable, Table } from '@components';
+import { Button, Container, Stack, Typography } from '@mui/material';
 import { CategoryListParams, useGetAllCategories } from '@queries/Category';
-import { RoleService, Toastify } from '@shared';
+import { RoleService, Toastify, isEmpty } from '@shared';
+import { MUIDataTableOptions } from 'mui-datatables';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import CategoryForm from '../CategoryForm';
-import { isEmpty } from '@shared';
+import { allColumns } from './allColumns';
 
 const CategoryList: React.FC = () => {
   const { openModal, setDialogContent } = useContext(DialogContext);
@@ -54,7 +53,7 @@ const CategoryList: React.FC = () => {
         </Typography>
       </Stack>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between">
-        <CustomTableSearch placeholder="Search category..." />
+        <CustomTableSearch placeholder="Search by category name..." />
         {RoleService.isAdminRole() && (
           <Button
             variant="contained"

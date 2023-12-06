@@ -1,10 +1,9 @@
-import axios from 'axios';
+import { ApiKey } from '@queries/keys';
+import { AuthService, RoleService, stringify } from '@shared';
 import apisauce from 'apisauce';
+import axios from 'axios';
 import appConfig from 'src/appConfig';
 import { CategoryListParams, CategoryPayload } from './type';
-import { AuthService, RoleService, stringify } from '@shared';
-import { ApiKey } from '@queries/keys';
-import { RoleTitle, UserRole } from '@components';
 
 axios.defaults.withCredentials = true;
 const create = (baseURL = `${appConfig.API_URL}`) => {

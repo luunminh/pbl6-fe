@@ -47,7 +47,7 @@ const ImportOrderFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) 
     [searchValues],
   );
 
-  const handleSubmitSearchAndFilter = (values: ImportOrderFilterFormFieldsType) => {
+  const handleSubmitFilter = (values: ImportOrderFilterFormFieldsType) => {
     const { storeId } = values;
     query.delete(TableQueryParams._PAGE);
 
@@ -62,7 +62,7 @@ const ImportOrderFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) 
 
   const formik = useFormik<ImportOrderFilterFormFieldsType>({
     initialValues: getInitialImportOrderFilterValues,
-    onSubmit: handleSubmitSearchAndFilter,
+    onSubmit: handleSubmitFilter,
   });
 
   const { setValues, handleSubmit, getFieldProps, setFieldValue, touched, errors } = formik;

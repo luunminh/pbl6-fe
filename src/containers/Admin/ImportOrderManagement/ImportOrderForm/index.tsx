@@ -2,16 +2,16 @@ import { COLOR_CODE, Loading, MuiTextField } from '@components';
 import { Stack, Typography } from '@mui/material';
 import { ImportOrderListResponse, useGetImportOrderDetails } from '@queries/ImportOrder';
 import { Toastify, formatMoney } from '@shared';
-import {
-  IoListOutline,
-  IoInformationCircleOutline,
-  IoStorefrontOutline,
-  IoCalendarOutline,
-} from 'react-icons/io5';
 import { GiMoneyStack } from 'react-icons/gi';
-import { formatDate } from './helpers';
-import ImportProductList from './components/ImportProductList';
+import {
+  IoCalendarOutline,
+  IoInformationCircleOutline,
+  IoListOutline,
+  IoStorefrontOutline,
+} from 'react-icons/io5';
 import { customImportOrderID } from '../ImportOrderList/helpers';
+import ImportProductList from './components/ImportProductList';
+import { formatDate } from './helpers';
 
 type PropsType = {
   rowData: ImportOrderListResponse;
@@ -99,14 +99,14 @@ const ImportOrderForm = ({ rowData }: PropsType) => {
             <Stack direction={'row'} alignItems={'center'} spacing={1}>
               <IoCalendarOutline size={16} color={COLOR_CODE.GREY_700} />
               <Typography fontSize={14} fontWeight={600}>
-                Created date
+                Date created
               </Typography>
             </Stack>
             <MuiTextField
               required
               fullWidth
               size="small"
-              placeholder="Created date"
+              placeholder="Date created"
               value={formatDate(importOrder?.createdAt)}
               readOnly
             />

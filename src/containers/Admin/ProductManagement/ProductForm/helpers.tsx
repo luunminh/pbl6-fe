@@ -25,7 +25,7 @@ export const ProductSchema = yup.object().shape({
     .required(ERROR_MESSAGES.FIELD_REQUIRED)
     .max(180, 'This field must be 180 characters or less')
     .nullable(),
-  price: yup.number().required(ERROR_MESSAGES.FIELD_REQUIRED).nullable().min(1),
+  price: yup.number().required(ERROR_MESSAGES.FIELD_REQUIRED).nullable().min(0),
   categoryId: yup.string().required(ERROR_MESSAGES.FIELD_REQUIRED).nullable(),
 });
 

@@ -4,7 +4,6 @@ import { Toastify } from '@shared';
 import { MUIDataTableOptions } from 'mui-datatables';
 import React, { useMemo } from 'react';
 import { GetPropertiesParams, ROLE_ID, useGetAllStaff } from 'src/queries';
-import { USER_FILTER_QUERY_KEY } from '../../StaffManagement/StaffList/helpers';
 import { allColumns } from './allColumns';
 
 const CustomerList: React.FC = () => {
@@ -41,7 +40,7 @@ const CustomerList: React.FC = () => {
         </Typography>
       </Stack>
       <Stack alignItems="center" justifyContent="space-between" flexDirection="row">
-        <CustomTableSearch placeholder="Search customer..." />
+        <CustomTableSearch placeholder="Search by first name/ last name/ email..." />
       </Stack>
       <Table
         title=""
@@ -50,7 +49,6 @@ const CustomerList: React.FC = () => {
         data={staffs}
         tableOptions={tableOptions}
         columns={columns}
-        additionalFilterParams={[USER_FILTER_QUERY_KEY._USER_ROLE, USER_FILTER_QUERY_KEY._STATUS]}
         emptyComponent={<EmptyTable />}
       />
     </Container>

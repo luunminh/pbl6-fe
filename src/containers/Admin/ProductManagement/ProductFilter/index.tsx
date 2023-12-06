@@ -49,7 +49,7 @@ const ProductFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
 
   const query = useMemo(() => new URLSearchParams(search), [search]);
 
-  const handleSubmitSearchAndFilter = (values: ProductFilterFormValue) => {
+  const handleSubmitFilter = (values: ProductFilterFormValue) => {
     const { categories, storeId } = values;
     query.delete(TableQueryParams._PAGE);
 
@@ -92,7 +92,7 @@ const ProductFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
 
   const formik = useFormik<ProductFilterFormValue>({
     initialValues: initialValue,
-    onSubmit: handleSubmitSearchAndFilter,
+    onSubmit: handleSubmitFilter,
   });
   const { setValues, handleSubmit, getFieldProps, setFieldValue, touched, errors } = formik;
 

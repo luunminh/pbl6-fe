@@ -1,7 +1,6 @@
 export enum AddStaffFormFields {
   FIRST_NAME = 'firstName',
   LAST_NAME = 'lastName',
-  ROLE = 'role',
   GENDER = 'gender',
   PHONE_NUMBER = 'phoneNumber',
   EMAIL = 'email',
@@ -11,7 +10,6 @@ export enum AddStaffFormFields {
 export type AddStaffFormFieldsType = {
   [AddStaffFormFields.FIRST_NAME]: string;
   [AddStaffFormFields.LAST_NAME]: string;
-  // [AddStaffFormFields.ROLE]: string;
   [AddStaffFormFields.GENDER]: number | 0 | 1;
   [AddStaffFormFields.PHONE_NUMBER]: string;
   [AddStaffFormFields.EMAIL]: string;

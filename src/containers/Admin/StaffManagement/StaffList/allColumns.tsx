@@ -1,15 +1,16 @@
 import { COLOR_CODE } from '@components';
 import { IconButton, Stack, Tooltip } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
-import { IoLockClosed, IoLockOpen } from 'react-icons/io5';
+import { IoLockClosed } from 'react-icons/io5';
 import { GENDER_NAME, StaffResponse } from 'src/queries';
 import { customRoleRender, customStatusRender } from './helpers';
+import { isEmpty } from '@shared';
 
 type ColumnProps = {
-  onOpenStaffStatus: (..._args: any[]) => void;
+  handleOpenDeactivateDialog: (..._args: any[]) => void;
 };
 
-export const allColumns = ({ onOpenStaffStatus }: ColumnProps): MUIDataTableColumn[] => {
+export const allColumns = ({ handleOpenDeactivateDialog }: ColumnProps): MUIDataTableColumn[] => {
   const columns: MUIDataTableColumn[] = [
     {
       name: 'userRoles',
@@ -66,17 +67,17 @@ export const allColumns = ({ onOpenStaffStatus }: ColumnProps): MUIDataTableColu
       },
     },
     {
-      name: 'deleteAt',
+      name: 'deletedAt',
       label: 'Status',
       options: {
         filter: false,
         sort: false,
-        customBodyRender: customStatusRender,
+        customBodyRender: (value: string) => customStatusRender(value),
       },
     },
     {
       name: '',
-      label: 'Actions',
+      label: 'Action',
       options: {
         filter: false,
         sort: false,
@@ -88,36 +89,21 @@ export const allColumns = ({ onOpenStaffStatus }: ColumnProps): MUIDataTableColu
         ) => {
           const { tableData, rowIndex } = meta;
           const rowData = tableData.at(rowIndex) as StaffResponse;
-          return (
+          return isEmpty(rowData.deletedAt) ? (
             <Stack flexDirection="row">
-              <Tooltip title={rowData.deleteAt ? 'Unlock' : 'Lock'} arrow placement="top">
+              <Tooltip title={'Deactivate'} arrow placement="top">
                 <IconButton
                   onClick={(event) => {
                     event.stopPropagation();
-                    onOpenStaffStatus(!rowData.deleteAt);
+                    handleOpenDeactivateDialog(rowData);
                   }}
-                  sx={{
-                    '.MuiIconButton-root': {
-                      width: '30px',
-                      height: '30px',
-                    },
-                    '&:hover': {
-                      bgcolor: COLOR_CODE.WHITE,
-                      boxShadow:
-                        '0px 0px 2px 0px rgba(0, 0, 0, 0.10), 0px 2px 4px 0px rgba(0, 0, 0, 0.05)',
-                      borderRadius: '4px',
-                    },
-                  }}
+                  sx={{ color: COLOR_CODE.GREY_600 }}
                 >
-                  {rowData.deleteAt ? (
-                    <IoLockOpen color={COLOR_CODE.GREY_600} size={20} />
-                  ) : (
-                    <IoLockClosed color={COLOR_CODE.GREY_600} size={20} />
-                  )}
+                  <IoLockClosed size={20} />
                 </IconButton>
               </Tooltip>
             </Stack>
-          );
+          ) : null;
         },
       },
     },

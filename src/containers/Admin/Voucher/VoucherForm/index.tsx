@@ -14,7 +14,7 @@ import {
   useGetVouchers,
   useUpdateVoucher,
 } from '@queries';
-import { Toastify, getErrorMessage, handleKeyDownNumberInput, isEmpty } from '@shared';
+import { Toastify, formatDate, getErrorMessage, handleKeyDownNumberInput, isEmpty } from '@shared';
 import { useFormik } from 'formik';
 import { useContext, useMemo, useState } from 'react';
 import {
@@ -77,9 +77,19 @@ const VoucherForm = ({ voucherId, isEditing, readOnly }: Props) => {
   const handleFormSubmit = (formValues: VoucherFormType) => {
     if (!isEmpty(segmentedButtonValue)) {
       if (isEditing) {
-        updateVoucher({ ...formValues, type: segmentedButtonValue });
+        updateVoucher({
+          ...formValues,
+          startDate: formatDate(formValues.startDate, 'YYYY-MM-DDThh:mm:ssZ'),
+          endDate: formatDate(formValues.endDate, 'YYYY-MM-DDThh:mm:ssZ'),
+          type: segmentedButtonValue,
+        });
       } else {
-        addVoucher({ ...formValues, type: segmentedButtonValue });
+        addVoucher({
+          ...formValues,
+          startDate: formatDate(formValues.startDate, 'YYYY-MM-DDThh:mm:ssZ'),
+          endDate: formatDate(formValues.endDate, 'YYYY-MM-DDThh:mm:ssZ'),
+          type: segmentedButtonValue,
+        });
       }
     } else {
       setFieldError(VoucherFormField.DISCOUNT_VALUE, 'Please choose a discount type');

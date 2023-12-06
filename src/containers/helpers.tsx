@@ -4,13 +4,16 @@ import React, { PropsWithChildren } from 'react';
 import { Navigate } from 'react-router';
 import Dev from './Dev';
 import SplashScreen from './StartupContainers/SplashScreen';
-import { Toastify } from '@shared';
 const OnDevelop = React.lazy(() => import('./StartupContainers/OnDevelop'));
 const StaffList = React.lazy(() => import('./Admin/StaffManagement/StaffList'));
 const ProductList = React.lazy(() => import('./Admin/ProductManagement/ProductList'));
 const CustomerList = React.lazy(() => import('./Admin/CustomerManagement/CustomerList'));
 const CategoryList = React.lazy(() => import('./Admin/CategoryManagement/CategoryList'));
+const InvoiceList = React.lazy(() => import('./Admin/InvoiceManagement/InvoiceList'));
+const AddInvoiceForm = React.lazy(() => import('./Admin/InvoiceManagement/AddInvoice'));
 const ImportOrderList = React.lazy(() => import('./Admin/ImportOrderManagement/ImportOrderList'));
+const OrderRequest = React.lazy(() => import('./Admin/OrderManagement/OrderRequests'));
+const OrderList = React.lazy(() => import('./Admin/OrderManagement/OrderList'));
 const StoreList = React.lazy(() => import('./Admin/StoreManagement/StoreList'));
 const UserProfile = React.lazy(() => import('@components/UserProfile/UserProfile'));
 const SignIn = React.lazy(() => import('@components/UAMContainer/SignIn'));
@@ -54,6 +57,8 @@ export const routerGroup = [
   { path: PATHS.resetPassword, element: <ResetPassword />, isRequireAuth: false },
   { path: PATHS.dashboard, element: <Dashboard />, isRequireAuth: true },
   { path: PATHS.category, element: <CategoryList />, isRequireAuth: true },
+  { path: PATHS.invoice, element: <InvoiceList />, isRequireAuth: true },
+  { path: PATHS.addInvoice, element: <AddInvoiceForm />, isRequireAuth: true },
   {
     path: PATHS.importOrder,
     element: <ImportOrderList />,
@@ -61,11 +66,12 @@ export const routerGroup = [
     isOnlyAdminSite: true,
   },
   { path: PATHS.store, element: <StoreList />, isRequireAuth: true },
-  { path: PATHS.order, element: <OnDevelop />, isRequireAuth: true },
+  { path: PATHS.order, element: <OrderList />, isRequireAuth: true },
+  { path: PATHS.orderRequest, element: <OrderRequest />, isRequireAuth: true },
   { path: PATHS.staff, element: <StaffList />, isRequireAuth: true, isOnlyAdminSite: true },
   { path: PATHS.product, element: <ProductList />, isRequireAuth: true },
   { path: PATHS.customer, element: <CustomerList />, isRequireAuth: true },
   { path: PATHS.profile, element: <UserProfile />, isRequireAuth: true },
-  { path: PATHS.voucher, element: <Vouchers />, isRequireAuth: true, isOnlyAdminSite: true },
+  { path: PATHS.voucher, element: <Vouchers />, isRequireAuth: true },
   { path: PATHS.dev, element: <Dev />, isRequireAuth: true },
 ];

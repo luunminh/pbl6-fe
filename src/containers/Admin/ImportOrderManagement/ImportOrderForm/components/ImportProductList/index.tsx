@@ -7,9 +7,9 @@ type PropsType = {
   importProductList: ImportOrderDetailsType[];
 };
 
-const ImportOrderTable = ({ importProductList }: PropsType) => {
+const ImportProductList = ({ importProductList }: PropsType) => {
   return (
-    <TableContainer>
+    <TableContainer sx={{ maxHeight: '400px' }}>
       <Table>
         <TableHead sx={{ bgcolor: COLOR_CODE.GREY_50 }}>
           <TableRow>
@@ -47,4 +47,4 @@ const ImportOrderTable = ({ importProductList }: PropsType) => {
   );
 };
 
-export default ImportOrderTable;
+export default ImportProductList;

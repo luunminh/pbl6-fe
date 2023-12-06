@@ -1,8 +1,9 @@
 import staffApi from './staffApi';
-export * from './type';
-export * from './useGetAllStaff';
-export * from './useAddStaff';
-
-// export crud queries
 
 export const StaffApi = staffApi.create();
+
+export * from './type';
+export * from './useGetAllStaff';
+export * from './useGetStaffLazy';
+export * from './useAddStaff';
+export * from './useDeleteStaff';

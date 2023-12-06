@@ -16,6 +16,18 @@ export type ProductResponse = {
   category: CategoryResponse;
   createdAt: string;
   updatedAt: string;
+  productStore?: ProductStore;
+};
+
+export type ProductStore = {
+  id: string;
+  productId: string;
+  storeId: string;
+  amount: number;
+  expirtyDate: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
 };
 
 export type ProductListParams = TableParams;

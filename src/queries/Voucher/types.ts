@@ -44,8 +44,8 @@ export type VoucherPayload = {
   type: string;
   discountValue: number;
   quantity: number;
-  startDate: string | Date;
-  endDate: string | Date;
+  startDate: string;
+  endDate: string;
 };
 
 export type DeleteVoucherPayload = {

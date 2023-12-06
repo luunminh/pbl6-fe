@@ -1,7 +1,9 @@
+import { UserRole } from '@components';
 import { Stack } from '@mui/material';
+import { IRootState } from '@redux/store';
 import cn from 'classnames';
 import React, { useEffect } from 'react';
-import { BsChevronLeft, BsDot } from 'react-icons/bs';
+import { BsChevronLeft, BsClipboard2Plus, BsClipboard2PlusFill, BsDot } from 'react-icons/bs';
 import { FaEject } from 'react-icons/fa';
 import {
   IoBag,
@@ -10,28 +12,25 @@ import {
   IoCartOutline,
   IoGrid,
   IoGridOutline,
-  IoReaderOutline,
-  IoReader,
   IoHome,
   IoHomeOutline,
   IoPeople,
   IoPeopleOutline,
   IoPerson,
   IoPersonOutline,
+  IoReader,
+  IoReaderOutline,
   IoStorefront,
   IoStorefrontOutline,
-  IoTicketSharp,
   IoTicketOutline,
+  IoTicketSharp,
 } from 'react-icons/io5';
 import { Menu, MenuItem, Sidebar, SubMenu, useProSidebar } from 'react-pro-sidebar';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { PATHS } from 'src/appConfig/paths';
 import { COLOR_CODE } from 'src/modules/components/configs/theme';
 import './styles.scss';
-import { UserProfile, UserRole } from '@components';
-import { useGetProfile } from '@queries/Profile/useGetProfile';
-import { useSelector } from 'react-redux';
-import { IRootState } from '@redux/store';
 
 type MenuItemType = {
   label: string;
@@ -93,35 +92,63 @@ const MenuItems: MenuItemType[] = [
     accessRoles: [UserRole.ADMIN, UserRole.STAFF],
   },
   {
+    label: 'Invoice',
+    path: PATHS.invoice,
+    activePath: PATHS.invoice,
+    icon: (
+      <div className="title-icon" aria-details="Invoice">
+        <IoReaderOutline size={20} />
+      </div>
+    ),
+    activeIcon: (
+      <div className="title-icon" aria-details="Invoice">
+        <IoReader size={20} />
+      </div>
+    ),
+    accessRoles: [UserRole.ADMIN, UserRole.STAFF],
+  },
+  {
     label: 'Import Order',
     path: PATHS.importOrder,
     activePath: PATHS.importOrder,
     icon: (
       <div className="title-icon" aria-details="Import Order">
-        <IoReaderOutline size={20} />
+        <BsClipboard2Plus size={20} />
       </div>
     ),
     activeIcon: (
       <div className="title-icon" aria-details="Import Order">
-        <IoReader size={20} />
+        <BsClipboard2PlusFill size={20} />
       </div>
     ),
     accessRoles: [UserRole.ADMIN],
   },
   {
-    label: 'Order & Invoice',
+    label: 'Order',
     path: PATHS.order,
     activePath: PATHS.order,
     icon: (
-      <div className="title-icon" aria-details="Order & Invoice">
+      <div className="title-icon" aria-details="Order">
         <IoCartOutline size={20} />
       </div>
     ),
     activeIcon: (
-      <div className="title-icon" aria-details="Order & Invoice">
+      <div className="title-icon" aria-details="Order">
         <IoCart size={20} />
       </div>
     ),
+    subItems: [
+      {
+        label: 'Order List',
+        path: PATHS.order,
+        activePath: PATHS.order,
+      },
+      {
+        label: 'Order Request',
+        path: PATHS.orderRequest,
+        activePath: PATHS.orderRequest,
+      },
+    ],
     accessRoles: [UserRole.ADMIN, UserRole.STAFF],
   },
   {
@@ -141,7 +168,6 @@ const MenuItems: MenuItemType[] = [
     accessRoles: [UserRole.ADMIN, UserRole.STAFF],
   },
   {
-    // TODO: clear requirement: do staff can access to this screen
     label: 'Customer',
     path: PATHS.customer,
     activePath: PATHS.customer,
@@ -187,9 +213,10 @@ const MenuItems: MenuItemType[] = [
         <IoTicketSharp size={20} />
       </div>
     ),
-    accessRoles: [UserRole.ADMIN],
+    accessRoles: [UserRole.ADMIN, UserRole.STAFF],
   },
 ];
+
 const DevItem: MenuItemType = {
   label: 'Dev Container',
   path: PATHS.dev,
@@ -211,6 +238,7 @@ const CustomSidebar: React.FC<Props> = () => {
   const currentRole = useSelector((state: IRootState) => state.auth.currentRole);
 
   const location = useLocation();
+  
   const { collapseSidebar, collapsed, toggleSidebar, broken, toggled } = useProSidebar();
 
   useEffect(() => {
@@ -272,7 +300,7 @@ const CustomSidebar: React.FC<Props> = () => {
                 >
                   {item.subItems.map((subItem) => (
                     <MenuItem
-                      active={isActive}
+                      active={location.pathname === subItem.path}
                       icon={<BsDot size={24} />}
                       component={<Link to={subItem.path} />}
                       key={subItem.path}

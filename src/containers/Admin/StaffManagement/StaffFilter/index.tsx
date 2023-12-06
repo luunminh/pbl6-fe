@@ -1,43 +1,20 @@
 import { COLOR_CODE } from '@components';
-import {
-  Button,
-  Checkbox,
-  Container,
-  FormControlLabel,
-  Grid,
-  Radio,
-  RadioGroup,
-  Stack,
-  Typography,
-} from '@mui/material';
-import { isEmpty } from '@shared';
-import { Field, Form, FormikProvider, useFormik } from 'formik';
+import { Button, Container, Grid, Radio, RadioGroup, Stack, Typography } from '@mui/material';
+import { Form, FormikProvider, useFormik } from 'formik';
 import React, { useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  FormValue,
-  USER_FILTER_QUERY_KEY,
-  UserRoleOptions,
-  emptyFormValueFilter,
-} from '../StaffList/helpers';
+import { FormValue, USER_FILTER_QUERY_KEY, emptyFormValueFilter } from '../StaffList/helpers';
 
 const StaffFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
   const navigate = useNavigate();
+
   const { search } = useLocation();
 
   const query = useMemo(() => new URLSearchParams(search), [search]);
 
-  const handleSubmitSearchAndFilter = (values: FormValue) => {
-    const { roles, active } = values;
+  const handleSubmitFilter = (values: FormValue) => {
+    const { active } = values;
     query.delete('page');
-    if (!isEmpty(roles)) {
-      query.delete(USER_FILTER_QUERY_KEY._USER_ROLE);
-      roles.forEach((item) => {
-        query.append(USER_FILTER_QUERY_KEY._USER_ROLE, item.toString());
-      });
-    } else {
-      query.delete(USER_FILTER_QUERY_KEY._USER_ROLE);
-    }
     query.delete(USER_FILTER_QUERY_KEY._STATUS);
     if (active === 'true') {
       query.append(USER_FILTER_QUERY_KEY._STATUS, 'true');
@@ -61,7 +38,6 @@ const StaffFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
 
   const initialValue: FormValue = useMemo(
     () => ({
-      roles: searchValues.roles || [],
       active: searchValues.active || null,
     }),
     [searchValues],
@@ -69,9 +45,9 @@ const StaffFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
 
   const formik = useFormik<FormValue>({
     initialValues: initialValue,
-    onSubmit: handleSubmitSearchAndFilter,
+    onSubmit: handleSubmitFilter,
   });
-  const { setValues, handleSubmit, getFieldProps, values, setFieldValue } = formik;
+  const { setValues, handleSubmit, getFieldProps, values } = formik;
 
   return (
     <Container maxWidth="xs" sx={{ p: 2 }}>
@@ -80,50 +56,9 @@ const StaffFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
           Filters
         </Typography>
       </Stack>
-
       <FormikProvider value={formik}>
         <Form onSubmit={handleSubmit} autoComplete="off">
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Stack
-                direction="column"
-                sx={{
-                  border: `1px solid ${COLOR_CODE.GREY_300} `,
-                  borderRadius: 2,
-                }}
-              >
-                <Typography
-                  fontWeight={700}
-                  bgcolor={COLOR_CODE.GREY_50}
-                  p={1}
-                  borderRadius="8px 8px 0 0"
-                >
-                  Role
-                </Typography>
-                {UserRoleOptions?.map((role) => (
-                  <Field
-                    type="checkbox"
-                    name="roles"
-                    value={role.value}
-                    key={role.value}
-                    as={FormControlLabel}
-                    control={<Checkbox sx={{ mx: 2 }} />}
-                    checked={values?.roles?.includes(role.value)}
-                    label={role.label}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setFieldValue('roles', [...values.roles, role.value]);
-                      } else {
-                        setFieldValue(
-                          'roles',
-                          values.roles.filter((item) => item !== role.value),
-                        );
-                      }
-                    }}
-                  />
-                ))}
-              </Stack>
-            </Grid>
             <Grid item xs={12}>
               <Stack
                 direction="column"

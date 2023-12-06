@@ -1,10 +1,8 @@
-import axios from 'axios';
-import apisauce from 'apisauce';
-import appConfig from 'src/appConfig';
-import { AuthService, stringify } from 'src/modules/shared';
-import { ApiKey } from '@queries/keys';
 import { TableParams } from '@components';
-import { getMockVoucherList } from 'src/mocks';
+import apisauce from 'apisauce';
+import axios from 'axios';
+import appConfig from 'src/appConfig';
+import { AuthService, RoleService, stringify } from 'src/modules/shared';
 import { DeleteVoucherPayload, VoucherPayload } from './types';
 
 axios.defaults.withCredentials = true;
@@ -29,11 +27,11 @@ const create = (baseURL = `${appConfig.API_URL}`) => {
     const { ...tableParams } = params;
     const queryString = stringify(tableParams);
     // return getMockVoucherList();
-    return api.get(`/admin/voucher?${queryString}`, {});
+    return api.get(`${RoleService.isAdminRole() ? '/admin/voucher' : '/voucher'}?${queryString}`);
   };
 
   const getVoucherDetail = (id: string) => {
-    return api.get(`/admin/voucher/${id}`);
+    return api.get(`${RoleService.isAdminRole() ? '/admin/voucher' : 'voucher'}/${id}`);
   };
 
   const addVoucher = (payload: VoucherPayload) => {

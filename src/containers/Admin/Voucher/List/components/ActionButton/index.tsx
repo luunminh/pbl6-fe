@@ -1,7 +1,7 @@
 import { DialogContext, DialogType } from '@components';
 import { IconButton, Stack, Tooltip } from '@mui/material';
 import { GetVouchersResponse, useDeleteVoucher, useGetVouchers } from '@queries';
-import { Toastify } from '@shared';
+import { RoleService, Toastify } from '@shared';
 import { useCallback, useContext } from 'react';
 import { AiFillEye } from 'react-icons/ai';
 import { IoPencil, IoTrashBin } from 'react-icons/io5';
@@ -72,27 +72,31 @@ const ActionButton = ({ record }: Props) => {
           <AiFillEye size={20} />
         </IconButton>
       </Tooltip>
-      <Tooltip title="Edit" arrow>
-        <span>
-          <IconButton
-            disabled={isStartedVoucher}
-            onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              handleOpenVoucherModal(true);
-            }}
-          >
-            <IoPencil size={20} />
-          </IconButton>
-        </span>
-      </Tooltip>
-      <Tooltip title="Delete">
-        <span>
-          <IconButton size="small" onClick={handleOpenDeleteModal} disabled={isStartedVoucher}>
-            <IoTrashBin />
-          </IconButton>
-        </span>
-      </Tooltip>
+      {RoleService.isAdminRole() && (
+        <Tooltip title="Edit" arrow>
+          <span>
+            <IconButton
+              disabled={isStartedVoucher}
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                handleOpenVoucherModal(true);
+              }}
+            >
+              <IoPencil size={20} />
+            </IconButton>
+          </span>
+        </Tooltip>
+      )}
+      {RoleService.isAdminRole() && (
+        <Tooltip title="Delete">
+          <span>
+            <IconButton size="small" onClick={handleOpenDeleteModal} disabled={isStartedVoucher}>
+              <IoTrashBin />
+            </IconButton>
+          </span>
+        </Tooltip>
+      )}
     </Stack>
   );
 };

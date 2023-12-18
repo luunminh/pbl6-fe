@@ -1,7 +1,7 @@
 import { COLOR_CODE } from '@components';
 import { IconButton, Tooltip } from '@mui/material';
 import { InvoiceResponse } from '@queries';
-import { RoleService, formatDate, formatMoney, tableBodyRender } from '@shared';
+import { formatDate, formatMoney, tableBodyRender } from '@shared';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { IoEye } from 'react-icons/io5';
 import { customInvoiceID } from './helpers';
@@ -112,19 +112,17 @@ export const allColumns = ({
           const { tableData, rowIndex } = tableMeta;
           const rowData = tableData.at(rowIndex) as InvoiceResponse;
           return (
-            RoleService.isAdminRole() && (
-              <Tooltip title="View" placement="top" arrow>
-                <IconButton
-                  aria-label="view invoice detail"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    handleOpenInvoiceDetailsDialog(rowData.id);
-                  }}
-                >
-                  <IoEye color={COLOR_CODE.GREY_600} size={20} />
-                </IconButton>
-              </Tooltip>
-            )
+            <Tooltip title="View" placement="top" arrow>
+              <IconButton
+                aria-label="view invoice detail"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleOpenInvoiceDetailsDialog(rowData.id);
+                }}
+              >
+                <IoEye color={COLOR_CODE.GREY_600} size={20} />
+              </IconButton>
+            </Tooltip>
           );
         },
       },

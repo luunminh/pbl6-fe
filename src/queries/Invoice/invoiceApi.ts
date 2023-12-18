@@ -25,7 +25,7 @@ const create = (baseURL = `${appConfig.API_URL}`) => {
   const getInvoiceList = (params: InvoiceListParams) => {
     const { ...tableParams } = params;
     const queryString = stringify(tableParams);
-    return api.get(`/admin/bill?${queryString}`);
+    return api.get(`${RoleService.isAdminRole() ? '/admin/bill' : '/staff/bill'}?${queryString}`);
   };
 
   const getInvoiceDetails = (id: string) => {

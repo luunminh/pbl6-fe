@@ -149,7 +149,7 @@ const MenuItems: MenuItemType[] = [
         activePath: PATHS.orderRequest,
       },
     ],
-    accessRoles: [UserRole.ADMIN, UserRole.STAFF],
+    accessRoles: [UserRole.ADMIN],
   },
   {
     label: 'Store',
@@ -238,7 +238,7 @@ const CustomSidebar: React.FC<Props> = () => {
   const currentRole = useSelector((state: IRootState) => state.auth.currentRole);
 
   const location = useLocation();
-  
+
   const { collapseSidebar, collapsed, toggleSidebar, broken, toggled } = useProSidebar();
 
   useEffect(() => {

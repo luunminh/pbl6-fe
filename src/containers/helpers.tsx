@@ -4,7 +4,6 @@ import React, { PropsWithChildren } from 'react';
 import { Navigate } from 'react-router';
 import Dev from './Dev';
 import SplashScreen from './StartupContainers/SplashScreen';
-const OnDevelop = React.lazy(() => import('./StartupContainers/OnDevelop'));
 const StaffList = React.lazy(() => import('./Admin/StaffManagement/StaffList'));
 const ProductList = React.lazy(() => import('./Admin/ProductManagement/ProductList'));
 const CustomerList = React.lazy(() => import('./Admin/CustomerManagement/CustomerList'));
@@ -17,8 +16,8 @@ const OrderList = React.lazy(() => import('./Admin/OrderManagement/OrderList'));
 const StoreList = React.lazy(() => import('./Admin/StoreManagement/StoreList'));
 const UserProfile = React.lazy(() => import('@components/UserProfile/UserProfile'));
 const SignIn = React.lazy(() => import('@components/UAMContainer/SignIn'));
-const ForgotPassword = React.lazy(() => import('@components/UAMContainer/ForgotPassword/'));
-const ResetPassword = React.lazy(() => import('@components/UAMContainer/ResetPassword/'));
+const ForgotPassword = React.lazy(() => import('@components/UAMContainer/ForgotPassword'));
+const ResetPassword = React.lazy(() => import('@components/UAMContainer/ResetPassword'));
 const Vouchers = React.lazy(() => import('./Admin/Voucher/List'));
 const Dashboard = React.lazy(() => import('./Admin/Dashboard'));
 
@@ -51,11 +50,15 @@ export const CustomRoute: React.FC<PropsWithChildren<RouteWrapperProps>> = ({
 };
 
 export const routerGroup = [
-  { path: PATHS.root, element: <Dashboard />, isRequireAuth: true },
+  {
+    path: PATHS.root,
+    element: <UserProfile />,
+    isRequireAuth: true,
+  },
   { path: PATHS.signIn, element: <SignIn />, isRequireAuth: false },
   { path: PATHS.forgotPassword, element: <ForgotPassword />, isRequireAuth: false },
   { path: PATHS.resetPassword, element: <ResetPassword />, isRequireAuth: false },
-  { path: PATHS.dashboard, element: <Dashboard />, isRequireAuth: true },
+  { path: PATHS.dashboard, element: <Dashboard />, isRequireAuth: true, isOnlyAdminSite: true },
   { path: PATHS.category, element: <CategoryList />, isRequireAuth: true },
   { path: PATHS.invoice, element: <InvoiceList />, isRequireAuth: true },
   { path: PATHS.addInvoice, element: <AddInvoiceForm />, isRequireAuth: true },
@@ -66,8 +69,13 @@ export const routerGroup = [
     isOnlyAdminSite: true,
   },
   { path: PATHS.store, element: <StoreList />, isRequireAuth: true },
-  { path: PATHS.order, element: <OrderList />, isRequireAuth: true },
-  { path: PATHS.orderRequest, element: <OrderRequest />, isRequireAuth: true },
+  { path: PATHS.order, element: <OrderList />, isRequireAuth: true, isOnlyAdminSite: true },
+  {
+    path: PATHS.orderRequest,
+    element: <OrderRequest />,
+    isRequireAuth: true,
+    isOnlyAdminSite: true,
+  },
   { path: PATHS.staff, element: <StaffList />, isRequireAuth: true, isOnlyAdminSite: true },
   { path: PATHS.product, element: <ProductList />, isRequireAuth: true },
   { path: PATHS.customer, element: <CustomerList />, isRequireAuth: true },

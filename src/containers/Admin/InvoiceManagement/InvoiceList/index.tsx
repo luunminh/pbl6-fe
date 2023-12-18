@@ -4,10 +4,12 @@ import {
   DialogContext,
   DialogType,
   EmptyTable,
+  RoleTitle,
   Table,
+  UserRole,
 } from '@components';
 import { Button, Container, Stack, Typography } from '@mui/material';
-import { InvoiceListParams, useGetAllInvoices } from '@queries';
+import { InvoiceListParams, useGetAllInvoices, useGetProfile } from '@queries';
 import { RoleService, Toastify, isEmpty } from '@shared';
 import { MUIDataTableOptions } from 'mui-datatables';
 import React, { useCallback, useContext, useMemo } from 'react';
@@ -46,16 +48,22 @@ const InvoiceList: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const { profile } = useGetProfile({
+    onError: (error) => Toastify.error(error?.message),
+  });
+
   const { invoices, setParams, isFetching } = useGetAllInvoices({
     onError: (error) => Toastify.error(error?.message),
   });
 
   const hadleGetInvoiceList = (params: InvoiceListParams) => {
     if (isEmpty(params?.order)) {
-      setParams({ ...params, order: 'createdAt:desc' });
-    } else {
-      setParams({ ...params });
+      params.order = 'createdAt:desc';
     }
+    if (RoleTitle[RoleService.getUserRole()] === RoleTitle[UserRole.STAFF]) {
+      params.createdBy = profile.id;
+    }
+    setParams({ ...params });
   };
 
   const tableOptions: MUIDataTableOptions = useMemo(

@@ -47,7 +47,7 @@ const OrderRequests: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { orders, setParams, isFetching } = useGetAllOrders({
+  const { orders, totalRecords, setParams, isFetching } = useGetAllOrders({
     onError: (error) => Toastify.error(error?.message),
     staleTime: 0,
     refetchOnMount: true,
@@ -64,12 +64,12 @@ const OrderRequests: React.FC = () => {
 
   const tableOptions: MUIDataTableOptions = useMemo(
     () => ({
-      count: orders?.filter((order) => order?.shipping > 0).length || 0,
-      rowHover: (orders?.filter((order) => order?.shipping > 0).length || 0) > 0,
+      count: totalRecords,
+      rowHover: totalRecords > 0,
       filter: false,
       search: false,
     }),
-    [orders],
+    [totalRecords],
   );
 
   const columns = useMemo(
@@ -93,7 +93,7 @@ const OrderRequests: React.FC = () => {
         </Stack>
       </Stack>
       <Table
-        data={orders?.filter((order) => order?.shipping > 0)}
+        data={orders}
         tableOptions={tableOptions}
         columns={columns}
         onAction={handleGetOrderList}

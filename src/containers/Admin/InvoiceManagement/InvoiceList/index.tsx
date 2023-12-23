@@ -4,12 +4,10 @@ import {
   DialogContext,
   DialogType,
   EmptyTable,
-  RoleTitle,
   Table,
-  UserRole,
 } from '@components';
 import { Button, Container, Stack, Typography } from '@mui/material';
-import { InvoiceListParams, useGetAllInvoices, useGetProfile } from '@queries';
+import { InvoiceListParams, useGetAllInvoices } from '@queries';
 import { RoleService, Toastify, isEmpty } from '@shared';
 import { MUIDataTableOptions } from 'mui-datatables';
 import React, { useCallback, useContext, useMemo } from 'react';
@@ -48,11 +46,7 @@ const InvoiceList: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { profile } = useGetProfile({
-    onError: (error) => Toastify.error(error?.message),
-  });
-
-  const { invoices, setParams, isFetching } = useGetAllInvoices({
+  const { invoices, totalRecords, setParams, isFetching } = useGetAllInvoices({
     onError: (error) => Toastify.error(error?.message),
   });
 
@@ -60,20 +54,17 @@ const InvoiceList: React.FC = () => {
     if (isEmpty(params?.order)) {
       params.order = 'createdAt:desc';
     }
-    if (RoleTitle[RoleService.getUserRole()] === RoleTitle[UserRole.STAFF]) {
-      params.createdBy = profile.id;
-    }
     setParams({ ...params });
   };
 
   const tableOptions: MUIDataTableOptions = useMemo(
     () => ({
-      count: invoices?.filter((invoice) => invoice?.order?.shipping === 0)?.length || 0,
-      rowHover: (invoices?.filter((invoice) => invoice?.order?.shipping === 0)?.length || 0) > 0,
+      count: totalRecords,
+      rowHover: totalRecords > 0,
       filter: false,
       search: false,
     }),
-    [invoices],
+    [totalRecords],
   );
 
   const columns = useMemo(
@@ -106,7 +97,7 @@ const InvoiceList: React.FC = () => {
         </Stack>
       </Stack>
       <Table
-        data={invoices?.filter((invoice) => invoice?.order?.shipping === 0)}
+        data={invoices}
         tableOptions={tableOptions}
         columns={columns}
         onAction={hadleGetInvoiceList}

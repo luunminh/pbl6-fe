@@ -29,7 +29,7 @@ const create = (baseURL = `${appConfig.API_URL}`) => {
   };
 
   const getInvoiceDetails = (id: string) => {
-    return api.get(`/admin/bill/${id}`);
+    return api.get(`${RoleService.isAdminRole() ? '/admin/bill' : '/staff/bill'}/${id}`);
   };
 
   const addInvoice = (payload: AddInvoicePayload) => {

@@ -9,4 +9,4 @@ export * from './Staff';
 export * from './Store';
 export * from './Voucher';
 export * from './keys';
-
+export * from './Statistic';

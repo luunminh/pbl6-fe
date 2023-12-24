@@ -16,7 +16,8 @@ export enum ApiKey {
   PRODUCTS_STORE_EXPORT = '/admin/products/stores',
   VOUCHER = 'voucher',
   INVOICE = 'invoice',
-
+  STATISTIC = 'statistic',
+  REVENUE = 'revenue',
   // STAFF
 }
 

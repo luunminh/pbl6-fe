@@ -50,7 +50,7 @@ const OrderRequests: React.FC = () => {
 
   const { handleInvalidateOrderList } = useGetAllOrders();
 
-  const { processOrderRequest } = useProcessOrderRequest({
+  const { processOrderRequest, isLoading } = useProcessOrderRequest({
     onSuccess: () => {
       handleInvalidateOrderRequests();
       handleInvalidateOrderList();
@@ -60,22 +60,27 @@ const OrderRequests: React.FC = () => {
     onError: (error) => Toastify.error(error?.message),
   });
 
-  const handleOpenApproveRequestDialog = useCallback((rowData: OrderRequestResponse) => {
-    setDialogContent({
-      type: DialogType.YESNO_DIALOG,
-      maxWidth: 'xs',
-      contentText: 'Approve Request',
-      subContentText: "Are you sure you want to approve this request? This action can't be undone.",
-      showIcon: true,
-      icon: <IoCheckmarkCircle />,
-      okText: 'Yes',
-      onOk: () => {
-        processOrderRequest({ id: rowData?.id, requestStatusId: RequestStatusId.APPROVED });
-      },
-    });
-    openModal();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleOpenApproveRequestDialog = useCallback(
+    (rowData: OrderRequestResponse) => {
+      setDialogContent({
+        type: DialogType.YESNO_DIALOG,
+        maxWidth: 'xs',
+        contentText: 'Approve Request',
+        subContentText:
+          "Are you sure you want to approve this request? This action can't be undone.",
+        showIcon: true,
+        icon: <IoCheckmarkCircle />,
+        okText: 'Yes',
+        onOk: () => {
+          !isLoading &&
+            processOrderRequest({ id: rowData?.id, requestStatusId: RequestStatusId.APPROVED });
+        },
+      });
+      openModal();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [isLoading],
+  );
 
   const handleOpenRejectRequestDialog = useCallback((rowData: OrderRequestResponse) => {
     setDialogContent({

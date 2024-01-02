@@ -81,5 +81,5 @@ export const routerGroup = [
   { path: PATHS.customer, element: <CustomerList />, isRequireAuth: true },
   { path: PATHS.profile, element: <UserProfile />, isRequireAuth: true },
   { path: PATHS.voucher, element: <Vouchers />, isRequireAuth: true },
-  { path: PATHS.dev, element: <Dev />, isRequireAuth: true },
+  // { path: PATHS.dev, element: <Dev />, isRequireAuth: true },
 ];

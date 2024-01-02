@@ -9,9 +9,12 @@ import { isEmpty } from '@shared';
 import StoreForm from '../StoreForm';
 import { StoreListParams, useDeleteStore, useGetAllStores } from '@queries/Store';
 import { StoreToastMessage } from '../StoreForm/helpers';
+import { useSelector } from 'react-redux';
+import { IRootState } from '@redux/store';
 
 const StoreList: React.FC = () => {
   const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
+  const roleId = useSelector((state: IRootState) => state.auth.currentRole);
 
   const handleOpenStoreDialog = useCallback((store = null) => {
     setDialogContent({
@@ -75,8 +78,8 @@ const StoreList: React.FC = () => {
   );
 
   const columns = useMemo(
-    () => allColumns({ handleOpenStoreDialog, handleOpenDeleteDialog }),
-    [handleOpenStoreDialog, handleOpenDeleteDialog],
+    () => allColumns({ handleOpenStoreDialog, handleOpenDeleteDialog, roleId }),
+    [handleOpenStoreDialog, handleOpenDeleteDialog, roleId],
   );
 
   return (
@@ -88,7 +91,7 @@ const StoreList: React.FC = () => {
       </Stack>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between">
         <CustomTableSearch placeholder="Search by address..." />
-        {RoleService.isAdminRole() && (
+        {RoleService.isAdminRole(roleId) && (
           <Button
             variant="contained"
             color="primary"

@@ -7,9 +7,12 @@ import React, { useCallback, useContext, useMemo } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import CategoryForm from '../CategoryForm';
 import { allColumns } from './allColumns';
+import { IRootState } from '@redux/store';
+import { useSelector } from 'react-redux';
 
 const CategoryList: React.FC = () => {
   const { openModal, setDialogContent } = useContext(DialogContext);
+  const roleId = useSelector((state: IRootState) => state.auth.currentRole);
 
   const handleOpenCategoryDialog = useCallback((categoryId = null) => {
     setDialogContent({
@@ -41,8 +44,8 @@ const CategoryList: React.FC = () => {
   );
 
   const columns = useMemo(
-    () => allColumns({ handleOpenCategoryDialog }),
-    [handleOpenCategoryDialog],
+    () => allColumns({ handleOpenCategoryDialog, roleId }),
+    [handleOpenCategoryDialog, roleId],
   );
 
   return (
@@ -54,7 +57,7 @@ const CategoryList: React.FC = () => {
       </Stack>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between">
         <CustomTableSearch placeholder="Search by category name..." />
-        {RoleService.isAdminRole() && (
+        {RoleService.isAdminRole(roleId) && (
           <Button
             variant="contained"
             color="primary"

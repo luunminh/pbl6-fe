@@ -1,5 +1,5 @@
 import { IMAGES } from '@appConfig/images';
-import { COLOR_CODE, Image } from '@components';
+import { COLOR_CODE, Image, UserRole } from '@components';
 import { IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { Callback, RoleService, formatMoney, tableBodyRender } from '@shared';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
@@ -10,12 +10,14 @@ type ColumnProps = {
   handleDelete: Callback;
   handleEdit: Callback;
   handleView: Callback;
+  roleId: UserRole;
 };
 
 export const allColumns = ({
   handleEdit,
   handleDelete,
   handleView,
+  roleId,
 }: ColumnProps): MUIDataTableColumn[] => {
   const columns: MUIDataTableColumn[] = [
     {
@@ -97,7 +99,7 @@ export const allColumns = ({
                   <IoEye color={COLOR_CODE.GREY_600} size={20} />
                 </IconButton>
               </Tooltip>
-              {RoleService.isAdminRole() && (
+              {RoleService.isAdminRole(roleId) && (
                 <Tooltip title="Edit" arrow placement="top">
                   <IconButton
                     onClick={(event) => {
@@ -109,7 +111,7 @@ export const allColumns = ({
                   </IconButton>
                 </Tooltip>
               )}
-              {RoleService.isAdminRole() && (
+              {RoleService.isAdminRole(roleId) && (
                 <Tooltip title="Delete" arrow placement="top">
                   <IconButton
                     onClick={(event) => {

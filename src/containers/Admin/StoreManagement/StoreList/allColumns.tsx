@@ -1,4 +1,4 @@
-import { COLOR_CODE } from '@components';
+import { COLOR_CODE, UserRole } from '@components';
 import { IconButton, Stack, Tooltip } from '@mui/material';
 import { StoreResponse } from '@queries/Store';
 import { RoleService, tableBodyRender } from '@shared';
@@ -8,11 +8,13 @@ import { IoPencil, IoTrashBin } from 'react-icons/io5';
 type ColumnProps = {
   handleOpenStoreDialog: (..._args: any[]) => void;
   handleOpenDeleteDialog: (..._args: any[]) => void;
+  roleId: UserRole;
 };
 
 export const allColumns = ({
   handleOpenStoreDialog,
   handleOpenDeleteDialog,
+  roleId,
 }: ColumnProps): MUIDataTableColumn[] => {
   const columns: MUIDataTableColumn[] = [
     {
@@ -35,7 +37,7 @@ export const allColumns = ({
     },
     {
       name: '',
-      label: `${RoleService.isAdminRole() ? 'Action' : ''}`,
+      label: `${RoleService.isAdminRole(roleId) ? 'Action' : ''}`,
       options: {
         filter: false,
         sort: false,
@@ -48,7 +50,7 @@ export const allColumns = ({
           const { tableData, rowIndex } = tableMeta;
           const rowData = tableData.at(rowIndex);
           return (
-            RoleService.isAdminRole() && (
+            RoleService.isAdminRole(roleId) && (
               <Stack flexDirection={'row'} justifyContent={'center'}>
                 <Tooltip title="Edit" placement="top" arrow>
                   <IconButton

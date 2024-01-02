@@ -18,10 +18,13 @@ import { VoucherFilterFormField, VoucherFilterFormType } from './components/Vouc
 import { VoucherFilter } from './components';
 import { useSearchParams } from 'react-router-dom';
 import VoucherForm from '../VoucherForm';
+import { useSelector } from 'react-redux';
+import { IRootState } from '@redux/store';
 
 const VoucherList = () => {
   const { openModal, setDialogContent } = useContext(DialogContext);
   const [searchParams] = useSearchParams();
+  const roleId = useSelector((state: IRootState) => state.auth.currentRole);
 
   const { vouchers, totalRecords, setParams, isFetching } = useGetVouchers({
     onError: (error) => {
@@ -78,7 +81,7 @@ const VoucherList = () => {
       <Stack alignItems="center" justifyContent="space-between" flexDirection="row">
         <CustomTableSearch placeholder="Search by voucher code..." />
         <Stack justifyContent="flex-end" direction="row" flexGrow={1} alignItems="center" gap={2}>
-          {RoleService.isAdminRole() && (
+          {RoleService.isAdminRole(roleId) && (
             <Button
               variant="contained"
               color="primary"

@@ -1,5 +1,5 @@
 import { IMAGES } from '@appConfig/images';
-import { COLOR_CODE, Image } from '@components';
+import { COLOR_CODE, Image, UserRole } from '@components';
 import { IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { CategoryListResponse, CountType } from '@queries/Category';
 import { RoleService, getDate, tableBodyRender } from '@shared';
@@ -8,9 +8,13 @@ import { IoPencil } from 'react-icons/io5';
 
 type ColumnProps = {
   handleOpenCategoryDialog: (..._args: any[]) => void;
+  roleId: UserRole;
 };
 
-export const allColumns = ({ handleOpenCategoryDialog }: ColumnProps): MUIDataTableColumn[] => {
+export const allColumns = ({
+  handleOpenCategoryDialog,
+  roleId,
+}: ColumnProps): MUIDataTableColumn[] => {
   const columns: MUIDataTableColumn[] = [
     {
       name: 'name',
@@ -70,7 +74,7 @@ export const allColumns = ({ handleOpenCategoryDialog }: ColumnProps): MUIDataTa
     },
     {
       name: '',
-      label: `${RoleService.isAdminRole() ? 'Action' : ''}`,
+      label: `${RoleService.isAdminRole(roleId) ? 'Action' : ''}`,
       options: {
         filter: false,
         sort: false,
@@ -83,7 +87,7 @@ export const allColumns = ({ handleOpenCategoryDialog }: ColumnProps): MUIDataTa
           const { tableData, rowIndex } = tableMeta;
           const rowData = tableData.at(rowIndex) as CategoryListResponse;
           return (
-            RoleService.isAdminRole() && (
+            RoleService.isAdminRole(roleId) && (
               <Tooltip title="Edit" placement="top" arrow>
                 <IconButton
                   aria-label="edit category"

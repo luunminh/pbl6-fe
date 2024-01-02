@@ -273,7 +273,7 @@ const CustomSidebar: React.FC<Props> = () => {
       </Stack>
       <Stack flexGrow={1} sx={{ height: '100%' }} justifyContent="space-between">
         <Menu>
-          {[...MenuItems, DevItem]
+          {[...MenuItems]
             .filter((item) => item?.accessRoles.includes(currentRole))
             .map((item) => {
               const isActive = Array.isArray(item.activePath)

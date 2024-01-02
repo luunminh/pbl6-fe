@@ -7,9 +7,12 @@ import { AiFillEye } from 'react-icons/ai';
 import { IoPencil, IoTrashBin } from 'react-icons/io5';
 import VoucherForm from '../../../VoucherForm';
 import { VoucherToastMessage } from '../../../VoucherForm/helpers';
+import { useSelector } from 'react-redux';
+import { IRootState } from '@redux/store';
 
 const ActionButton = ({ record }: Props) => {
   const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
+  const roleId = useSelector((state: IRootState) => state.auth.currentRole);
 
   const handleOpenVoucherModal = useCallback(
     (isEditing = false) => {
@@ -72,7 +75,7 @@ const ActionButton = ({ record }: Props) => {
           <AiFillEye size={20} />
         </IconButton>
       </Tooltip>
-      {RoleService.isAdminRole() && (
+      {RoleService.isAdminRole(roleId) && (
         <Tooltip title="Edit" arrow>
           <span>
             <IconButton
@@ -88,7 +91,7 @@ const ActionButton = ({ record }: Props) => {
           </span>
         </Tooltip>
       )}
-      {RoleService.isAdminRole() && (
+      {RoleService.isAdminRole(roleId) && (
         <Tooltip title="Delete">
           <span>
             <IconButton size="small" onClick={handleOpenDeleteModal} disabled={isStartedVoucher}>

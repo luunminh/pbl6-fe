@@ -17,9 +17,12 @@ import InvoiceDetails from '../InvoiceDetails';
 import InvoiceFilter from '../InvoiceFilter';
 import { allColumns } from './allColumns';
 import { INVOICE_FILTER_QUERY_KEY, InvoiceFilterFormFieldsType, filterParamsKey } from './helpers';
+import { IRootState } from '@redux/store';
+import { useSelector } from 'react-redux';
 
 const InvoiceList: React.FC = () => {
   const { openModal, setDialogContent } = useContext(DialogContext);
+  const roleId = useSelector((state: IRootState) => state.auth.currentRole);
 
   const navigate = useNavigate();
 
@@ -89,7 +92,7 @@ const InvoiceList: React.FC = () => {
           >
             Add new invoice
           </Button>
-          {RoleService.isAdminRole() && (
+          {RoleService.isAdminRole(roleId) && (
             <CustomTableFilterContainer filterParamsKeys={filterParamsKey}>
               <InvoiceFilter searchValues={paramsUrl} />
             </CustomTableFilterContainer>

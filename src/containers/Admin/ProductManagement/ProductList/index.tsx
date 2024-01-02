@@ -18,9 +18,12 @@ import ProductForm from '../ProductForm';
 import { PRODUCT_FILTER_QUERY_KEY, ProductFilterFormValue, filterParamsKey } from '../helpers';
 import { allColumns } from './allColumns';
 import { ProductToastMessage } from '../ProductForm/helpers';
+import { useSelector } from 'react-redux';
+import { IRootState } from '@redux/store';
 
 const ProductManagement: React.FC = () => {
   const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
+  const roleId = useSelector((state: IRootState) => state.auth.currentRole);
 
   const { products, totalRecords, setParams, isFetching, handleInvalidateAllProducts } =
     useGetAllProduct({
@@ -118,8 +121,8 @@ const ProductManagement: React.FC = () => {
   );
 
   const columns = useMemo(
-    () => allColumns({ handleEdit, handleDelete, handleView }),
-    [handleEdit, handleDelete, handleView],
+    () => allColumns({ handleEdit, handleDelete, handleView, roleId }),
+    [handleEdit, handleDelete, handleView, roleId],
   );
 
   return (
@@ -132,7 +135,7 @@ const ProductManagement: React.FC = () => {
       <Stack alignItems="center" justifyContent="space-between" flexDirection="row">
         <CustomTableSearch placeholder="Search by product name..." />
         <Stack justifyContent="flex-end" direction="row" flexGrow={1} alignItems="center" gap={2}>
-          {RoleService.isAdminRole() && (
+          {RoleService.isAdminRole(roleId) && (
             <Button variant="contained" color="primary" startIcon={<IoAdd />} onClick={handleAdd}>
               Add new Product
             </Button>

@@ -41,11 +41,7 @@ const StoreList = ({ stores }: Props) => {
                 </TableCell>
                 <TableCell>{formatMoney(store.expense)}</TableCell>
                 <TableCell>{formatMoney(store.revenue)}</TableCell>
-                <TableCell>
-                  {store.revenue - store.expense >= 0
-                    ? formatMoney(store.expense - store.revenue)
-                    : `- ${formatMoney(store.expense - store.revenue)}`}
-                </TableCell>
+                <TableCell>{formatMoney(store.revenue - store.expense)}</TableCell>
               </TableRow>
             ))}
           </TableBody>

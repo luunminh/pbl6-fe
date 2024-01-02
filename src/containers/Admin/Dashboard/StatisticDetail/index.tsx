@@ -107,7 +107,7 @@ const StatisticDetail = ({ paramsUrl }: Props) => {
                     <IoWalletOutline size={20} color={'#E46A11'} />
                   </Stack>
                   <Typography variant="body2" color={COLOR_CODE.GREY_600}>
-                    expenses
+                    Expense
                   </Typography>
                   <Typography variant="h3" fontWeight={700}>
                     {formatMoney(expenses)}

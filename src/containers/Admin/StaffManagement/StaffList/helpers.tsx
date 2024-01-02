@@ -32,7 +32,7 @@ export const filterParamsKey = [USER_FILTER_QUERY_KEY._STATUS];
 
 export const customStatusRender = (deletedAt: string) => {
   if (isEmpty(deletedAt)) return <Chip label={STATUS._ACTIVE} color="success" />;
-  return <Chip label={STATUS._INACTIVE} color="secondary" />;
+  return <Chip label={STATUS._INACTIVE} />;
 };
 
 export const customRoleRender = (userRoles: UserRoles[]) => {
@@ -40,12 +40,12 @@ export const customRoleRender = (userRoles: UserRoles[]) => {
   const roleId = userRoles[0].roleId;
   switch (roleId) {
     case ROLE_ID._ADMIN:
-      return <Chip label={ROLE_NAME[roleId]} color="info" />;
+      return <Chip label={ROLE_NAME[roleId]} color="primary" />;
     case ROLE_ID._STAFF:
-      return <Chip label={ROLE_NAME[roleId]} color="warning" />;
+      return <Chip label={ROLE_NAME[roleId]} color="secondary" />;
     case ROLE_ID._USER:
     default:
-      return <Chip label={ROLE_NAME[roleId]} color="info" />;
+      return <Chip label={ROLE_NAME[roleId]} color="primary" />;
   }
 };
 

@@ -130,6 +130,7 @@ const Dev: React.FC<Props> = () => {
         <Stack className="mb-32">
           <h2>chip</h2>
           <Stack gap={10} alignItems={'center'} flexDirection={'row'}>
+            <Chip label="Default" />
             <Chip label="Info" color="info" />
             <Chip label="Admin" color="success" />
             <Chip label="Warning" color="warning" />

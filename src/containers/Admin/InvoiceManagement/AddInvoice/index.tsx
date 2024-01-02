@@ -25,7 +25,13 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { ProductStoresType, useAddInvoice, useGetAllInvoices, useGetAllStoreLazy } from '@queries';
+import {
+  PaymentMethod,
+  ProductStoresType,
+  useAddInvoice,
+  useGetAllInvoices,
+  useGetAllStoreLazy,
+} from '@queries';
 import { Toastify, formatMoney, isEmpty } from '@shared';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { IoAdd, IoLocation, IoTrash } from 'react-icons/io5';
@@ -100,7 +106,7 @@ const AddInvoiceForm = () => {
       ),
       voucherId: null,
       shippingFee: 0,
-      paymentMethod: 'COD',
+      paymentMethod: PaymentMethod.COD,
     });
   };
 

@@ -11,7 +11,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { OrderResponse, useGetOrderDetails } from '@queries';
+import { OrderResponse, useGetOrderDetails, PaymentMethodTitle } from '@queries';
 import { Toastify, formatDate, formatMoney } from '@shared';
 import { IoIosPhonePortrait } from 'react-icons/io';
 import {
@@ -156,7 +156,7 @@ const OrderDetails = ({ rowData }: PropsType) => {
               <IoCardOutline size={18} color={COLOR_CODE.GREY_700} />
               <Typography fontWeight={600}>Payment Method</Typography>
             </Stack>
-            <Typography>{order.paymentMethod}</Typography>
+            <Typography>{PaymentMethodTitle[order.paymentMethod]}</Typography>
           </Stack>
           <Stack direction="row" justifyContent="space-between" alignItems="center">
             <Stack direction="row" justifyContent="space-between" alignItems="center" gap="10px">
@@ -218,7 +218,7 @@ const OrderDetails = ({ rowData }: PropsType) => {
             </Typography>
             <Chip
               label={totalItems >= 2 ? `${totalItems} items` : `${totalItems} item`}
-              color="info"
+              color="primary"
             />
           </Stack>
         </Stack>

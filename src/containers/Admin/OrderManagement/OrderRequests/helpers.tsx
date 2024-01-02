@@ -6,9 +6,9 @@ export const customRequestTypeRender = (typeOfRequest: string) => {
   if (isEmpty(typeOfRequest)) return '--';
   switch (typeOfRequest) {
     case RequestType.CREATE:
-      return <Chip label={`${getCapitalize(RequestType.CREATE)} order`} color="info" />;
+      return <Chip label={`${getCapitalize(RequestType.CREATE)} order`} color="primary" />;
     case RequestType.CANCEL:
-      return <Chip label={`${getCapitalize(RequestType.CANCEL)} order`} color="secondary" />;
+      return <Chip label={`${getCapitalize(RequestType.CANCEL)} order`} />;
     default:
       return '--';
   }

@@ -1,6 +1,6 @@
 import { COLOR_CODE } from '@components';
 import { IconButton, Stack, Tooltip } from '@mui/material';
-import { OrderResponse } from '@queries';
+import { OrderResponse, PaymentMethodTitle } from '@queries';
 import { formatDate, formatMoney, tableBodyRender } from '@shared';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { IoEye } from 'react-icons/io5';
@@ -63,7 +63,7 @@ export const allColumns = ({ handleOpenOrderDetailsDialog }: ColumnProps): MUIDa
       options: {
         filter: false,
         sort: false,
-        customBodyRender: (value) => tableBodyRender<string>(value),
+        customBodyRender: (value) => tableBodyRender<string>(PaymentMethodTitle[value]),
       },
     },
     {

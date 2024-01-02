@@ -15,7 +15,20 @@ export enum OrderStatusId {
 export const OrderStatus = {
   [OrderStatusId.PENDING_CONFIRM]: 'Pending',
   [OrderStatusId.CONFIRMED]: 'Confirmed',
+  [OrderStatusId.COMPLETED]: 'Completed',
+  [OrderStatusId.PENDING_PAYMENT]: 'Pending payment',
+  [OrderStatusId.PAYMENT_CONFIRMED]: 'Paid',
   [OrderStatusId.CANCELED]: 'Cancelled',
+};
+
+export enum PaymentMethod {
+  COD = 'COD',
+  BANKING = 'BANKING',
+}
+
+export const PaymentMethodTitle = {
+  [PaymentMethod.COD]: 'COD',
+  [PaymentMethod.BANKING]: 'VNPay',
 };
 
 type VoucherType = {

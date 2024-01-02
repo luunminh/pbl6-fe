@@ -1,6 +1,6 @@
 import { COLOR_CODE } from '@components';
 import { IconButton, Stack, Tooltip } from '@mui/material';
-import { OrderRequestResponse, RequestStatusId } from '@queries';
+import { OrderRequestResponse, RequestStatusId, PaymentMethodTitle } from '@queries';
 import { formatDate, formatMoney, tableBodyRender } from '@shared';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { IoCheckmark, IoCloseOutline, IoEye } from 'react-icons/io5';
@@ -86,7 +86,7 @@ export const allColumns = ({
         ) => {
           const { tableData, rowIndex } = tableMeta;
           const rowData = tableData.at(rowIndex) as OrderRequestResponse;
-          return tableBodyRender<string>(rowData.order.paymentMethod);
+          return tableBodyRender<string>(PaymentMethodTitle[rowData.order.paymentMethod]);
         },
       },
     },

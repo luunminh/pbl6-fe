@@ -41,7 +41,10 @@ export type UserRoles = {
 
 export type StaffList = {};
 
-export type StaffListParams = TableParams;
+export type StaffListParams = TableParams & {
+  active?: boolean;
+  roles?: string[];
+};
 
 export type StaffResponse = {
   id: string;

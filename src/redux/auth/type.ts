@@ -1,11 +1,9 @@
 import { UserProfileType, UserRole } from '@components';
-import { boolean } from 'yup';
 
 export interface IAuthState {
   isAuthenticated?: boolean;
   user: UserProfileType;
   currentRole: UserRole;
-
   isLoggingOut: boolean;
 }
 

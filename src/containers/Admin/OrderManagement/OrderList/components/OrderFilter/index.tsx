@@ -1,10 +1,16 @@
 import { COLOR_CODE, TableQueryParams } from '@components';
 import { Button, Container, Grid, Radio, RadioGroup, Stack, Typography } from '@mui/material';
-import { OrderStatus, OrderStatusId } from '@queries';
+import { isEmpty } from '@shared';
 import { Form, FormikProvider, useFormik } from 'formik';
 import React, { useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ORDER_FILTER_QUERY_KEY, OrderFilterFormFieldsType } from './helpers';
+import {
+  ORDER_FILTER_QUERY_KEY,
+  OrderFilterFormFieldsType,
+  filterParamsKey,
+  orderStatusOptions,
+  paymentMethodOptions,
+} from './helpers';
 
 const OrderFilter: React.FC<Props> = ({ searchValues, handleClosePopup }: Props) => {
   const navigate = useNavigate();
@@ -16,20 +22,22 @@ const OrderFilter: React.FC<Props> = ({ searchValues, handleClosePopup }: Props)
   const getInitialOrderFilterValues: OrderFilterFormFieldsType = useMemo(
     () => ({
       orderStatusId: searchValues.orderStatusId || null,
+      paymentMethod: searchValues.paymentMethod || null,
     }),
     [searchValues],
   );
 
   const handleSubmitFilter = (values: OrderFilterFormFieldsType) => {
-    const { orderStatusId } = values;
     query.delete(TableQueryParams._PAGE);
-    if (Number(orderStatusId) === OrderStatusId.PENDING_CONFIRM) {
-      query.set(ORDER_FILTER_QUERY_KEY.ORDER_STATUS_ID, OrderStatusId.PENDING_CONFIRM.toString());
-    } else if (Number(orderStatusId) === OrderStatusId.CONFIRMED) {
-      query.set(ORDER_FILTER_QUERY_KEY.ORDER_STATUS_ID, OrderStatusId.CONFIRMED.toString());
-    } else if (Number(orderStatusId) === OrderStatusId.CANCELED) {
-      query.set(ORDER_FILTER_QUERY_KEY.ORDER_STATUS_ID, OrderStatusId.CANCELED.toString());
-    }
+
+    Object.keys(values).forEach((key) => {
+      if (isEmpty(values[key])) {
+        query.delete(key);
+      } else {
+        query.set(key, values[key].toString());
+      }
+    });
+
     navigate({ search: query.toString() });
     handleClosePopup();
   };
@@ -44,8 +52,9 @@ const OrderFilter: React.FC<Props> = ({ searchValues, handleClosePopup }: Props)
   const handleClearAll = () => {
     setValues({
       orderStatusId: null,
+      paymentMethod: null,
     });
-    query.delete(ORDER_FILTER_QUERY_KEY.ORDER_STATUS_ID);
+    filterParamsKey.map((key) => query.delete(key));
     navigate({ search: query.toString() });
     handleClosePopup();
   };
@@ -81,18 +90,42 @@ const OrderFilter: React.FC<Props> = ({ searchValues, handleClosePopup }: Props)
                   value={values?.orderStatusId || null}
                   {...getFieldProps(ORDER_FILTER_QUERY_KEY.ORDER_STATUS_ID)}
                 >
-                  <Stack flexDirection={'row'} alignItems={'center'} gap={3}>
-                    <Radio value={OrderStatusId.PENDING_CONFIRM} />
-                    <Typography>{OrderStatus[OrderStatusId.PENDING_CONFIRM]}</Typography>
-                  </Stack>
-                  <Stack flexDirection={'row'} alignItems={'center'} gap={3}>
-                    <Radio value={OrderStatusId.CONFIRMED} />
-                    <Typography>{OrderStatus[OrderStatusId.CONFIRMED]}</Typography>
-                  </Stack>
-                  <Stack flexDirection={'row'} alignItems={'center'} gap={3}>
-                    <Radio value={OrderStatusId.CANCELED} />
-                    <Typography>{OrderStatus[OrderStatusId.CANCELED]}</Typography>
-                  </Stack>
+                  {orderStatusOptions.map((option, index) => (
+                    <Stack key={index} flexDirection="row" alignItems="center" gap={3}>
+                      <Radio value={option.value} />
+                      <Typography>{option.label}</Typography>
+                    </Stack>
+                  ))}
+                </RadioGroup>
+              </Stack>
+            </Grid>
+            <Grid item xs={12}>
+              <Stack
+                direction="column"
+                sx={{
+                  border: `1px solid ${COLOR_CODE.GREY_300} `,
+                  borderRadius: 2,
+                }}
+              >
+                <Typography
+                  fontWeight={700}
+                  bgcolor={COLOR_CODE.GREY_50}
+                  p={1}
+                  borderRadius="8px 8px 0 0"
+                >
+                  Payment Method
+                </Typography>
+                <RadioGroup
+                  sx={{ display: 'flex', gap: 2, flexDirection: 'column', padding: 2 }}
+                  value={values?.paymentMethod || null}
+                  {...getFieldProps(ORDER_FILTER_QUERY_KEY.PAYMENT_METHOD)}
+                >
+                  {paymentMethodOptions.map((option, index) => (
+                    <Stack key={index} flexDirection="row" alignItems="center" gap={3}>
+                      <Radio value={option.value} />
+                      <Typography>{option.label}</Typography>
+                    </Stack>
+                  ))}
                 </RadioGroup>
               </Stack>
             </Grid>

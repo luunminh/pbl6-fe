@@ -1,10 +1,10 @@
 import { COLOR_CODE } from '@components';
 import { IconButton, Stack, Tooltip } from '@mui/material';
+import { isEmpty } from '@shared';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { IoLockClosed } from 'react-icons/io5';
 import { GENDER_NAME, StaffResponse } from 'src/queries';
 import { customRoleRender, customStatusRender } from './helpers';
-import { isEmpty } from '@shared';
 
 type ColumnProps = {
   handleOpenDeactivateDialog: (..._args: any[]) => void;

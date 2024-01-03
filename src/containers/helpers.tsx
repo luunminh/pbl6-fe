@@ -2,7 +2,7 @@ import { PATHS } from '@appConfig/paths';
 import { CustomErrorBoundary, UserRole } from '@components';
 import React, { PropsWithChildren } from 'react';
 import { Navigate } from 'react-router';
-import Dev from './Dev';
+// import Dev from './Dev';
 import SplashScreen from './StartupContainers/SplashScreen';
 const StaffList = React.lazy(() => import('./Admin/StaffManagement/StaffList'));
 const ProductList = React.lazy(() => import('./Admin/ProductManagement/ProductList'));

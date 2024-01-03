@@ -1,9 +1,10 @@
-import { RoleTitle, UserProfileType, UserRole, isStaffPortal } from '@components';
+import { UserProfileType, UserRole, isStaffPortal } from '@components';
 import { useGetProfile } from '@queries/Profile/useGetProfile';
 import { setAuthenticated, setCurrentRole, setProfile } from '@redux/auth/authSlice';
 import { IRootState } from '@redux/store';
 import { AuthService, RoleService, Toastify } from '@shared';
 import { connect } from 'react-redux';
+
 const AuthContainer: React.FC<Props> = ({
   isAuthenticated,
   onSetAuth,

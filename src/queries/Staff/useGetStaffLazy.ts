@@ -1,5 +1,5 @@
-import { SelectOption, TableParams } from '@components';
-import { ApiKey, StaffApi, StaffResponse } from '@queries';
+import { SelectOption } from '@components';
+import { ApiKey, StaffApi, StaffListParams, StaffResponse } from '@queries';
 import { PaginationResponseType, isEmpty, responseWrapper, useDebounce } from '@shared';
 import { UseInfiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
@@ -19,7 +19,7 @@ export function useGetStaffLazy(
   options?: UseInfiniteQueryOptions<PaginationResponseType<StaffResponse>, Error>,
 ) {
   const [inputSearch, setInputSearch] = useState<string>('');
-  const [params, setParams] = useState<TableParams>(null);
+  const [params, setParams] = useState<StaffListParams>(null);
   const debounceSearch = useDebounce(inputSearch);
   const {
     data,

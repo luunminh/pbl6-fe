@@ -20,16 +20,24 @@ export const RevenueChart = ({ paramsUrl }: Props) => {
 
   const filterValue = paramsUrl?.timeStatisticType || TimeStatisticType.WEEKLY;
 
-  const { data = [], isFetching } = useGetRevenue({
+  const {
+    data = [],
+    isFetching,
+    handleInvalidateRevenue,
+  } = useGetRevenue({
     timeStatisticType: filterValue,
   });
 
   useEffect(() => {
     query.set(RevenueFilterKeys.TIME_STATISTIC, filterValue);
-
     navigate({ search: query.toString() });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    handleInvalidateRevenue(filterValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterValue]);
 
   const handleChangeFilter = (_, value) => {
     query.set(RevenueFilterKeys.TIME_STATISTIC, value);

@@ -43,16 +43,15 @@ export const customRoleRender = (userRoles: UserRoles[]) => {
       return <Chip label={ROLE_NAME[roleId]} color="primary" />;
     case ROLE_ID._STAFF:
       return <Chip label={ROLE_NAME[roleId]} color="secondary" />;
-    case ROLE_ID._USER:
     default:
-      return <Chip label={ROLE_NAME[roleId]} color="primary" />;
+      return <Chip label={ROLE_NAME[roleId]} />;
   }
 };
 
-export type FormValue = {
+export type StaffFilterFormFieldsType = {
   active: string;
 };
 
-export const emptyFormValueFilter: FormValue = {
+export const emptyStaffFilterValues: StaffFilterFormFieldsType = {
   active: null,
 };

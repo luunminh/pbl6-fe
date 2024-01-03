@@ -1,3 +1,4 @@
+import { DEFAULT_PASSWORD } from '@appConfig/constants';
 import { COLOR_CODE, DialogContext, MuiTextField } from '@components';
 import {
   Button,
@@ -17,11 +18,11 @@ import { useContext } from 'react';
 import {
   StaffToastMessage,
   addStaffFormValidationSchema,
-  initialAddStaffFormValues
+  initialAddStaffFormValues,
 } from './helpers';
 import { AddStaffFormFields, AddStaffFormFieldsType } from './type';
 
-const NewStaffForm = () => {
+const StaffForm = () => {
   const { closeModal } = useContext(DialogContext);
 
   const { handleInvalidateAllStaffs } = useGetAllStaff();
@@ -41,7 +42,7 @@ const NewStaffForm = () => {
       firstName,
       lastName,
       username: email,
-      password: '123456',
+      password: DEFAULT_PASSWORD,
       gender: +gender,
       phone: phoneNumber,
       email,
@@ -169,4 +170,4 @@ const NewStaffForm = () => {
   );
 };
 
-export default NewStaffForm;
+export default StaffForm;

@@ -15,13 +15,3 @@ export type AddStaffFormFieldsType = {
   [AddStaffFormFields.EMAIL]: string;
   [AddStaffFormFields.ADDRESS]: string;
 };
-
-export enum ROLE_ID {
-  STAFF = 2,
-  ADMIN = 3,
-}
-
-export const ROLE_NAME = {
-  2: 'Staff',
-  3: 'Admin',
-};

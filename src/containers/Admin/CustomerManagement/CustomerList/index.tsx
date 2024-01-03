@@ -13,7 +13,7 @@ const CustomerList: React.FC = () => {
     },
   });
 
-  const handleGetUser = (params: GetPropertiesParams) => {
+  const handleGetCustomer = (params: GetPropertiesParams) => {
     if (!Array.isArray(params.roles) || params.roles.length === 0) {
       params.roles = [ROLE_ID._USER.toString()];
     }
@@ -44,7 +44,7 @@ const CustomerList: React.FC = () => {
       </Stack>
       <Table
         title=""
-        onAction={handleGetUser}
+        onAction={handleGetCustomer}
         isLoading={isFetching}
         data={staffs}
         tableOptions={tableOptions}

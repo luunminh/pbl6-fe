@@ -1,9 +1,15 @@
-import { COLOR_CODE } from '@components';
+import { COLOR_CODE, TableQueryParams } from '@components';
 import { Button, Container, Grid, Radio, RadioGroup, Stack, Typography } from '@mui/material';
+import { isEmpty } from '@shared';
 import { Form, FormikProvider, useFormik } from 'formik';
 import React, { useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FormValue, USER_FILTER_QUERY_KEY, emptyFormValueFilter } from '../StaffList/helpers';
+import {
+  StaffFilterFormFieldsType,
+  USER_FILTER_QUERY_KEY,
+  UserStatusOptions,
+  emptyStaffFilterValues,
+} from '../StaffList/helpers';
 
 const StaffFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
   const navigate = useNavigate();
@@ -12,39 +18,41 @@ const StaffFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
 
   const query = useMemo(() => new URLSearchParams(search), [search]);
 
-  const handleSubmitFilter = (values: FormValue) => {
-    const { active } = values;
-    query.delete('page');
-    query.delete(USER_FILTER_QUERY_KEY._STATUS);
-    if (active === 'true') {
-      query.append(USER_FILTER_QUERY_KEY._STATUS, 'true');
-    } else if (active === 'false') {
-      query.append(USER_FILTER_QUERY_KEY._STATUS, 'false');
-    }
+  const handleSubmitFilter = (values: StaffFilterFormFieldsType) => {
+    query.delete(TableQueryParams._PAGE);
+
+    Object.keys(values).forEach((key) => {
+      if (isEmpty(values[key])) {
+        query.delete(key);
+      } else {
+        query.set(key, values[key].toString());
+      }
+    });
+
     navigate({ search: query.toString() });
     handleClosePopup();
   };
 
   const handleClearAll = () => {
     setValues({
-      ...emptyFormValueFilter,
+      ...emptyStaffFilterValues,
     });
-    Object.keys(emptyFormValueFilter).forEach((key) => {
+    Object.keys(emptyStaffFilterValues).forEach((key) => {
       query.delete(key);
     });
     navigate({ search: query.toString() });
     handleClosePopup();
   };
 
-  const initialValue: FormValue = useMemo(
+  const getInitialStaffFilterValues: StaffFilterFormFieldsType = useMemo(
     () => ({
       active: searchValues.active || null,
     }),
     [searchValues],
   );
 
-  const formik = useFormik<FormValue>({
-    initialValues: initialValue,
+  const formik = useFormik<StaffFilterFormFieldsType>({
+    initialValues: getInitialStaffFilterValues,
     onSubmit: handleSubmitFilter,
   });
   const { setValues, handleSubmit, getFieldProps, values } = formik;
@@ -76,18 +84,16 @@ const StaffFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
                   Status
                 </Typography>
                 <RadioGroup
-                  sx={{ display: 'flex', gap: 2, flexDirection: 'column', mx: 2 }}
+                  sx={{ display: 'flex', gap: 2, flexDirection: 'column', padding: 2 }}
                   {...getFieldProps(USER_FILTER_QUERY_KEY._STATUS)}
                   value={values?.active ?? null}
                 >
-                  <Stack flexDirection={'row'} alignItems={'center'} gap={3} mt={1}>
-                    <Radio value={true} />
-                    <Typography>Active</Typography>
-                  </Stack>
-                  <Stack flexDirection={'row'} alignItems={'center'} gap={3} mb={1}>
-                    <Radio value={false} />
-                    <Typography>Inactive</Typography>
-                  </Stack>
+                  {UserStatusOptions.map((option, index) => (
+                    <Stack key={index} flexDirection={'row'} alignItems={'center'} gap={3}>
+                      <Radio value={option.value} />
+                      <Typography>{option.label}</Typography>
+                    </Stack>
+                  ))}
                 </RadioGroup>
               </Stack>
             </Grid>
@@ -108,7 +114,7 @@ const StaffFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
 };
 
 type Props = {
-  searchValues: FormValue;
+  searchValues: StaffFilterFormFieldsType;
   handleClosePopup?: (..._args: any[]) => void;
 };
 

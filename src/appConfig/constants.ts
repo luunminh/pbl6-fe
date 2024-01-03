@@ -6,6 +6,8 @@ export const MINI_SIDE_BAR_WIDTH = 80;
 
 export const NAVBAR_HEIGHT = 64;
 
+export const DEFAULT_PASSWORD = '123456';
+
 export const SHIPPING_FEE = 10000;
 
 export const COMMON_TYPE: Accept = {

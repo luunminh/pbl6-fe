@@ -33,9 +33,14 @@ const InvoiceFilter: React.FC<Props> = ({ searchValues, handleClosePopup }) => {
     onError: (error) => Toastify.error(error?.message),
   });
 
-  useEffect(() => {
-    setStaffParams({ ...params, roles: [ROLE_ID._STAFF.toString(), ROLE_ID._ADMIN.toString()] });
-  }, [params, setStaffParams]);
+  useEffect(
+    () =>
+      setStaffParams({
+        ...params,
+        roles: [ROLE_ID._STAFF.toString(), ROLE_ID._ADMIN.toString()],
+      }),
+    [params, setStaffParams],
+  );
 
   const getInitialInvoiceFilterValues: InvoiceFilterFormFieldsType = useMemo(
     () => ({

@@ -30,9 +30,11 @@ const OrderRequests: React.FC = () => {
 
   const paramsUrl: OrderFilterFormFieldsType = useMemo(() => {
     const orderStatusIdParam = Number(query.get(ORDER_FILTER_QUERY_KEY.ORDER_STATUS_ID)) || null;
+    const paymentMethodParam = query.get(ORDER_FILTER_QUERY_KEY.PAYMENT_METHOD) || null;
 
     return {
       orderStatusId: orderStatusIdParam,
+      paymentMethod: paymentMethodParam,
     };
   }, [query]);
 

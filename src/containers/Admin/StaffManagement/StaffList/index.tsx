@@ -20,10 +20,10 @@ import {
   useGetAllStaff,
 } from 'src/queries';
 import StaffFilter from '../StaffFilter';
-import NewStaffForm from '../StaffForms/NewStaffForm';
-import { StaffToastMessage } from '../StaffForms/helpers';
+import StaffForm from '../StaffForm';
+import { StaffToastMessage } from '../StaffForm/helpers';
 import { allColumns } from './allColumns';
-import { FormValue, USER_FILTER_QUERY_KEY, filterParamsKey } from './helpers';
+import { StaffFilterFormFieldsType, USER_FILTER_QUERY_KEY, filterParamsKey } from './helpers';
 
 const StaffList: React.FC = () => {
   const { openModal, closeModal, setDialogContent } = useContext(DialogContext);
@@ -32,7 +32,7 @@ const StaffList: React.FC = () => {
     setDialogContent({
       type: DialogType.CONTENT_DIALOG,
       title: 'Add New Staff',
-      data: <NewStaffForm />,
+      data: <StaffForm />,
       maxWidth: 'md',
     });
     openModal();
@@ -78,7 +78,7 @@ const StaffList: React.FC = () => {
   const { search } = useLocation();
   const query = useMemo(() => new URLSearchParams(search), [search]);
 
-  const paramsUrl: FormValue = useMemo(() => {
+  const paramsUrl: StaffFilterFormFieldsType = useMemo(() => {
     const statusQuery = query.get(USER_FILTER_QUERY_KEY._STATUS) || undefined;
 
     return {
@@ -86,7 +86,7 @@ const StaffList: React.FC = () => {
     };
   }, [query]);
 
-  const handleGetUser = (params: GetPropertiesParams) => {
+  const handleGetStaff = (params: GetPropertiesParams) => {
     if (!Array.isArray(params.roles) || params.roles.length === 0) {
       params.roles = [ROLE_ID._STAFF.toString()];
     }
@@ -133,7 +133,7 @@ const StaffList: React.FC = () => {
       </Stack>
       <Table
         title=""
-        onAction={handleGetUser}
+        onAction={handleGetStaff}
         isLoading={isFetching}
         data={staffs}
         tableOptions={tableOptions}
